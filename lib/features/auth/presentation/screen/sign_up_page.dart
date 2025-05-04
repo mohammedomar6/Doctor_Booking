@@ -1,7 +1,7 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/icon_sign_in_with.dart';
-import 'package:doctor_booking1/features/auth/presentation/widgets/images_sign_with.dart';
+import 'package:doctor_booking1/features/auth/presentation/widgets/images_sign_in_with.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
