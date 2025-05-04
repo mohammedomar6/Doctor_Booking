@@ -188,7 +188,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(width: 20),
                   ImagesSignInWith(
                     onTap: () {},
-                    imageName: 'assets/images/go.png',
+                    imageName: 'assets/icons/go.png',
                   ),
                   const SizedBox(width: 20),
                   IconSignInWith(

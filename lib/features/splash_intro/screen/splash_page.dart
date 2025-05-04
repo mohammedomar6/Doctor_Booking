@@ -69,7 +69,7 @@ class _SplashPageState extends State<SplashPage>
               milliseconds: 600,
             ),
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const IntroPage(),
+                IntroPage(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return FadeTransition(
