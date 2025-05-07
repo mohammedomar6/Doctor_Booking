@@ -2,7 +2,6 @@
 //
 //     final signUpRequest = signUpRequestFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 SignUpRequest signUpRequestFromJson(String str) => SignUpRequest.fromJson(json.decode(str));

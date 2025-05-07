@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/features/auth/data/models/sign_up_request.dart';
 import 'package:http/http.dart' as http;
@@ -7,8 +8,9 @@ import 'package:http/http.dart' as http;
 import '../models/login_requast.dart' show LoginRequast;
 import '../models/login_response.dart';
 
-Future<LoginResponse> loginUser(LoginRequast request) async {
-  final url = Uri.parse('${MyStrings.baseUrl}users/login');
+class LoginData {
+  Future<LoginResponse> loginUser(LoginRequast request) async {
+    final url = Uri.parse('${MyStrings.baseUrl}users/login');
 
   final response = await http.post(
     url,
@@ -20,14 +22,16 @@ Future<LoginResponse> loginUser(LoginRequast request) async {
     final data = jsonDecode(response.body);
     return LoginResponse.fromJson(data);
   } else {
-    throw Exception('فشل تسجيل الدخول: ${response.body}');
+      throw Exception('فشل تسجيل الدخول:${response.body}');
+    }
   }
 }
 
-Future<LoginResponse> signUpUser(SignUpRequest request) async {
-  final url = Uri.parse('${MyStrings.baseUrl}users/login');
+class SignUpData {
+  Future<SignUpRequest> signUpUser(SignUpRequest request) async {
+    final url = Uri.parse('${MyStrings.baseUrl}users/SignUp');
 
-  final response = await http.post(
+    final response = await http.post(
     url,
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(request.toJson()),
@@ -35,8 +39,9 @@ Future<LoginResponse> signUpUser(SignUpRequest request) async {
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
-    return LoginResponse.fromJson(data);
-  } else {
-    throw Exception('فشل انشاء الحساب: ${response.body}');
+      return SignUpRequest.fromJson(data);
+    } else {
+      throw Exception('فشل انشاء الحساب:${response.body}');
+    }
   }
 }
