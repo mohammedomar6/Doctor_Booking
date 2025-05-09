@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:doctor_booking1/features/auth/data/datasource/remote_data_source.dart';
-import 'package:doctor_booking1/features/auth/data/models/login_requast.dart';
+import 'package:doctor_booking1/features/auth/data/models/login_request.dart';
 import 'package:doctor_booking1/features/auth/data/models/login_response.dart';
 import 'package:doctor_booking1/features/auth/data/models/sign_up_request.dart';
 
@@ -14,7 +14,7 @@ class AuthRepo {
     required this.signUpDataSource,
   });
 
-  Future<Either<String, LoginResponse>> loginUser(LoginRequast params) async {
+  Future<Either<String, LoginResponse>> loginUser(LoginRequest params) async {
     try {
       final response = await loginDataSource.loginUser(params);
       return Right(response);

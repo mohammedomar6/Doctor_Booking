@@ -1,4 +1,4 @@
-import 'package:doctor_booking1/features/auth/data/models/login_requast.dart';
+import 'package:doctor_booking1/features/auth/data/models/login_request.dart';
 import 'package:doctor_booking1/features/auth/data/models/sign_up_request.dart';
 import 'package:doctor_booking1/features/auth/data/repository/auth_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(status: Status.loading));
       try {
         final response = await authRepositories.loginUser(
-          LoginRequast(email: event.email, password: event.password),
+          LoginRequest(email: event.email, password: event.password),
         );
         response.fold(
           (error) => emit(

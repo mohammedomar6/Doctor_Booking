@@ -5,11 +5,11 @@ import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/features/auth/data/models/sign_up_request.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/login_requast.dart' show LoginRequast;
+import '../models/login_request.dart' show LoginRequest;
 import '../models/login_response.dart';
 
 class LoginData {
-  Future<LoginResponse> loginUser(LoginRequast request) async {
+  Future<LoginResponse> loginUser(LoginRequest request) async {
     final url = Uri.parse('${MyStrings.baseUrl}users/login');
 
   final response = await http.post(
@@ -17,8 +17,8 @@ class LoginData {
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(request.toJson()),
   );
-
-  if (response.statusCode == 200) {
+    print(response.statusCode);
+    if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
     return LoginResponse.fromJson(data);
   } else {
@@ -36,8 +36,8 @@ class SignUpData {
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode(request.toJson()),
   );
-
-  if (response.statusCode == 200) {
+    print(response.statusCode);
+    if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
       return SignUpRequest.fromJson(data);
     } else {

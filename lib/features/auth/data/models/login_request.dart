@@ -1,33 +1,33 @@
 // To parse this JSON data, do
 //
-//     final loginRequast = loginRequastFromJson(jsonString);
+//     final loginRequest = loginRequastFromJson(jsonString);
 
-import 'package:meta/meta.dart';
+
 import 'dart:convert';
 
-LoginRequast loginRequastFromJson(String str) => LoginRequast.fromJson(json.decode(str));
+LoginRequest loginRequestFromJson(String str) => LoginRequest.fromJson(json.decode(str));
 
-String loginRequastToJson(LoginRequast data) => json.encode(data.toJson());
+String loginRequestToJson(LoginRequest data) => json.encode(data.toJson());
 
-class LoginRequast {
+class LoginRequest {
   final String email;
   final String password;
 
-  LoginRequast({
+  LoginRequest({
     required this.email,
     required this.password,
   });
 
-  LoginRequast copyWith({
+  LoginRequest copyWith({
     String? email,
     String? password,
   }) =>
-      LoginRequast(
+      LoginRequest(
         email: email ?? this.email,
         password: password ?? this.password,
       );
 
-  factory LoginRequast.fromJson(Map<String, dynamic> json) => LoginRequast(
+  factory LoginRequest.fromJson(Map<String, dynamic> json) => LoginRequest(
     email: json["email"],
     password: json["password"],
   );
