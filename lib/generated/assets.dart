@@ -5,8 +5,10 @@ class Assets {
   static const String fontsPacificoRegular = 'assets/fonts/Pacifico-Regular.ttf';
   static const String fontsPoppinsRegular = 'assets/fonts/Poppins-Regular.ttf';
   static const String iconsGo = 'assets/icons/go.png';
+  static const String imagesLoginImage = 'assets/images/login_image.jpg';
   static const String imagesP1 = 'assets/images/p1.jpg';
   static const String imagesP2 = 'assets/images/p2.jpg';
   static const String imagesP3 = 'assets/images/p3.jpg';
+  static const String imagesSignUpImage = 'assets/images/sign_up_image.jpg';
 
 }

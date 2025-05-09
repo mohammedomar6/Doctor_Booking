@@ -1,3 +1,4 @@
+import 'package:doctor_booking1/constant/theme.dart';
 import 'package:doctor_booking1/features/auth/data/datasource/remote_data_source.dart';
 import 'package:doctor_booking1/features/auth/data/repository/auth_repo.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
@@ -27,10 +28,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Poppins',
-        ),
+        theme:MyTheme.themeData,
         home: SplashPage(),
       ),
     );
