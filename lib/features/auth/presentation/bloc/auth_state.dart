@@ -1,5 +1,5 @@
 part of 'auth_bloc.dart';
-enum Status { succses, failed, loading, initial }
+enum Status { success, failed, loading, initial }
 
 @immutable
 class AuthState {

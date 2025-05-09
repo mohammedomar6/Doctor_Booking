@@ -1,4 +1,10 @@
+import 'dart:developer';
+
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/constant/my_images.dart';
+import 'package:doctor_booking1/constant/my_strings.dart';
+import 'package:doctor_booking1/core/app_validator.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/home_page.dart';
@@ -17,20 +23,15 @@ class LoginPage extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final emailNode = FocusNode();
+  final passNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.status == Status.failed) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Login failed'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-        if (state.status == Status.succses) {
+        log(state.status.toString());
+        if (state.status == Status.success) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -38,70 +39,69 @@ class LoginPage extends StatelessWidget {
             ),
           );
         }
+        if (state.status == Status.failed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.status.toString()),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       },
       builder: (context, state) {
         return Scaffold(
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            padding:  EdgeInsets.all(context.screenHeight*0.03),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 80),
+                    Image.asset(
+                      MyImages.signUpImage,
+
+                      width: context.screenWidth * 0.7,
+                    ),
                     Text(
-                      'Sign In',
+                      MyStrings.signIn,
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        color: kColor,
+                        color: MyColours.blue,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: context.screenHeight * 0.03),
                     Text(
-                      "Hi Welcome back, you've been missed",
+                      MyStrings.textUnderSignIn,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Colors.grey,
                       ),
                     ),
-                    const SizedBox(height: 48),
+                    SizedBox(height: context.screenHeight * 0.03),
 
                     // Email Field
                     CustomTextField(
-                      isEmailField: true,
-                      label: 'Email',
-                      hint: 'example@gmail.com',
-                      controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return 'Please enter a valid email';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 24),
+                        icon: Icons.email,
+                        focusNode: emailNode,
+                        onSubmitted: (val) =>
+                            FocusScope.of(context).requestFocus(passNode),
+                        isEmailField: true,
+                        label: MyStrings.labelEmail,
+                        hint: MyStrings.hintEmail,
+                        controller: emailController,
+                        validator: (value) => AppValidator.email(value)),
+                    SizedBox(height: context.screenHeight*0.02,),
                     CustomTextField(
-                      isPasswordField: true,
-                      label: 'Password',
-                      hint: '••••••••',
-                      controller: passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16),
+                        focusNode: passNode,
+                        icon: Icons.lock,
+                        isPasswordField: true,
+                        label: 'Password',
+                        hint: '••••••••',
+                        controller: passwordController,
+                        validator: (value) => AppValidator.password(value)),
+                    SizedBox(height: context.screenHeight * 0.01),
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -116,13 +116,13 @@ class LoginPage extends StatelessWidget {
                         child: Text(
                           'Forgot password?',
                           style: TextStyle(
-                            color: kColor,
+                            color: MyColours.blue,
                             decoration: TextDecoration.underline,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                     SizedBox(height: context.screenWidth*0.02),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -141,8 +141,8 @@ class LoginPage extends StatelessWidget {
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: kColor,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: MyColours.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -161,43 +161,8 @@ class LoginPage extends StatelessWidget {
                               ),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: [
-                        const Expanded(child: Divider(color: Colors.grey)),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            'Or sign in with',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                        const Expanded(child: Divider(color: Colors.grey)),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconSignInWith(
-                          icon: FontAwesomeIcons.apple,
-                          color: Colors.black,
-                          onTap: () {},
-                        ),
-                        const SizedBox(width: 20),
-                        ImagesSignInWith(
-                          onTap: () {},
-                          imageName: 'assets/icons/go.png',
-                        ),
-                        const SizedBox(width: 20),
-                        IconSignInWith(
-                          icon: FontAwesomeIcons.facebookF,
-                          color: Colors.blue,
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
+                     SizedBox(height: context.screenHeight*0.02),
+
 
                     // Sign Up Link
                     Row(
@@ -214,9 +179,9 @@ class LoginPage extends StatelessWidget {
                             );
                           },
                           child: Text(
-                            'Sign Up',
+                            MyStrings.signUp,
                             style: TextStyle(
-                              color: kColor,
+                              color: MyColours.blue,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

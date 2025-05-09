@@ -87,7 +87,7 @@ class ForgetPassword extends StatelessWidget {
                   style: ButtonStyle(
                     elevation: WidgetStatePropertyAll(4),
                     shadowColor: WidgetStatePropertyAll(Colors.black26),
-                    backgroundColor: WidgetStatePropertyAll(kColor),
+                    backgroundColor: WidgetStatePropertyAll(MyColours.blue),
                     padding: WidgetStatePropertyAll(
                       EdgeInsets.symmetric(
                         vertical: 16,

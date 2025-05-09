@@ -72,7 +72,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                   Text(
                     "example@gmail.com",
                     style: TextStyle(
-                      color: kColor,
+                      color: MyColours.blue,
                     ),
                   ),
                 ],
@@ -103,7 +103,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                   style: TextStyle(
                     fontSize: 16,
                     decoration: TextDecoration.underline,
-                    color: kColor,
+                    color: MyColours.blue,
                   ),
                 ),
               ),
@@ -115,7 +115,7 @@ class _VerifyNumberPageState extends State<VerifyNumberPage> {
                   style: ButtonStyle(
                     elevation: const WidgetStatePropertyAll(4),
                     shadowColor: const WidgetStatePropertyAll(Colors.black26),
-                    backgroundColor: WidgetStatePropertyAll(kColor),
+                    backgroundColor: WidgetStatePropertyAll(MyColours.blue),
                     padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(vertical: 12, horizontal: 32),
                     ),

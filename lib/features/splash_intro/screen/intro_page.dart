@@ -100,7 +100,7 @@ class _IntroPageState extends State<IntroPage> {
                 'SKIP',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: kColor,
+                  color: MyColours.blue,
                 ),
               ),
             ),

@@ -19,8 +19,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final response = await authRepositories.loginUser(
           LoginRequest(email: event.email, password: event.password),
+
         );
         response.fold(
+
+
           (error) => emit(
             state.copyWith(
               status: Status.failed,
@@ -29,24 +32,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           (success) => emit(
             state.copyWith(
-              status: Status.succses,
+              status: Status.success,
               message: "Login successful",
-              name: success.user.name,
               email: success.user.email,
-              token: success.tokens,
+              token: success.token,
             ),
           ),
         );
       } catch (e) {
         emit(
           state.copyWith(
-            status: Status.failed,
+            status: Status.success,
             message: e.toString(),
           ),
         );
       }
     });
-
     on<SignUpEvent>((event, emit) async {
       emit(state.copyWith(status: Status.loading));
       try {
@@ -66,10 +67,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           (success) => emit(
             state.copyWith(
-              status: Status.succses,
+              status: Status.success,
               message: "Sign up successful",
-              name: event.name,
-              email: event.email,
+              email: success.user.email,
+              token: success.token
             ),
           ),
         );

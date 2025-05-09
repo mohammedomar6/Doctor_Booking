@@ -17,15 +17,17 @@ class AuthRepo {
   Future<Either<String, LoginResponse>> loginUser(LoginRequest params) async {
     try {
       final response = await loginDataSource.loginUser(params);
+
       return Right(response);
     } on TimeoutException catch (e) {
+
       return Left(e.message ?? 'Timeout occurred');
     } on Exception catch (e) {
       return Left(e.toString());
     }
   }
 
-  Future<Either<String, SignUpRequest>> signUpUser(SignUpRequest params) async {
+  Future<Either<String, LoginResponse>> signUpUser(SignUpRequest params) async {
     try {
       final response = await signUpDataSource.signUpUser(params);
       return Right(response);
