@@ -1,13 +1,14 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/constant/my_images.dart';
+import 'package:doctor_booking1/constant/my_strings.dart';
+import 'package:doctor_booking1/core/app_validator.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/home_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:doctor_booking1/features/auth/presentation/widgets/icon_sign_in_with.dart';
-import 'package:doctor_booking1/features/auth/presentation/widgets/images_sign_in_with.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,6 +21,9 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final  nameNode =FocusNode();
+  final  emailNode =FocusNode();
+  final  passNode =FocusNode();
   final _formKey = GlobalKey<FormState>();
   bool isAgree = false;
 
@@ -27,6 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+
         if (state.status == Status.failed) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -35,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
         }
-        if (state.status == Status.succses) {
+        if (state.status == Status.success) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
@@ -45,72 +50,48 @@ class _SignUpPageState extends State<SignUpPage> {
       builder: (context, state) {
         return Scaffold(
           body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            padding:  EdgeInsets.all(context.screenHeight*0.03),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SizedBox(height: 115),
-                    const Text(
-                      'Create Account',
+                    Image.asset(MyImages.loginImage,width: context.screenWidth*0.6,),
+                     Text(
+                      MyStrings.createAccount,
                       style:
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 8),
-                    const Text("Fill your information below or register",
-                        style: TextStyle(color: Colors.grey),),
-                    const Text("with your social account",
-                        style: TextStyle(color: Colors.grey),),
-                    const SizedBox(height: 48),
+
+                    SizedBox(height: context.screenHeight * 0.03),
                     CustomTextField(
-                      label: 'Name',
-                      hint: 'Ahmad Mohsen',
+                      icon: Icons.person,
+                      onSubmitted: (val) => FocusScope.of(context).requestFocus(emailNode),
+                      label: MyStrings.labelName,
+                      hint: MyStrings.hintName,
                       controller: nameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
-                        } else {
-                          return null;
-                        }
-                      },
+                      validator: (value) => AppValidator.required(value),
                     ),
-                    const SizedBox(height: 24,),
+                    SizedBox(height: context.screenHeight * 0.03),
                     CustomTextField(
+                      icon: Icons.email,
+                      onSubmitted: (val) => FocusScope.of(context).requestFocus(passNode) ,
                       isEmailField: true,
-                      label: 'Email',
-                      hint: 'Example@gmail.com',
+                      label: MyStrings.labelEmail,
+                      hint: MyStrings.hintEmail,
                       controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        }
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                            .hasMatch(value)) {
-                          return 'Invalid email';
-                        } else {
-                          return null;
-                        }
-                      },
+                      validator: (value) => AppValidator.email(value),
                     ),
-                    const SizedBox(height: 24,),
+                    SizedBox(height: context.screenHeight * 0.03),
                     CustomTextField(
+                      icon: Icons.lock,
                       isPasswordField: true,
-                      label: 'Password',
-                      hint: '************',
+                      label: MyStrings.labelPassword,
+                      hint: MyStrings.hintPassword,
                       controller: passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.length < 8) {
-                          return 'Password too short';
-                        } else {
-                          return null;
-                        }
-                      },
+                      validator: (value) => AppValidator.password(value)
                     ),
-                    const SizedBox(height: 8,),
+                    SizedBox(height: context.screenHeight * 0.01),
                     Row(
                       children: [
                         Checkbox(
@@ -118,10 +99,10 @@ class _SignUpPageState extends State<SignUpPage> {
                           onChanged: (value) =>
                               setState(() => isAgree = value!,),
                         ),
-                        const Text('Agree with Terms & Condition',),
+                         Text(MyStrings.agreeTerms,),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: context.screenHeight * 0.015),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -150,7 +131,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 }
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: kColor,
+                          backgroundColor: MyColours.blue,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -161,62 +142,27 @@ class _SignUpPageState extends State<SignUpPage> {
                                 color: Colors.white,
                                 size: 20,
                               )
-                            : const Text(
-                                'Sign Up',
+                            :  Text(
+                                MyStrings.signUp,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 18),
                               ),
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    Row(
-                      children: const [
-                        Expanded(
-                            child: Divider(
-                                indent: 40, endIndent: 10, color: Colors.grey)),
-                        Text("Or sign up with",
-                            style: TextStyle(color: Colors.grey)),
-                        Expanded(
-                            child: Divider(
-                                indent: 10, endIndent: 40, color: Colors.grey)),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.screenHeight * 0.02),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconSignInWith(
-                          icon: FontAwesomeIcons.apple,
-                          color: Colors.black,
-                          onTap: () {},
-                        ),
-                        const SizedBox(width: 20),
-                        ImagesSignInWith(
-                          onTap: () {},
-                          imageName: 'assets/icons/go.png',
-                        ),
-                        const SizedBox(width: 20),
-                        IconSignInWith(
-                          icon: FontAwesomeIcons.facebookF,
-                          color: Colors.blue,
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Already have an account ? "),
+                         Text(MyStrings.alreadyHaveAnAccount),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Text(
-                            'Sign In',
+                            MyStrings.signIn,
                             style: TextStyle(
                               fontSize: 16,
-                              decorationColor: kColor,
+                              decorationColor: MyColours.blue,
                               decoration: TextDecoration.underline,
-                              color: kColor,
+                              color: MyColours.blue,
                             ),
                           ),
                         )

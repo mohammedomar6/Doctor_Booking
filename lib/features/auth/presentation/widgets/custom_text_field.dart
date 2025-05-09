@@ -5,6 +5,7 @@ class CustomTextField extends StatefulWidget {
     super.key,
     required this.controller,
     this.validator,
+    this.focusNode,
     this.onChanged,
     this.onSubmitted,
     this.label,
@@ -12,6 +13,7 @@ class CustomTextField extends StatefulWidget {
     this.fillColor,
     this.isPasswordField = false,
     this.isEmailField = false,
+    this.icon,
   });
 
   final bool isEmailField;
@@ -23,6 +25,8 @@ class CustomTextField extends StatefulWidget {
   final String? label;
   final String? hint;
   final Color? fillColor;
+  final IconData? icon;
+  final FocusNode? focusNode;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -33,47 +37,55 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      validator: widget.validator,
-      onChanged: widget.onChanged,
-      onFieldSubmitted: widget.onSubmitted,
-      obscureText: widget.isPasswordField ? _obscureText : false,
-      obscuringCharacter: '*',
-      decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        label: widget.label == null ? null : Text(widget.label!),
-        filled: true,
-        hintText: widget.hint,
-        fillColor: widget.fillColor,
-        suffixIcon: widget.isPasswordField
-            ? IconButton(
-                icon: Icon(
-                  _obscureText ? Icons.visibility_off : Icons.visibility,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-              )
-            : widget.isEmailField
-                ? Icon(
-                    Icons.email,
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          border: Border(top: BorderSide(color: Colors.grey.shade300,)),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          boxShadow: [
+
+            BoxShadow(
+                color: Colors.grey.shade400,
+                offset: Offset(0, 8),
+                blurRadius: 5,
+                spreadRadius:0.5,
+                blurStyle: BlurStyle.inner),
+          ]),
+      child: TextFormField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        focusNode: widget.focusNode,
+        controller: widget.controller,
+        validator: widget.validator,
+        onChanged: widget.onChanged,
+        onFieldSubmitted: widget.onSubmitted,
+        obscureText: widget.isPasswordField ? _obscureText : false,
+        obscuringCharacter: '*',
+        decoration: InputDecoration(
+            icon: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Icon(
+                widget.icon,
+
+              ),
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            label: widget.label == null ? null : Text(widget.label!),
+            hintText: widget.hint,
+            suffixIcon: widget.isPasswordField
+                ? IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
                   )
                 : null,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(),
-        ),
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
+            border: InputBorder.none),
       ),
     );
   }

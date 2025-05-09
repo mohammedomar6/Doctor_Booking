@@ -28,7 +28,7 @@ class LoginData {
 }
 
 class SignUpData {
-  Future<SignUpRequest> signUpUser(SignUpRequest request) async {
+  Future<LoginResponse> signUpUser(SignUpRequest request) async {
     final url = Uri.parse('${MyStrings.baseUrl}users/SignUp');
 
     final response = await http.post(
@@ -37,9 +37,9 @@ class SignUpData {
     body: jsonEncode(request.toJson()),
   );
     print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
     final data = jsonDecode(response.body);
-      return SignUpRequest.fromJson(data);
+      return LoginResponse.fromJson(data);
     } else {
       throw Exception('فشل انشاء الحساب:${response.body}');
     }
