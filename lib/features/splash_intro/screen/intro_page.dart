@@ -1,4 +1,6 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/constant/my_images.dart';
+import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,19 +17,19 @@ class _IntroPageState extends State<IntroPage> {
 
   final List<Map<String, String>> _pages = [
     {
-      "title": "Welcome to Booking App",
-      "subtitle": "Book appointments easily with top doctors",
-      "image": "assets/images/p1.jpg",
+      "title": MyStrings.titleIntro1,
+      "subtitle": MyStrings.subTitleIntro1,
+      "image": MyImages.introImage1,
     },
     {
-      "title": "Easy to Use",
-      "subtitle": "Simple and smooth interface for better user experience",
-      "image": "assets/images/p2.jpg",
+      "title": MyStrings.titleIntro2,
+      "subtitle": MyStrings.subTitleIntro2,
+      "image": MyImages.introImage2,
     },
     {
-      "title": "Certified Doctors",
-      "subtitle": "We guarantee qualified and experienced doctors",
-      "image": "assets/images/p3.jpg",
+      "title": MyStrings.titleIntro3,
+      "subtitle": MyStrings.subTitleIntro3,
+      "image": MyImages.introImage3,
     },
   ];
 
@@ -55,11 +57,16 @@ class _IntroPageState extends State<IntroPage> {
                     fit: BoxFit.cover,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(32.0),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.08,
+                      vertical: MediaQuery.of(context).size.height * 0.03,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
                         Text(
                           _pages[index]['title']!,
                           style: Theme.of(context)
@@ -67,15 +74,23 @@ class _IntroPageState extends State<IntroPage> {
                               .headlineMedium
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.07,
                               ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
                         Text(
                           _pages[index]['subtitle']!,
-                          style:
-                              Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                    color: Colors.grey[600],
-                                  ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(
+                                color: Colors.grey[600],
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.045,
+                              ),
                         ),
                       ],
                     ),
@@ -85,8 +100,8 @@ class _IntroPageState extends State<IntroPage> {
             },
           ),
           Positioned(
-            top: 40,
-            right: 20,
+            top: MediaQuery.of(context).size.height * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
             child: TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
@@ -100,33 +115,36 @@ class _IntroPageState extends State<IntroPage> {
                 'SKIP',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: kColor,
+                  color: MyColours.blue,
+                  fontSize: MediaQuery.of(context).size.width * 0.045,
                 ),
               ),
             ),
           ),
           if (_currentPage > 0)
             Positioned(
-              bottom: 40,
-              left: 20,
+              bottom: MediaQuery.of(context).size.height * 0.05,
+              left: MediaQuery.of(context).size.width * 0.05,
               child: FloatingActionButton(
                 shape: const CircleBorder(),
                 onPressed: () {
                   _pageController.previousPage(
-                    duration: const Duration(milliseconds: 300),
+                    duration: const Duration(
+                      milliseconds: 300,
+                    ),
                     curve: Curves.easeIn,
                   );
                 },
-                backgroundColor: Colors.blue,
-                child: const Icon(
+                backgroundColor: MyColours.blue,
+                child: Icon(
                   Icons.arrow_back,
-                  color: Colors.white,
+                  color: MyColours.white,
                 ),
               ),
             ),
           Positioned(
-            bottom: 40,
-            right: 20,
+            bottom: MediaQuery.of(context).size.height * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
             child: FloatingActionButton(
               shape: const CircleBorder(),
               onPressed: () {
@@ -144,10 +162,10 @@ class _IntroPageState extends State<IntroPage> {
                   );
                 }
               },
-              backgroundColor: Colors.blue,
-              child: const Icon(
+              backgroundColor: MyColours.blue,
+              child: Icon(
                 Icons.arrow_forward,
-                color: Colors.white,
+                color: MyColours.white,
               ),
             ),
           ),
