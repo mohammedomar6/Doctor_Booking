@@ -17,7 +17,7 @@ class _IntroPageState extends State<IntroPage> {
 
   final List<Map<String, String>> _pages = [
     {
-      "title": MyStrings.titleIntro1,
+      "title": MyStrings.titleIntro1 ,
       "subtitle": MyStrings.subTitleIntro1,
       "image": MyImages.introImage1,
     },

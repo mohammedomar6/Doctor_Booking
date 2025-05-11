@@ -32,9 +32,9 @@ static String orSignInWith  = 'Or sign in with';
   static String titleIntro3 = "Certified Doctors";
   static String subTitleIntro1 = "Book appointments easily with top doctors";
   static String subTitleIntro2 =
-      "Simple and smooth interface for better user experience";
+      "Simple and smooth interface for better user experience" ;
   static String subTitleIntro3 =
-      "We guarantee qualified and experienced doctors";
+      "We guarantee qualified and experienced doctors" ;
 
 }
 final kIcon =  Icons.medical_services;
