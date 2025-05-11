@@ -13,6 +13,7 @@ static String hintPassword  = '*********';
 static String forgetPassword  = 'Forget password?';
 static String orSignInWith  = 'Or sign in with';
   static String signUp = 'Sign Up';
+
   ///  signUp page
   static String createAccount = 'Create Account';
   static String textUnderSignUp  = 'Fill your information below or register';
@@ -21,6 +22,19 @@ static String orSignInWith  = 'Or sign in with';
   static String hintName  = 'Mohammed Omar';
   static String agreeTerms  = 'Agree with Terms & Condition';
   static String alreadyHaveAnAccount = 'Already have an account ?';
+
+  // splash
+  static String splash = 'Care Connect';
+
+  // intro
+  static String titleIntro1 = "Welcome to Booking App";
+  static String titleIntro2 = "Easy to Use";
+  static String titleIntro3 = "Certified Doctors";
+  static String subTitleIntro1 = "Book appointments easily with top doctors";
+  static String subTitleIntro2 =
+      "Simple and smooth interface for better user experience" ;
+  static String subTitleIntro3 =
+      "We guarantee qualified and experienced doctors" ;
 
 }
 final kIcon =  Icons.medical_services;

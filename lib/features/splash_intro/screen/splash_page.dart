@@ -92,34 +92,38 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorScheme.of(context).primary,
+      backgroundColor: MyColours.blue ,
       body: Center(
         child: FadeTransition(
           opacity: _opacityAnimation,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SlideTransition(
-                position: _logoAnimation,
-                child: Icon(
-                  kIcon,
-                  size: 80,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 8),
-              SlideTransition(
-                position: _textAnimation,
-                child: const Text(
-                  'Care Connect',
-                  style: TextStyle(
+          child: FittedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SlideTransition(
+                  position: _logoAnimation,
+                  child: Icon(
+                    kIcon,
+                    size: MediaQuery.of(context).size.height * 0.09,
                     color: Colors.white,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                SlideTransition(
+                  position: _textAnimation,
+                  child: Text(
+                    MyStrings.splash,
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontSize: MediaQuery.of(context).size.width * 0.08,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
