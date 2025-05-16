@@ -36,5 +36,10 @@ static String orSignInWith  = 'Or sign in with';
   static String subTitleIntro3 =
       "We guarantee qualified and experienced doctors" ;
 
+  // home
+  static String upcoming = 'Upcoming Schedule';
+  static String seeAll = 'See All';
+  static String doctorSpeciality = 'Doctor Speciality';
+  static String topSpeciality = 'Top Specialist';
 }
 final kIcon =  Icons.medical_services;
