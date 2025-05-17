@@ -7,7 +7,6 @@ class MyTheme {
           brightness: Brightness.light,
           primary: MyColours.blue,
           onPrimary: MyColours.white,
-
           secondary: MyColours.blue,
           onSecondary: MyColours.white,
           error: MyColours.red,
@@ -15,6 +14,5 @@ class MyTheme {
           surface: MyColours.white,
           onSurface: MyColours.blue
       ),
-
   );
 }

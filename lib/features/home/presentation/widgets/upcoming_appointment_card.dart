@@ -24,15 +24,16 @@ class UpcomingAppointmentCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: MyColours.blue,
         borderRadius: BorderRadius.circular(
-          context.screenWidth * 0.035,
+          context.screenWidth * 0.039,
         ),
       ),
-      padding: EdgeInsets.all(
-        context.screenWidth * 0.035,
+      padding: EdgeInsets.symmetric(
+        vertical: context.screenHeight * 0.027,
+        horizontal: context.screenWidth * 0.012,
       ),
       child: ListTile(
         leading: CircleAvatar(
-          radius: context.screenWidth * 0.065,
+          radius: context.screenWidth * 0.072,
           backgroundImage: AssetImage(
             imagePath,
           ),
@@ -42,7 +43,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
           style: TextStyle(
             color: MyColours.white,
             fontWeight: FontWeight.bold,
-            fontSize: context.screenWidth * 0.038,
+            fontSize: context.screenWidth * 0.033,
           ),
         ),
         subtitle: Column(
@@ -52,49 +53,52 @@ class UpcomingAppointmentCard extends StatelessWidget {
               type,
               style: TextStyle(
                 color: Colors.white70,
-                fontSize: context.screenWidth * 0.032,
+                fontSize: context.screenWidth * 0.033,
               ),
             ),
             SizedBox(
-              height: context.screenHeight * 0.015,
+              height: context.screenHeight * 0.012,
             ),
             Row(
               children: [
                 Icon(
                   Icons.calendar_today,
-                  size: context.screenWidth * 0.034,
+                  size: context.screenWidth * 0.030,
                   color: MyColours.white,
                 ),
-                SizedBox(
-                  width: context.screenWidth * 0.015,
-                ),
-                Text(
-                  date,
-                  style: TextStyle(
-                    fontSize: context.screenWidth * 0.03,
-                    color: MyColours.white,
-                  ),
-                ),
-                SizedBox(
-                  width: context.screenWidth * 0.025,
-                ),
-                Icon(
-                  Icons.access_time,
-                  size: context.screenWidth * 0.034,
-                  color: MyColours.white,
-                ),
-                SizedBox(
-                  width: context.screenWidth * 0.015,
-                ),
-                Text(
-                  time,
-                  style: TextStyle(
-                    fontSize: context.screenWidth * 0.03,
-                    color: MyColours.white,
+                SizedBox(width: context.screenWidth * 0.012),
+
+                // توسعة واحدة فقط للنصوص كلها
+                Expanded(
+                  child: Row(
+                    children: [
+                      Text(
+                        date,
+                        style: TextStyle(
+                          fontSize: context.screenWidth * 0.025,
+                          color: MyColours.white,
+                        ),
+                      ),
+                      SizedBox(width: context.screenWidth * 0.020),
+                      Icon(
+                        Icons.access_time,
+                        size: context.screenWidth * 0.030,
+                        color: MyColours.white,
+                      ),
+                      SizedBox(width: context.screenWidth * 0.012),
+                      Text(
+                        time,
+                        style: TextStyle(
+                          fontSize: context.screenWidth * 0.025,
+                          color: MyColours.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
-            )
+            ),
+
           ],
         ),
       ),

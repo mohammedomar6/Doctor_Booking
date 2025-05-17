@@ -41,5 +41,11 @@ static String orSignInWith  = 'Or sign in with';
   static String seeAll = 'See All';
   static String doctorSpeciality = 'Doctor Speciality';
   static String topSpeciality = 'Top Specialist';
+  static String dentist = "Dentist";
+  static String cardiologist = "Cardiologist";
+  static String orthopedic = "Orthopedic";
+  static String neurologist = "Neurologist";
+  static String childSpecialist = "Child Specialist";
+  static String generalPhysician = "General Physician";
 }
 final kIcon =  Icons.medical_services;

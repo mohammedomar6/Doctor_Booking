@@ -23,9 +23,10 @@ class SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          style:TextStyle(
+            color: MyColours.black,
             fontWeight: FontWeight.bold,
-            fontSize: context.screenWidth * 0.045,
+            fontSize: context.screenWidth * 0.040,
           ),
         ),
         GestureDetector(

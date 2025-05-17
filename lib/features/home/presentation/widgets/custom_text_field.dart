@@ -1,8 +1,8 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
-  const CustomTextField({
+class CustomTextFieldH extends StatefulWidget {
+  const CustomTextFieldH({
     super.key,
     required this.controller,
     this.validator,
@@ -28,10 +28,10 @@ class CustomTextField extends StatefulWidget {
   final double borderRadius;
 
   @override
-  State<CustomTextField> createState() => _CustomTextFieldState();
+  State<CustomTextFieldH> createState() => _CustomTextFieldHState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFieldHState extends State<CustomTextFieldH> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -78,7 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             widget.borderRadius,
           ),
           borderSide: BorderSide(
-            color: MyColours.blue,
+            color: MyColours.grey,
             width: 1.2,
           ),
         ),

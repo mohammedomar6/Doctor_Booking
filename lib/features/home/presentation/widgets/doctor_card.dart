@@ -96,26 +96,32 @@ class DoctorCard extends StatelessWidget {
                   SizedBox(
                     height: context.screenHeight * 0.015,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: MyColours.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          context.screenWidth * 0.05,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: MyColours.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              context.screenWidth * 0.05,
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.screenWidth * 0.06,
+                            vertical: context.screenHeight * 0.012,
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Text(
+                          "Make Appointment",
+                          style: TextStyle(
+                            color: MyColours.white,
+                            fontSize: context.screenWidth * 0.033,
+                          ),
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.screenWidth * 0.06,
-                        vertical: context.screenHeight * 0.012,
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Make Appointment",
-                      style: TextStyle(
-                        fontSize: context.screenWidth * 0.033,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),
