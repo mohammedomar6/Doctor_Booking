@@ -2,9 +2,17 @@ import 'package:doctor_booking1/constant/theme.dart';
 import 'package:doctor_booking1/features/auth/data/datasource/remote_data_source.dart';
 import 'package:doctor_booking1/features/auth/data/repository/auth_repo.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
+
+import 'package:doctor_booking1/features/auth/presentation/screen/login_page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screen/send_email_Page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screen/sign_up_page.dart';
+import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'features/home/presentation/screens/home_page.dart' show HomePage;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +30,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(
             authRepositories: AuthRepo(
               loginDataSource: LoginData(),
+              forgotPasswordData: ForgotPasswordData(),
               signUpDataSource: SignUpData(),
             ),
           ),
@@ -31,7 +40,16 @@ class MyApp extends StatelessWidget {
 
         debugShowCheckedModeBanner: false,
         theme:MyTheme.themeData,
-        home: SplashPage(),
+        routes: {
+          '/':(context)=>SplashPage(),
+          '/onbording':(context)=>IntroPage(),
+          '/login':(context)=>LoginPage(),
+          '/signup':(context)=>SignUpPage(),
+          '/forgotpassword':(context)=>SendEmailPage(),
+          '/resetpassword':(context)=>ForgetPassword(),
+          '/home':(context)=>HomePage(),
+        },
+
       ),
     );
   }

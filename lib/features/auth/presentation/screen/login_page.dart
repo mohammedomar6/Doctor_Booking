@@ -7,7 +7,8 @@ import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/home_page.dart';
+
+import 'package:doctor_booking1/features/auth/presentation/screen/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screen/sign_up_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/icon_sign_in_with.dart';
@@ -17,36 +18,48 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
+
   final emailNode = FocusNode();
+
   final passNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        log(state.status.toString());
-        if (state.status == Status.success) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          );
-        }
-        if (state.status == Status.failed) {
-          ScaffoldMessenger.of(context).showSnackBar(
+         if  (state.status == Status.failed) {
+
+          ScaffoldMessenger.of(context) ..hideCurrentSnackBar()..showSnackBar(
+
             SnackBar(
-              content: Text(state.status.toString()),
+              content: Text('email or password incorrect'),
               backgroundColor: Colors.red,
             ),
           );
         }
+         if (state.status == Status.success) {
+
+           Navigator.pushNamedAndRemoveUntil(
+             context,
+             '/home', // اسم الصفحة التي تريد الذهاب إليها
+                 (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
+           );
+
+
+         }
       },
       builder: (context, state) {
         return Scaffold(
@@ -106,11 +119,10 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ForgetPassword(),
-                            ),
+                            '/forgotpassword'
+
                           );
                         },
                         child: Text(
@@ -128,25 +140,22 @@ class LoginPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: state.status == Status.loading
                             ? null
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  debugPrint(emailController.text);
-                                  debugPrint(passwordController.text);
-                                  context.read<AuthBloc>().add(
-                                        LoginEvent(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                        ),
-                                      );
-                                }
+                            : ()  {
+                         setState(() {
+                           if (_formKey.currentState!.validate())  {
+                             debugPrint(emailController.text);
+                             debugPrint(passwordController.text);
+                             context.read<AuthBloc>().add(
+                               LoginEvent(
+                                 email: emailController.text,
+                                 password: passwordController.text,
+                               ),
+                             );
+
+
+                           }
+                         });
                               },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: MyColours.blue,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
                         child: state.status == Status.loading
                             ? SpinKitThreeBounce(
                                 color: Colors.white,
@@ -171,11 +180,10 @@ class LoginPage extends StatelessWidget {
                         Text("Don't have an account? "),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushNamed(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => SignUpPage(),
-                              ),
+                              '/signup'
+
                             );
                           },
                           child: Text(

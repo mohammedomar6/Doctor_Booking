@@ -1,4 +1,6 @@
+import 'package:doctor_booking1/features/auth/data/models/forgot_password_request.dart';
 import 'package:doctor_booking1/features/auth/data/models/login_request.dart';
+import 'package:doctor_booking1/features/auth/data/models/reset_password_request.dart';
 import 'package:doctor_booking1/features/auth/data/models/sign_up_request.dart';
 import 'package:doctor_booking1/features/auth/data/repository/auth_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'auth_event.dart';
+
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
@@ -19,11 +22,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final response = await authRepositories.loginUser(
           LoginRequest(email: event.email, password: event.password),
-
         );
         response.fold(
-
-
           (error) => emit(
             state.copyWith(
               status: Status.failed,
@@ -42,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(
           state.copyWith(
-            status: Status.success,
+            status: Status.failed,
             message: e.toString(),
           ),
         );
@@ -67,11 +67,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
           (success) => emit(
             state.copyWith(
-              status: Status.success,
-              message: "Sign up successful",
-              email: success.user.email,
-              token: success.token
-            ),
+                status: Status.success,
+                message: "Sign up successful",
+                email: success.user.email,
+                token: success.token),
           ),
         );
       } catch (e) {
@@ -83,5 +82,64 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     });
+    on<ForgotPasswordEvent>(
+      (event, emit) async {
+        emit(state.copyWith(status: Status.loading));
+        try {
+          final response = await authRepositories
+              .forgotPassword(ForgotPasswordRequest(email: event.email));
+          response.fold(
+            (error) {
+
+              emit(state.copyWith(
+                  status: Status.failed,
+                  message: error.toString()));
+            },
+            (success) {
+              emit(state.copyWith(
+                  status: Status.success,
+                  url: success.url,
+                  message: success.message));
+            },
+          );
+        } on Exception catch (e) {
+          emit(
+            state.copyWith(
+              status: Status.failed,
+              message: e.toString(),
+            ),
+          );
+        }
+      },
+    );
+    on<ResetPasswordEvent>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(status: Status.loading));
+          final response = await authRepositories
+              .resetPassword(ResetPasswordRequest(password: event.password));
+          response.fold(
+            (error) {
+              emit(state.copyWith(
+                  status: Status.failed,
+                  message: error.toString()));
+            },
+            (success) {
+              emit(state.copyWith(
+                status: Status.success,
+                token: success.token,
+              ));
+            },
+          );
+        } on Exception catch (e) {
+          emit(
+            state.copyWith(
+              status: Status.failed,
+              message: e.toString(),
+            ),
+          );
+        }
+      },
+    );
   }
 }

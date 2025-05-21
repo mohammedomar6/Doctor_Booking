@@ -62,22 +62,9 @@ class _SplashPageState extends State<SplashPage>
         const Duration(seconds: 1),
       );
       if (mounted) {
-        Navigator.pushReplacement(
+        Navigator.pushNamed(
           context,
-          PageRouteBuilder(
-            transitionDuration: const Duration(
-              milliseconds: 600,
-            ),
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                IntroPage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-          ),
+          '/onbording'
         );
       }
     });

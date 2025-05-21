@@ -21,3 +21,16 @@ class SignUpEvent extends AuthEvent {
     required this.password,
   });
 }
+class ForgotPasswordEvent extends AuthEvent {
+  final String email;
+
+  ForgotPasswordEvent({required this.email});
+
+}
+class ResetPasswordEvent extends AuthEvent {
+  final String password;
+
+  ResetPasswordEvent({required this.password});
+
+}
+

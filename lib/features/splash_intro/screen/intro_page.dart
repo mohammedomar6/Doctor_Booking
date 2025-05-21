@@ -104,11 +104,10 @@ class _IntroPageState extends State<IntroPage> {
             right: MediaQuery.of(context).size.width * 0.05,
             child: TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.pushReplacementNamed(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  ),
+                 '/login'
+
                 );
               },
               child: Text(
@@ -154,11 +153,9 @@ class _IntroPageState extends State<IntroPage> {
                     curve: Curves.easeIn,
                   );
                 } else {
-                  Navigator.pushReplacement(
+                  Navigator.pushReplacementNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
+                  '/login'
                   );
                 }
               },

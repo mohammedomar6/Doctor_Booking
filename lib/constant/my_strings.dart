@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyStrings{
   // baseurl
-  static String baseUrl= 'http://192.168.43.212:7000/api/v1.0.0/';
+  static String baseUrl= 'http://192.168.43.77:7000/api/v1.0.0/';
   // login page
 static String signIn  = 'Sign In';
 static String textUnderSignIn  = 'Hi Welcome back , you have been missed';
@@ -19,9 +19,13 @@ static String orSignInWith  = 'Or sign in with';
   static String textUnderSignUp  = 'Fill your information below or register';
   static String textUnderSignUp2  = 'with your social account';
   static String labelName  = 'Name';
-  static String hintName  = 'Mohammed Omar';
+  static String hintName  = 'Enter name';
   static String agreeTerms  = 'Agree with Terms & Condition';
   static String alreadyHaveAnAccount = 'Already have an account ?';
+  // ForgotPassword
+  static String forgotPassword= 'Forgot Password';
+static String sendEmail= 'Send Email';
+
 
   // splash
   static String splash = 'Care Connect';
