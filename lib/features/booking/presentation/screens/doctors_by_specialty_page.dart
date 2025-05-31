@@ -1,3 +1,4 @@
+import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/responsive.dart';
@@ -39,17 +40,17 @@ class DoctorsBySpecialtyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final doctors =
+    final List<Map<String, String>> doctors =
         allDoctors.where((doc) => doc['specialty'] == specialty).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(
           specialty,
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(color: MyColours.black),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: MyColours.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: MyColours.black),
       ),
       body: Padding(
         padding: EdgeInsets.all(context.screenWidth * 0.04),

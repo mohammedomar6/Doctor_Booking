@@ -1,3 +1,4 @@
+import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/doctors_by_specialty_page.dart';
@@ -26,14 +27,14 @@ class BookingPage extends StatelessWidget {
         title: Text(
           MyStrings.chooseSpecialty,
           style: TextStyle(
-            color: Colors.black,
+            color: MyColours.black,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: MyColours.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme:  IconThemeData(color: MyColours.black),
       ),
       body: Padding(
         padding: EdgeInsets.all(context.screenWidth * 0.04),
@@ -70,7 +71,7 @@ class BookingPage extends StatelessWidget {
                       backgroundColor: Colors.blue.shade100,
                       child: FaIcon(
                         item["icon"],
-                        color: Colors.blue,
+                        color: MyColours.blue,
                         size: context.screenWidth * 0.08,
                       ),
                     ),
@@ -80,7 +81,7 @@ class BookingPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: context.screenWidth * 0.04,
                         fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                        color: MyColours.black,
                       ),
                     ),
                   ],
