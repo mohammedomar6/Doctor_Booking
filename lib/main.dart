@@ -2,11 +2,10 @@ import 'package:doctor_booking1/constant/theme.dart';
 import 'package:doctor_booking1/features/auth/data/datasource/remote_data_source.dart';
 import 'package:doctor_booking1/features/auth/data/repository/auth_repo.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
-
-import 'package:doctor_booking1/features/auth/presentation/screen/login_page.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/send_email_Page.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/sign_up_page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/forget_password.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/splash_page.dart';
 import 'package:flutter/material.dart';

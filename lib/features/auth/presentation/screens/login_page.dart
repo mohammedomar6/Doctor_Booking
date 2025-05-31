@@ -1,25 +1,16 @@
-import 'dart:developer';
-
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
-
-import 'package:doctor_booking1/features/auth/presentation/screen/send_email_Page.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/sign_up_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:doctor_booking1/features/auth/presentation/widgets/icon_sign_in_with.dart';
-import 'package:doctor_booking1/features/auth/presentation/widgets/images_sign_in_with.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -40,31 +31,28 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-         if  (state.status == Status.failed) {
-
-          ScaffoldMessenger.of(context) ..hideCurrentSnackBar()..showSnackBar(
-
-            SnackBar(
-              content: Text('email or password incorrect'),
-              backgroundColor: Colors.red,
-            ),
+        if (state.status == Status.failed) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text('email or password incorrect'),
+                backgroundColor: Colors.red,
+              ),
+            );
+        }
+        if (state.status == Status.success) {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/home', // اسم الصفحة التي تريد الذهاب إليها
+            (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
           );
         }
-         if (state.status == Status.success) {
-
-           Navigator.pushNamedAndRemoveUntil(
-             context,
-             '/home', // اسم الصفحة التي تريد الذهاب إليها
-                 (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
-           );
-
-
-         }
       },
       builder: (context, state) {
         return Scaffold(
           body: Padding(
-            padding:  EdgeInsets.all(context.screenHeight*0.03),
+            padding: EdgeInsets.all(context.screenHeight * 0.03),
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
@@ -73,7 +61,6 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Image.asset(
                       MyImages.signUpImage,
-
                       width: context.screenWidth * 0.7,
                     ),
                     Text(
@@ -105,7 +92,9 @@ class _LoginPageState extends State<LoginPage> {
                         hint: MyStrings.hintEmail,
                         controller: emailController,
                         validator: (value) => AppValidator.email(value)),
-                    SizedBox(height: context.screenHeight*0.02,),
+                    SizedBox(
+                      height: context.screenHeight * 0.02,
+                    ),
                     CustomTextField(
                         focusNode: passNode,
                         icon: Icons.lock,
@@ -119,11 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/forgotpassword'
-
-                          );
+                          Navigator.pushNamed(context, '/forgotpassword');
                         },
                         child: Text(
                           'Forgot password?',
@@ -134,27 +119,25 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                     SizedBox(height: context.screenWidth*0.02),
+                    SizedBox(height: context.screenWidth * 0.02),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: state.status == Status.loading
                             ? null
-                            : ()  {
-                         setState(() {
-                           if (_formKey.currentState!.validate())  {
-                             debugPrint(emailController.text);
-                             debugPrint(passwordController.text);
-                             context.read<AuthBloc>().add(
-                               LoginEvent(
-                                 email: emailController.text,
-                                 password: passwordController.text,
-                               ),
-                             );
-
-
-                           }
-                         });
+                            : () {
+                                setState(() {
+                                  if (_formKey.currentState!.validate()) {
+                                    debugPrint(emailController.text);
+                                    debugPrint(passwordController.text);
+                                    context.read<AuthBloc>().add(
+                                          LoginEvent(
+                                            email: emailController.text,
+                                            password: passwordController.text,
+                                          ),
+                                        );
+                                  }
+                                });
                               },
                         child: state.status == Status.loading
                             ? SpinKitThreeBounce(
@@ -169,9 +152,20 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                       ),
+                      // child: ElevatedButton(
+                      //   onPressed: () {
+                      //     Navigator.pushNamedAndRemoveUntil(
+                      //       context,
+                      //       '/home',
+                      //       (Route<dynamic> route) => false,
+                      //     );
+                      //   },
+                      //   child: Text(
+                      //     'data',
+                      //   ),
+                      // ),
                     ),
-                     SizedBox(height: context.screenHeight*0.02),
-
+                    SizedBox(height: context.screenHeight * 0.02),
 
                     // Sign Up Link
                     Row(
@@ -180,11 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text("Don't have an account? "),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/signup'
-
-                            );
+                            Navigator.pushNamed(context, '/signup');
                           },
                           child: Text(
                             MyStrings.signUp,

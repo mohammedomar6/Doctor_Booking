@@ -87,25 +87,31 @@ class _SplashPageState extends State<SplashPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SlideTransition(
-                  position: _logoAnimation,
-                  child: Icon(
-                    kIcon,
-                    size: MediaQuery.of(context).size.height * 0.09,
-                    color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.only(left: 28.0),
+                  child: SlideTransition(
+                    position: _logoAnimation,
+                    child: Icon(
+                      kIcon,
+                      size: MediaQuery.of(context).size.height * 0.09,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.02,
                 ),
-                SlideTransition(
-                  position: _textAnimation,
-                  child: Text(
-                    MyStrings.splash,
-                    style: TextStyle(
-                      color: MyColours.white,
-                      fontSize: MediaQuery.of(context).size.width * 0.08,
-                      fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(right: 18.0),
+                  child: SlideTransition(
+                    position: _textAnimation,
+                    child: Text(
+                      MyStrings.splash,
+                      style: TextStyle(
+                        color: MyColours.white,
+                        fontSize: MediaQuery.of(context).size.width * 0.08,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),

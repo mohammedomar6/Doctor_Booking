@@ -51,5 +51,10 @@ static String sendEmail= 'Send Email';
   static String neurologist = "Neurologist";
   static String childSpecialist = "Child Specialist";
   static String generalPhysician = "General Physician";
+  static String dermatology = "Dermatology";
+  static String orthopedics = "Orthopedics";
+
+// book
+  static String chooseSpecialty = 'Choose Specialty';
 }
 final kIcon =  Icons.medical_services;

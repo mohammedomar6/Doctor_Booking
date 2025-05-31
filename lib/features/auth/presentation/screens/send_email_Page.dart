@@ -3,7 +3,6 @@ import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/forget_password.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_elevatedbutton.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';

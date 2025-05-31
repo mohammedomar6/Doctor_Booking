@@ -1,7 +1,7 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
-import 'package:doctor_booking1/features/auth/presentation/screen/login_page.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
 class IntroPage extends StatefulWidget {

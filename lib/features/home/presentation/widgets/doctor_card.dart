@@ -2,6 +2,9 @@ import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:flutter/material.dart';
 
+import '../../../booking/presentation/screens/add_appointment_confirmation_page.dart'
+    show AddAppointmentConfirmationPage;
+
 class DoctorCard extends StatelessWidget {
   final String name;
   final String specialty;
@@ -112,7 +115,19 @@ class DoctorCard extends StatelessWidget {
                             vertical: context.screenHeight * 0.012,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AddAppointmentConfirmationPage(
+                                doctorName: name,
+                                specialty: specialty,
+                                imagePath: image,
+                              ),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Make Appointment",
                           style: TextStyle(

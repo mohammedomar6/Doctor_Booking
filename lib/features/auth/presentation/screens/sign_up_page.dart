@@ -99,13 +99,18 @@ class _SignUpPageState extends State<SignUpPage> {
                           onChanged: (value) =>
                               setState(() => isAgree = value!,),
                         ),
-                         Text(MyStrings.agreeTerms,),
+                        Text(
+                          MyStrings.agreeTerms,
+                          style:
+                              TextStyle(fontSize: context.screenWidth * 0.033),
+                        ),
                       ],
                     ),
                     SizedBox(height: context.screenHeight * 0.015),
                     SizedBox(
                       width: context.screenWidth*0.7,
                       child: ElevatedButton(
+
                         onPressed: state.status == Status.loading
                             ? null
                             : () {
