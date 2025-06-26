@@ -7,4 +7,5 @@ class MyColours{
   static Color black = Color(0xff000000);
   static Color grey = Color(0xffC0C0C0);
   static Color star = Color(0xFFFFC107);
+  static Color lightBlack =  Color(0xFF0A0E21);
 }
