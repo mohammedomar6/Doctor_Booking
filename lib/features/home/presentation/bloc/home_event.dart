@@ -1,4 +1,11 @@
 part of 'home_bloc.dart';
 
-@immutable
-sealed class HomeEvent {}
+class HomeEvent {}
+
+class GetAllDocEvent extends HomeEvent {}
+
+class GetOneDocEvent extends HomeEvent {
+  final String id;
+
+  GetOneDocEvent({required this.id});
+}
