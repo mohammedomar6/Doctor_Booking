@@ -20,7 +20,7 @@ class AllDoctorsPage extends StatelessWidget {
           if (state.docStatus == Status.loading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state.docStatus == Status.failed) {
-            return const Center(child: Text("Failed to load doctors"));
+            return const Center(child: Text("Failed to fetch doctors"));
           } else if (state.docStatus == Status.success) {
             return ListView.builder(
               padding: EdgeInsets.all(16),
