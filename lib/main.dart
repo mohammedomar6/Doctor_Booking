@@ -6,13 +6,14 @@ import 'package:doctor_booking1/features/auth/presentation/screens/forget_passwo
 import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
+import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'features/home/presentation/screens/home_page.dart' show HomePage;
+import 'features/home/presentation/screens/first_page.dart' show FirstPage;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       child: MultiBlocProvider(
         providers: [
+          
           BlocProvider(
             create: (context) => AuthBloc(
               authRepositories: AuthRepo(
@@ -36,6 +38,9 @@ class MyApp extends StatelessWidget {
                 signUpDataSource: SignUpData(),
               ),
             ),
+          ),
+          BlocProvider(
+            create: (context) => HomeBloc()..add(GetAllDocEvent())
           ),
         ],
         child: MaterialApp(
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
             '/signup': (context) => SignUpPage(),
             '/forgotpassword': (context) => SendEmailPage(),
             '/resetpassword': (context) => ForgetPassword(),
-            '/home': (context) => HomePage(),
+            '/home': (context) => FirstPage(),
           },
         ),
       ),
