@@ -9,3 +9,4 @@ class GetOneDocEvent extends HomeEvent {
 
   GetOneDocEvent({required this.id});
 }
+class GetAllDepartmentsEvent extends HomeEvent {}

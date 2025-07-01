@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => HomeBloc()..add(GetAllDocEvent())
+            create: (context) => HomeBloc()
           ),
         ],
         child: MaterialApp(
