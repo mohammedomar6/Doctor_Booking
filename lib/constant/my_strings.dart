@@ -50,12 +50,12 @@ static String sendEmail= 'Send Email';
   static String topSpeciality = 'Top Specialist';
   static String dentist = "Dentist";
   static String cardiologist = "Cardiologist";
-  static String orthopedic = "Orthopedic";
+  static String orthopedics = "Orthopedics";
   static String neurologist = "Neurologist";
   static String childSpecialist = "Child Specialist";
   static String generalPhysician = "General Physician";
   static String dermatology = "Dermatology";
-  static String orthopedics = "Orthopedics";
+
 
 // book
   static String chooseSpecialty = 'Choose Specialty';
