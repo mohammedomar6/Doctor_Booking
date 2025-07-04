@@ -3,6 +3,7 @@ import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
+import 'package:doctor_booking1/core/token_manger.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             );
         }
         if (state.status == Status.success) {
+          TokenManager1.saveToken(state.token!);
           Navigator.pushNamedAndRemoveUntil(
             context,
             '/home', // اسم الصفحة التي تريد الذهاب إليها

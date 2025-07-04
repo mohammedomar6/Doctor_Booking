@@ -6,14 +6,27 @@ import 'package:doctor_booking1/features/auth/presentation/screens/forget_passwo
 import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
-import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
+import 'package:doctor_booking1/features/medical_history/data/data_sources/medical_history_data_source.dart';
+import 'package:doctor_booking1/features/medical_history/data/repositories/medical_history_repo.dart';
+import 'package:doctor_booking1/features/medical_history/presentation/manager/medical_history_bloc.dart';
+import 'package:doctor_booking1/features/medical_history/presentation/pages/medical_history_page.dart';
+import 'package:doctor_booking1/features/pataint/data/data_sources/pataint_remote_data_source.dart';
+import 'package:doctor_booking1/features/pataint/data/repositories/pataint_repo.dart';
+import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/splash_page.dart';
+import 'package:doctor_booking1/features/wallet/data/data_sources/remote_data_source_wallet.dart';
+import 'package:doctor_booking1/features/wallet/data/repositories/wallet_repo.dart';
+import 'package:doctor_booking1/features/wallet/presentation/manager/wallet_bloc.dart';
+import 'package:doctor_booking1/features/wallet/presentation/pages/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/presentation/screens/first_page.dart' show FirstPage;
+import 'features/pataint/presentation/pages/create_pataint_screen.dart';
+import 'features/pataint/presentation/pages/profile_pataint_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +42,6 @@ class MyApp extends StatelessWidget {
       designSize: const Size(375, 812),
       child: MultiBlocProvider(
         providers: [
-          
           BlocProvider(
             create: (context) => AuthBloc(
               authRepositories: AuthRepo(
@@ -39,9 +51,23 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+          BlocProvider(create: (context) => HomeBloc()),
           BlocProvider(
-            create: (context) => HomeBloc()
+              create: (context) => MedicalHistoryBloc(
+                  medicalHistoryRepo: MedicalHistoryRepo(
+                      medicalHistoryData: MedicalHistoryData()))),
+          BlocProvider(
+            create: (context) => PatiantBloc(
+
+                pataintRepo: PataintRepo(pataintRemoteDataSource: PataintRemoteDataSource()
+                )),
           ),
+          BlocProvider(
+            create: (context) => WalletBloc(
+
+                walletRepo: WalletRepo(remoteDataSourceWallet: RemoteDataSourceWallet()
+                )),
+          )
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -54,6 +80,10 @@ class MyApp extends StatelessWidget {
             '/forgotpassword': (context) => SendEmailPage(),
             '/resetpassword': (context) => ForgetPassword(),
             '/home': (context) => FirstPage(),
+            '/medical': (context) => MedicalHistoryScreen(),
+            '/create_pataint': (context) => CreatePatientScreen(),
+            '/patient_profile_screen': (context) => PatientProfileScreen(),
+            '/wallet_screen' : (context) => WalletScreen()
           },
         ),
       ),

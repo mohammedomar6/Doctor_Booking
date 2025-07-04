@@ -3,6 +3,8 @@ import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/token_manger.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -16,7 +18,17 @@ class _SplashPageState extends State<SplashPage>
   late Animation<Offset> _logoAnimation;
   late Animation<Offset> _textAnimation;
   late Animation<double> _opacityAnimation;
+  void checkLoginStatus() async {
+    final token = await TokenManager1.getToken();
 
+    if (token != null) {
+      // المستخدم مسجّل دخول => انتقل للصفحة الرئيسية
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      // لا يوجد توكن => انتقل إلى صفحة تسجيل الدخول
+      Navigator.pushReplacementNamed(context, '/login');
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -62,12 +74,10 @@ class _SplashPageState extends State<SplashPage>
         const Duration(seconds: 1),
       );
       if (mounted) {
-        Navigator.pushNamed(
-          context,
-          '/onbording'
-        );
+       checkLoginStatus();
       }
     });
+
   }
 
   @override

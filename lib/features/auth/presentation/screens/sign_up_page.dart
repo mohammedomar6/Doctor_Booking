@@ -3,6 +3,7 @@ import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
+import 'package:doctor_booking1/core/token_manger.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state)  async{
         if (state.status == Status.failed) {
           ScaffoldMessenger.of(context) ..hideCurrentSnackBar()..showSnackBar(
 
@@ -39,10 +40,11 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
         }
-        if (state.status == Status.success) {
+        if (state.status == Status.success)  {
+           await TokenManager1.saveToken(state.token!);
           Navigator.pushNamedAndRemoveUntil(
             context,
-            '/home', // اسم الصفحة التي تريد الذهاب إليها
+            '/create_pataint', // اسم الصفحة التي تريد الذهاب إليها
                 (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
           );
         }

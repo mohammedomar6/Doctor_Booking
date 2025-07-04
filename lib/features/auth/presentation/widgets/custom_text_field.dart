@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
     this.isPasswordField = false,
     this.isEmailField = false,
     this.icon,
+    this.keybordtype
   });
 
   final bool isEmailField;
@@ -27,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final Color? fillColor;
   final IconData? icon;
   final FocusNode? focusNode;
+  final  TextInputType? keybordtype ;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -57,6 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         controller: widget.controller,
         validator: widget.validator,
         onChanged: widget.onChanged,
+        keyboardType: widget.keybordtype,
         onFieldSubmitted: widget.onSubmitted,
         obscureText: widget.isPasswordField ? _obscureText : false,
         obscuringCharacter: '*',

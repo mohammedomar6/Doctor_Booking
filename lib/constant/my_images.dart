@@ -13,4 +13,5 @@ class MyImages{
   static String doc3 = "assets/images/doc3.jpg";
   static String doc4 = "assets/images/doc4.jpg";
   static String doc5 = "assets/images/doc5.jpg";
+  static String question = "assets/images/question.jpg";
 }

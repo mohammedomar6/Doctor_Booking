@@ -1,9 +1,10 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
-import 'package:doctor_booking1/features/auth/presentation/screens/profile_page.dart';
+
 import 'package:doctor_booking1/features/booking/presentation/blocs/departments/departments_bloc.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/booking_page.dart';
 import 'package:doctor_booking1/features/home/presentation/screens/home_page.dart';
+import 'package:doctor_booking1/features/home/presentation/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
