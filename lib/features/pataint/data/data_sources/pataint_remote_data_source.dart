@@ -38,6 +38,7 @@ class PataintRemoteDataSource {
       }
     }
        Future<ProfileResponse> getProfile() async{
+         print ('ss ${await TokenManager1.getToken()}');
         Uri url=  Uri.parse('${MyStrings.baseUrl}pataints/me');
         final res= await  http.get(url,  headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
         'Content-Type': 'application/json'},);

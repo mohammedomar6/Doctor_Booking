@@ -1,6 +1,5 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
-import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/token_manger.dart';

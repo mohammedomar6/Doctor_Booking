@@ -82,7 +82,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(height: context.screenHeight * 0.03),
-
                     // Email Field
                     CustomTextField(
                         icon: Icons.email,
@@ -103,8 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                         isPasswordField: true,
                         label: 'Password',
                         hint: '••••••••',
-                        controller: passwordController,
-                        validator: (value) => AppValidator.password(value)),
+                      controller: passwordController,
+                      // validator: (value) => AppValidator.password(value)),
+                    ),
                     SizedBox(height: context.screenHeight * 0.01),
                     Align(
                       alignment: Alignment.centerRight,
