@@ -6,6 +6,7 @@ import 'package:doctor_booking1/features/auth/presentation/screens/forget_passwo
 import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
+import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:doctor_booking1/features/medical_history/data/data_sources/medical_history_data_source.dart';
 import 'package:doctor_booking1/features/medical_history/data/repositories/medical_history_repo.dart';
 import 'package:doctor_booking1/features/medical_history/presentation/manager/medical_history_bloc.dart';
@@ -58,15 +59,16 @@ class MyApp extends StatelessWidget {
                       medicalHistoryData: MedicalHistoryData()))),
           BlocProvider(
             create: (context) => PatiantBloc(
-
-                pataintRepo: PataintRepo(pataintRemoteDataSource: PataintRemoteDataSource()
-                )),
+                pataintRepo: PataintRepo(
+                    pataintRemoteDataSource: PataintRemoteDataSource())),
           ),
           BlocProvider(
             create: (context) => WalletBloc(
-
-                walletRepo: WalletRepo(remoteDataSourceWallet: RemoteDataSourceWallet()
-                )),
+                walletRepo: WalletRepo(
+                    remoteDataSourceWallet: RemoteDataSourceWallet())),
+          ),
+          BlocProvider(
+            create: (context) => AvailableBookingBloc(),
           )
         ],
         child: MaterialApp(
@@ -83,7 +85,7 @@ class MyApp extends StatelessWidget {
             '/medical': (context) => MedicalHistoryScreen(),
             '/create_pataint': (context) => CreatePatientScreen(),
             '/patient_profile_screen': (context) => PatientProfileScreen(),
-            '/wallet_screen' : (context) => WalletScreen()
+            '/wallet_screen': (context) => WalletScreen()
           },
         ),
       ),

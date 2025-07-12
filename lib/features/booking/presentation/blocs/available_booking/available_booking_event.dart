@@ -14,4 +14,9 @@ class SelectSlotEvent extends AvailableBookingEvent {
   SelectSlotEvent(this.selectedSlot);
 }
 
-class ConfirmBookingEvent extends AvailableBookingEvent {}
+class ConfirmBookingEvent extends AvailableBookingEvent {
+  final String doctorId;
+
+  ConfirmBookingEvent({required this.doctorId});
+}
+

@@ -14,10 +14,12 @@ class AvailableBookingBloc
       emit(state.copyWith(availableStatus: Status.loading));
       final result = await BookingRepo().getAvailableDatesRepo(event.doctorId);
       result.fold(
-            (l) {
+        (l) {
+          print("Failed to load slots: $l");
           emit(state.copyWith(availableStatus: Status.failed));
         },
-            (r) {
+        (r) {
+          print("Loaded slots count: ${r.length}");
           emit(state.copyWith(
             availableStatus: Status.success,
             slotsList: r,
@@ -41,13 +43,13 @@ class AvailableBookingBloc
       emit(state.copyWith(availableStatus: Status.loading));
 
       final result = await BookingRepo().bookDateRepo(
-        "some_doctor_id",
+        event.doctorId,
         state.selectedSlot!.date,
       );
 
       result.fold(
-            (l) => emit(state.copyWith(availableStatus: Status.failed)),
-            (r) => emit(state.copyWith(availableStatus: Status.success)),
+        (l) => emit(state.copyWith(availableStatus: Status.failed)),
+        (r) => emit(state.copyWith(availableStatus: Status.success)),
       );
     });
   }

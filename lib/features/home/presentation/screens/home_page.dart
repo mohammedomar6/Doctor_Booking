@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final bloc = context.read<HomeBloc>();
     bloc.add(GetAllDocEvent());
-    bloc.add(GetAllDepartmentsEvent()); // جلب الأقسام
+    bloc.add(GetAllDepartmentsEvent());
   }
 
   @override
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(
                   'Specialties',
-                  style:TextStyle(
+                  style: TextStyle(
                     color: MyColours.black,
                     fontWeight: FontWeight.bold,
                     fontSize: context.screenWidth * 0.040,
@@ -105,7 +105,8 @@ class _HomePageState extends State<HomePage> {
                 if (state.depStatus == Status.loading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state.depStatus == Status.failed) {
-                  return const Center(child: Text("Failed to load departments"));
+                  return const Center(
+                      child: Text("Failed to load departments"));
                 } else if (state.depStatus == Status.success) {
                   return SizedBox(
                     height: height * 0.12,
@@ -165,6 +166,7 @@ class _HomePageState extends State<HomePage> {
                           name: "Dr. ${doc.firstName} ${doc.lastName}",
                           specialty: doc.departmentName,
                           image: MyImages.doc2,
+                          doctorId: doc.id,
                         ),
                       );
                     }).toList(),
@@ -179,5 +181,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }

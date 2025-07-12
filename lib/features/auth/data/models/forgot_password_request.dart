@@ -2,7 +2,7 @@
 //
 //     final forgotPasswordRequest = forgotPasswordRequestFromJson(jsonString);
 
-import 'package:meta/meta.dart';
+
 import 'dart:convert';
 
 ForgotPasswordRequest forgotPasswordRequestFromJson(String str) => ForgotPasswordRequest.fromJson(json.decode(str));
