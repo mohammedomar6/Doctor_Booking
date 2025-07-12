@@ -5,20 +5,29 @@ import 'package:doctor_booking1/features/wallet/data/data_sources/remote_data_so
 import 'package:doctor_booking1/features/wallet/data/models/wallet_response.dart';
 
 class WalletRepo {
-  final RemoteDataSourceWallet remoteDataSourceWallet ;
+  final RemoteDataSourceWallet remoteDataSourceWallet;
 
   WalletRepo({required this.remoteDataSourceWallet});
+
   Future<Either<String, WalletResponse>> getWallet() async {
     try {
       final response = await remoteDataSourceWallet.getWallet();
-
       return Right(response);
     } on TimeoutException catch (e) {
-
       return Left(e.message ?? 'Timeout occurred');
     } on Exception catch (e) {
       return Left(e.toString());
     }
   }
 
+  Future<Either<String, Doc>> withdrawFromWalletRepo(int amount) async {
+    try {
+      final response = await remoteDataSourceWallet.withdrawFromWallet(amount);
+      return Right(response);
+    } on TimeoutException catch (e) {
+      return Left(e.message ?? 'Timeout occurred');
+    } on Exception catch (e) {
+      return Left(e.toString());
+    }
+  }
 }
