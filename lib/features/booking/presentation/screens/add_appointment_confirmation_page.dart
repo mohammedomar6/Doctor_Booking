@@ -1,18 +1,213 @@
+// import 'package:doctor_booking1/constant/my_colours.dart';
+// import 'package:doctor_booking1/core/responsive.dart';
+// import 'package:doctor_booking1/features/booking/data/models/available_date_model.dart';
+// import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
+// import 'package:doctor_booking1/features/booking/presentation/widgets/appointment_date_tile.dart';
+// import 'package:doctor_booking1/features/booking/presentation/widgets/available_time_selector.dart';
+// import 'package:doctor_booking1/features/booking/presentation/widgets/confirm_booking_button.dart';
+// import 'package:doctor_booking1/features/booking/presentation/widgets/confirm_dialog.dart';
+// import 'package:doctor_booking1/features/booking/presentation/widgets/doctor_header.dart';
+// import 'package:doctor_booking1/features/wallet/data/data_sources/remote_data_source_wallet.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:intl/intl.dart';
+//
+// import '../../../medical_history/presentation/manager/medical_history_bloc.dart';
+//
+// class AddAppointmentConfirmationPage extends StatefulWidget {
+//   final String doctorId;
+//   final String doctorName;
+//   final String specialty;
+//   final String imagePath;
+//   final int price;
+//
+//   const AddAppointmentConfirmationPage({
+//     super.key,
+//     required this.doctorId,
+//     required this.doctorName,
+//     required this.specialty,
+//     required this.imagePath,
+//     required this.price,
+//   });
+//
+//   @override
+//   State<AddAppointmentConfirmationPage> createState() =>
+//       _AddAppointmentConfirmationPageState();
+// }
+//
+// class _AddAppointmentConfirmationPageState
+//     extends State<AddAppointmentConfirmationPage> {
+//   final RemoteDataSourceWallet walletDataSource = RemoteDataSourceWallet();
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     BlocProvider.of<AvailableBookingBloc>(context)
+//         .add(GetAvailableDatesEvent(widget.doctorId));
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('تأكيد الحجز'),
+//         backgroundColor: MyColours.white,
+//         foregroundColor: MyColours.black,
+//         elevation: 0,
+//       ),
+//       body: BlocBuilder<AvailableBookingBloc, AvailableBookingState>(
+//         builder: (context, state) {
+//           List<AvailableDateModel> slots = state.slotsList;
+//
+//           final selectedDate = state.selectedSlot?.dateOnly;
+//           final selectedTime = state.selectedSlot?.formattedTime;
+//
+//           bool isSameDate(DateTime a, DateTime b) =>
+//               a.year == b.year && a.month == b.month && a.day == b.day;
+//
+//           return Padding(
+//             padding: EdgeInsets.all(context.screenWidth * 0.05),
+//             child: Column(
+//               children: [
+//                 DoctorHeader(
+//                   doctorName: widget.doctorName,
+//                   specialty: widget.specialty,
+//                   imagePath: widget.imagePath,
+//                 ),
+//                 const Divider(),
+//                 AppointmentDateTile(
+//                   selectedDate: selectedDate,
+//                   onTap: () async {
+//                     final DateTime? picked = await showDatePicker(
+//                       context: context,
+//                       initialDate: DateTime.now(),
+//                       firstDate: DateTime.now(),
+//                       lastDate: DateTime.now().add(const Duration(days: 30)),
+//                     );
+//
+//                     if (picked != null && mounted) {
+//                       final slotForDate = slots
+//                           .where((s) => isSameDate(s.dateOnly, picked))
+//                           .toList();
+//                       if (slotForDate.isNotEmpty) {
+//                         context.read<AvailableBookingBloc>().add(
+//                           SelectSlotEvent(slotForDate.first),
+//                         );
+//                       } else {
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           const SnackBar(
+//                               content: Text("لا يوجد مواعيد في هذا اليوم")),
+//                         );
+//                       }
+//                     }
+//                   },
+//                 ),
+//                 AvailableTimeSelector(
+//                   selectedTime: selectedTime,
+//                   onSelected: (time) {
+//                     AvailableDateModel? matchingSlot;
+//                     try {
+//                       matchingSlot = slots.firstWhere(
+//                             (s) =>
+//                         s.formattedTime == time &&
+//                             s.dateOnly == selectedDate,
+//                       );
+//                     } catch (_) {
+//                       matchingSlot = null;
+//                     }
+//
+//                     if (matchingSlot != null) {
+//                       context
+//                           .read<AvailableBookingBloc>()
+//                           .add(SelectSlotEvent(matchingSlot));
+//                     } else {
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         const SnackBar(
+//                             content: Text("لا يوجد موعد مطابق لهذا الوقت")),
+//                       );
+//                     }
+//                   },
+//                 ),
+//                 const Spacer(),
+//                 ConfirmBookingButton(
+//                   isEnabled: selectedDate != null &&
+//                       selectedTime != null &&
+//                       state.availableStatus != Status.loading,
+//                   isProcessing: state.availableStatus == Status.loading,
+//                   onPressed: () async {
+//                     final confirmed = await showConfirmDialog(
+//                       context,
+//                       amount: widget.price,
+//                       selectedDate: selectedDate!,
+//                       selectedTime: selectedTime!,
+//                     );
+//                     if (confirmed == true) {
+//                       try {
+//                         await walletDataSource.withdrawFromWallet(widget.price);
+//                         context.read<AvailableBookingBloc>().add(
+//                           ConfirmBookingEvent(doctorId: widget.doctorId),
+//                         );
+//                         context.read<AvailableBookingBloc>().add(
+//                           GetAvailableDatesEvent(widget.doctorId),
+//                         );
+//                         if (context.mounted) {
+//                           ScaffoldMessenger.of(context).showSnackBar(
+//                             SnackBar(
+//                               content: Text(
+//                                 'تم الحجز بتاريخ ${DateFormat('d MMM yyyy').format(selectedDate)} الساعة $selectedTime',
+//                               ),
+//                             ),
+//                           );
+//                           Navigator.pop(context);
+//                         }
+//                       } catch (e) {
+//                         if (context.mounted) {
+//                           ScaffoldMessenger.of(context).showSnackBar(
+//                             SnackBar(
+//                               content: Text('فشل الدفع: ${e.toString()}'),
+//                               backgroundColor: Colors.red,
+//                             ),
+//                           );
+//                         }
+//                       }
+//                     }
+//                   },
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
+import 'package:doctor_booking1/features/wallet/data/data_sources/remote_data_source_wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../widgets/doctor_header.dart';
+import '../widgets/appointment_date_tile.dart';
+import '../widgets/available_time_selector.dart';
+import '../widgets/confirm_booking_button.dart';
+import '../widgets/confirm_dialog.dart';
+
 class AddAppointmentConfirmationPage extends StatefulWidget {
   final String doctorName;
+  final String doctorId;
   final String specialty;
   final String imagePath;
+  final int price;
 
   const AddAppointmentConfirmationPage({
     super.key,
+    required this.doctorId,
     required this.doctorName,
     required this.specialty,
     required this.imagePath,
+    required this.price,
   });
 
   @override
@@ -24,16 +219,11 @@ class _AddAppointmentConfirmationPageState
     extends State<AddAppointmentConfirmationPage> {
   DateTime? selectedDate;
   String? selectedTime;
+  bool isProcessing = false;
 
-  final List<String> availableTimes = [
-    '09:00 - 10:00',
-    '10:00 - 11:00',
-    '11:00 - 12:00',
-    '13:00 - 14:00',
-    '15:00 - 16:00',
-  ];
+  final RemoteDataSourceWallet walletDataSource = RemoteDataSourceWallet();
 
-  Future<void> pickDate() async {
+  void pickDate() async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -43,6 +233,51 @@ class _AddAppointmentConfirmationPageState
     if (picked != null) {
       setState(() => selectedDate = picked);
     }
+  }
+
+  void confirmBooking() async {
+    setState(() => isProcessing = true);
+
+    try {
+      await walletDataSource.withdrawFromWallet(widget.price);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'تم الحجز بتاريخ ${DateFormat('d MMM yyyy').format(selectedDate!)} الساعة $selectedTime',
+          ),
+        ),
+      );
+
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('فشل الدفع: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => isProcessing = false);
+      }
+    }
+  }
+
+  void showConfirmationDialog() async {
+    if (selectedDate == null || selectedTime == null) return;
+
+    final confirmed = await showConfirmDialog(
+      context,
+      amount: widget.price,
+      selectedDate: selectedDate!,
+      selectedTime: selectedTime!,
+    );
+    if (confirmed == true) confirmBooking();
   }
 
   @override
@@ -57,90 +292,27 @@ class _AddAppointmentConfirmationPageState
       body: Padding(
         padding: EdgeInsets.all(context.screenWidth * 0.05),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(context.screenWidth * 0.04),
-              child: Image.asset(
-                widget.imagePath,
-                width: context.screenWidth * 0.4,
-                height: context.screenWidth * 0.4,
-                fit: BoxFit.cover,
-              ),
+            DoctorHeader(
+              doctorName: widget.doctorName,
+              specialty: widget.specialty,
+              imagePath: widget.imagePath,
             ),
-            SizedBox(height: context.screenHeight * 0.03),
-            Text(
-              widget.doctorName,
-              style: TextStyle(
-                fontSize: context.screenWidth * 0.05,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: context.screenHeight * 0.01),
-            Text(
-              widget.specialty,
-              style: TextStyle(
-                fontSize: context.screenWidth * 0.04,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: context.screenHeight * 0.04),
             const Divider(),
-            SizedBox(height: context.screenHeight * 0.02),
-            ListTile(
-              leading: const Icon(Icons.calendar_today),
-              title: Text(selectedDate == null
-                  ? 'Select Appointment Date'
-                  : DateFormat('EEEE, d MMM yyyy').format(selectedDate!)),
-              trailing: const Icon(Icons.edit),
+            AppointmentDateTile(
+              selectedDate: selectedDate,
               onTap: pickDate,
             ),
-            SizedBox(height: context.screenHeight * 0.02),
-            Wrap(
-              spacing: 12,
-              children: availableTimes.map((time) {
-                final isSelected = time == selectedTime;
-                return ChoiceChip(
-                  label: Text(time),
-                  selected: isSelected,
-                  onSelected: (_) => setState(() => selectedTime = time),
-                  selectedColor: MyColours.blue,
-                  labelStyle: TextStyle(
-                      color: isSelected ? MyColours.white : MyColours.black),
-                );
-              }).toList(),
+            AvailableTimeSelector(
+              selectedTime: selectedTime,
+              onSelected: (time) => setState(() => selectedTime = time),
             ),
             const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                    vertical: context.screenHeight * 0.02,
-                  ),
-                  backgroundColor: selectedDate != null && selectedTime != null
-                      ? MyColours.blue
-                      : Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: selectedDate != null && selectedTime != null
-                    ? () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'Appointment confirmed on ${DateFormat('d MMM yyyy').format(selectedDate!)} at $selectedTime'),
-                          ),
-                        );
-                        Navigator.pop(context);
-                      }
-                    : null,
-                child: Text(
-                  'Confirm Booking',
-                  style: TextStyle(color: MyColours.white, fontSize: 16),
-                ),
-              ),
+            ConfirmBookingButton(
+              isEnabled:
+                  selectedDate != null && selectedTime != null && !isProcessing,
+              isProcessing: isProcessing,
+              onPressed: showConfirmationDialog,
             )
           ],
         ),

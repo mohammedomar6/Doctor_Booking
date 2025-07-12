@@ -1,10 +1,10 @@
 import 'package:doctor_booking1/constant/my_images.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/widgets/doctor_card.dart';
-import 'package:doctor_booking1/core/responsive.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AllDoctorsPage extends StatelessWidget {
   const AllDoctorsPage({super.key});
@@ -33,6 +33,7 @@ class AllDoctorsPage extends StatelessWidget {
                     name: "Dr. ${doc.firstName} ${doc.lastName}",
                     specialty: doc.departmentName,
                     image: MyImages.doc3,
+                    doctorId: doc.id,
                   ),
                 );
               },

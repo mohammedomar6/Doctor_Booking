@@ -48,6 +48,7 @@ class DoctorsBySpecialtyPage extends StatelessWidget {
                     padding:
                         EdgeInsets.only(bottom: context.screenHeight * 0.02),
                     child: DoctorCard(
+                      doctorId: doc.id,
                       name: "Dr. ${doc.firstName} ${doc.lastName}",
                       specialty: doc.departmentName,
                       image: MyImages.doc1,

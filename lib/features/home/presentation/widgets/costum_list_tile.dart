@@ -1,4 +1,3 @@
-import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:flutter/material.dart';
 
 class CostumListTile extends StatelessWidget {

@@ -7,6 +7,8 @@ import '../../../booking/presentation/screens/add_appointment_confirmation_page.
 
 class DoctorCard extends StatelessWidget {
   final String name;
+  final String doctorId;
+
   final String specialty;
   final String image;
 
@@ -15,6 +17,7 @@ class DoctorCard extends StatelessWidget {
     required this.name,
     required this.specialty,
     required this.image,
+    required this.doctorId,
   });
 
   @override
@@ -121,10 +124,12 @@ class DoctorCard extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) =>
                                   AddAppointmentConfirmationPage(
-                                doctorName: name,
-                                specialty: specialty,
-                                imagePath: image,
-                              ),
+                                    doctorId: doctorId,
+                                    price: 65000,
+                                    doctorName: name,
+                                    specialty: specialty,
+                                    imagePath: image,
+                                  ),
                             ),
                           );
                         },
