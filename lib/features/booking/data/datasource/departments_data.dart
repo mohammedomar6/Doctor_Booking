@@ -10,8 +10,10 @@ class DepartmentsData {
   Future<List<DepartmentModel>> getAllDepartmentsBooking() async {
     final url = Uri.parse('${MyStrings.baseUrl}departments');
     print('Fetching departments from book: $url');
-    final response = await http.get(url, headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
-      'Content-Type': 'application/json'});
+    final response = await http.get(url, headers: {
+      'Authorization': 'Bearer ${await TokenManager1.getToken()}',
+      'Content-Type': 'application/json'
+    });
 
     if (response.statusCode == 200) {
       print('Response body book : ${response.body}');

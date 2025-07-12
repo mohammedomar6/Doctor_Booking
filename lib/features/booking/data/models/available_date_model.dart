@@ -13,10 +13,18 @@ class AvailableDateModel {
 
   factory AvailableDateModel.fromJson(Map<String, dynamic> json) {
     return AvailableDateModel(
-      date: DateTime.parse(json['date']),
+      date: DateTime.parse(json['date']).toLocal(),
       day: json['day'],
       hour: json['hour'],
       minute: json['minute'],
     );
+  }
+
+  String get formattedTime {
+    return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+  }
+
+  DateTime get dateOnly {
+    return DateTime(date.year, date.month, date.day);
   }
 }

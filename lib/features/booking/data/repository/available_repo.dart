@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:doctor_booking1/features/booking/data/datasource/available_data_source.dart';
 import 'package:doctor_booking1/features/booking/data/models/available_date_model.dart';
 
+
 class BookingRepo {
   Future<Either<String, List<AvailableDateModel>>> getAvailableDatesRepo(
       String doctorId) async {
