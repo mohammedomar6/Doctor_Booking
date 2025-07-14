@@ -1,11 +1,12 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/core/responsive.dart';
-import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/widgets/doctor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 
 class DoctorsBySpecialtyPage extends StatelessWidget {
   final String specialty;
@@ -36,22 +37,31 @@ class DoctorsBySpecialtyPage extends StatelessWidget {
               final doctors = state.doctorModelList
                   .where((doc) => doc.departmentName == specialty)
                   .toList();
+
               if (doctors.isEmpty) {
                 return const Center(
-                    child: Text("No doctors found for this specialty."));
+                  child: Text("No doctors found for this specialty."),
+                );
               }
+
               return ListView.builder(
                 itemCount: doctors.length,
                 itemBuilder: (context, index) {
                   final doc = doctors[index];
+                  final department = state.departmentList.firstWhere(
+                    (dep) => dep.name == doc.departmentName,
+                  );
+
                   return Padding(
-                    padding:
-                        EdgeInsets.only(bottom: context.screenHeight * 0.02),
+                    padding: EdgeInsets.only(
+                      bottom: context.screenHeight * 0.02,
+                    ),
                     child: DoctorCard(
                       doctorId: doc.id,
                       name: "Dr. ${doc.firstName} ${doc.lastName}",
                       specialty: doc.departmentName,
                       image: MyImages.doc1,
+                      price: department.price,
                     ),
                   );
                 },

@@ -159,14 +159,18 @@ class _HomePageState extends State<HomePage> {
                   final top3 = list.length > 3 ? list.sublist(0, 3) : list;
                   return Column(
                     children: top3.map((doc) {
+                      final department = state.departmentList.firstWhere(
+                            (dep) => dep.name == doc.departmentName,
+                      ); // لن نستخدم orElse هنا لتجنب القيم الافتراضية
+
                       return Padding(
-                        padding: EdgeInsets.only(
-                            bottom: context.screenHeight * 0.02),
+                        padding: EdgeInsets.only(bottom: context.screenHeight * 0.02),
                         child: DoctorCard(
                           name: "Dr. ${doc.firstName} ${doc.lastName}",
                           specialty: doc.departmentName,
                           image: MyImages.doc2,
                           doctorId: doc.id,
+                          price: department.price, // السعر مضمون لأنه من الخادم
                         ),
                       );
                     }).toList(),

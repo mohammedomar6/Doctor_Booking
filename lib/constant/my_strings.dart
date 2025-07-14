@@ -4,6 +4,7 @@ class MyStrings {
   // baseurl
   // static String baseUrl= 'http://192.168.43.77:7000/api/v1.0.0/';
   static String baseUrl = 'http://10.0.2.2:7000/api/v1.0.0/';
+
   // login page
   static String signIn = 'Sign In';
   static String textUnderSignIn = 'Hi Welcome back , you have been missed';
