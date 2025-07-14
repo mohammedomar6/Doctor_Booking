@@ -1,6 +1,8 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
+import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../booking/presentation/screens/add_appointment_confirmation_page.dart'
     show AddAppointmentConfirmationPage;
@@ -8,7 +10,7 @@ import '../../../booking/presentation/screens/add_appointment_confirmation_page.
 class DoctorCard extends StatelessWidget {
   final String name;
   final String doctorId;
-
+final int price;
   final String specialty;
   final String image;
 
@@ -17,7 +19,7 @@ class DoctorCard extends StatelessWidget {
     required this.name,
     required this.specialty,
     required this.image,
-    required this.doctorId,
+    required this.doctorId, required this.price,
   });
 
   @override
@@ -122,14 +124,17 @@ class DoctorCard extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AddAppointmentConfirmationPage(
-                                    doctorId: doctorId,
-                                    price: 65000,
-                                    doctorName: name,
-                                    specialty: specialty,
-                                    imagePath: image,
-                                  ),
+                              builder: (context) => BlocProvider(
+                                create: (_) => AvailableBookingBloc()
+                                  ..add(GetAvailableDatesEvent(doctorId)),
+                                child: AddAppointmentConfirmationPage(
+                                  doctorId: doctorId,
+                                  price: price,
+                                  doctorName: name,
+                                  specialty: specialty,
+                                  imagePath: image,
+                                ),
+                              ),
                             ),
                           );
                         },

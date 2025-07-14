@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class AppointmentDateTile extends StatelessWidget {
+class DatePickerTile extends StatelessWidget {
   final DateTime? selectedDate;
   final VoidCallback onTap;
 
-  const AppointmentDateTile({
+  const DatePickerTile({
     super.key,
     required this.selectedDate,
     required this.onTap,
@@ -15,10 +15,12 @@ class AppointmentDateTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.calendar_today),
-      title: Text(selectedDate == null
-          ? 'اختر تاريخ الحجز'
-          : DateFormat('EEEE, d MMM yyyy').format(selectedDate!)),
-      trailing: const Icon(Icons.edit),
+      title: Text(
+        selectedDate == null
+            ? 'Select Date'
+            : DateFormat('EEEE, MMM d, yyyy').format(selectedDate!),
+      ),
+      trailing: const Icon(Icons.arrow_drop_down),
       onTap: onTap,
     );
   }

@@ -36,7 +36,7 @@ class ConfirmBookingButton extends StatelessWidget {
                 ),
               )
             : const Text(
-                'تأكيد الحجز',
+                'Confirm Booking',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
       ),
