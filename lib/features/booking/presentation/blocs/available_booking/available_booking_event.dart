@@ -16,7 +16,12 @@ class SelectSlotEvent extends AvailableBookingEvent {
 
 class ConfirmBookingEvent extends AvailableBookingEvent {
   final String doctorId;
+  final AvailableDateModel slot;
 
-  ConfirmBookingEvent({required this.doctorId});
+  ConfirmBookingEvent({
+    required this.doctorId,
+    required this.slot,
+  });
 }
+
 

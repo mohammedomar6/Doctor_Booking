@@ -20,6 +20,7 @@ class AvailableBookingBloc
         },
         (r) {
           print("Loaded slots count: ${r.length}");
+          print("Slots list: $r");
           emit(state.copyWith(
             availableStatus: Status.success,
             slotsList: r,
@@ -35,22 +36,25 @@ class AvailableBookingBloc
     });
 
     on<ConfirmBookingEvent>((event, emit) async {
-      if (state.selectedSlot == null) {
-        emit(state.copyWith(availableStatus: Status.failed));
-        return;
-      }
-
       emit(state.copyWith(availableStatus: Status.loading));
 
       final result = await BookingRepo().bookDateRepo(
         event.doctorId,
-        state.selectedSlot!.date,
+        event.slot.date,
       );
 
       result.fold(
-        (l) => emit(state.copyWith(availableStatus: Status.failed)),
-        (r) => emit(state.copyWith(availableStatus: Status.success)),
+        (l) {
+          emit(state.copyWith(availableStatus: Status.failed));
+        },
+        (r) {
+          emit(state.copyWith(
+            availableStatus: Status.success,
+          ));
+        },
       );
     });
   }
+
+
 }
