@@ -1,6 +1,8 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
-import 'package:doctor_booking1/core/responsive.dart';
+import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class UpcomingAppointmentCard extends StatelessWidget {
   final String doctorName;
@@ -20,85 +22,94 @@ class UpcomingAppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: MyColours.blue,
-        borderRadius: BorderRadius.circular(
-          context.screenWidth * 0.039,
-        ),
+    return Card(
+      color: MyColours.blue,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.sp),
       ),
-      padding: EdgeInsets.symmetric(
-        vertical: context.screenHeight * 0.027,
-        horizontal: context.screenWidth * 0.012,
-      ),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: context.screenWidth * 0.072,
-          backgroundImage: AssetImage(
-            imagePath,
-          ),
-        ),
-        title: Text(
-          doctorName,
-          style: TextStyle(
-            color: MyColours.white,
-            fontWeight: FontWeight.bold,
-            fontSize: context.screenWidth * 0.033,
-          ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: EdgeInsets.all(12.sp),
+        child: Row(
           children: [
-            Text(
-              type,
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: context.screenWidth * 0.033,
+            Container(
+              width: 60.sp,
+              height: 60.sp,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            SizedBox(
-              height: context.screenHeight * 0.012,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_today,
-                  size: context.screenWidth * 0.030,
-                  color: MyColours.white,
-                ),
-                SizedBox(width: context.screenWidth * 0.012),
-
-                // توسعة واحدة فقط للنصوص كلها
-                Expanded(
-                  child: Row(
+            SizedBox(width: 12.sp),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    doctorName,
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.sp,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4.sp),
+                  Text(
+                    type,
+                    style: TextStyle(
+                      color: MyColours.white.withOpacity(0.8),
+                      fontSize: 14.sp,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 8.sp),
+                  Row(
                     children: [
-                      Text(
-                        date,
-                        style: TextStyle(
-                          fontSize: context.screenWidth * 0.025,
-                          color: MyColours.white,
-                        ),
-                      ),
-                      SizedBox(width: context.screenWidth * 0.020),
                       Icon(
-                        Icons.access_time,
-                        size: context.screenWidth * 0.030,
+                        Icons.calendar_today,
+                        size: 16.sp,
                         color: MyColours.white,
                       ),
-                      SizedBox(width: context.screenWidth * 0.012),
-                      Text(
-                        time,
-                        style: TextStyle(
-                          fontSize: context.screenWidth * 0.025,
-                          color: MyColours.white,
+                      SizedBox(width: 4.sp),
+                      Flexible(
+                        child: Text(
+                          date,
+                          style: TextStyle(
+                            color: MyColours.white,
+                            fontSize: 12.sp,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 12.sp),
+                      Icon(
+                        Icons.access_time,
+                        size: 16.sp,
+                        color: MyColours.white,
+                      ),
+                      SizedBox(width: 4.sp),
+                      Flexible(
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                            color: MyColours.white,
+                            fontSize: 12.sp,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-
           ],
         ),
       ),
