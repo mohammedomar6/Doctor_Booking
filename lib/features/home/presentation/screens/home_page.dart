@@ -2,6 +2,8 @@ import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
+import 'package:doctor_booking1/features/booking/presentation/screens/my_booking.dart';
 import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/screens/all_doc_page.dart';
 import 'package:doctor_booking1/features/home/presentation/widgets/custom_text_field.dart';
@@ -12,6 +14,7 @@ import 'package:doctor_booking1/features/home/presentation/widgets/upcoming_appo
 import 'package:doctor_booking1/helper/get_icon_for_department.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,13 +32,13 @@ class _HomePageState extends State<HomePage> {
     final bloc = context.read<HomeBloc>();
     bloc.add(GetAllDocEvent());
     bloc.add(GetAllDepartmentsEvent());
+    context.read<AvailableBookingBloc>().add(LoadUserAppointments());
   }
 
   @override
   Widget build(BuildContext context) {
     final width = context.screenWidth;
     final height = context.screenHeight;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -76,15 +79,51 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: height * 0.02),
-            SectionHeader(title: "Upcoming Appointments", onTap: () {}),
+            SectionHeader(
+                title: "Upcoming Appointments",
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyBooking()));
+                }),
             SizedBox(height: height * 0.012),
-            UpcomingAppointmentCard(
-              doctorName: "Dr. Jane Cooper",
-              imagePath: MyImages.doc2,
-              date: "Monday, 26 July",
-              time: "09:00 - 10:00",
-              type: "Dentist Consultation",
+            BlocBuilder<AvailableBookingBloc, AvailableBookingState>(
+              builder: (context, state) {
+                if (state.userStatus == Status.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state.userStatus == Status.failed) {
+                  return const Center(
+                      child: Text("Failed to load appointments"));
+                } else if (state.userStatus == Status.success &&
+                    state.appointments.isNotEmpty) {
+                  final lastAppointment = state.appointments.first;
+                  return UpcomingAppointmentCard(
+                    doctorName:
+                        "Dr. ${lastAppointment.doctor.firstName} ${lastAppointment.doctor.lastName}",
+                    imagePath: MyImages.doc2,
+                    date:
+                        DateFormat('EEEE, d MMMM').format(lastAppointment.date),
+                    time:
+                        '${lastAppointment.hour}:${lastAppointment.minute.toString().padLeft(2, '0')}',
+                    type: lastAppointment.doctor.department,
+                  );
+                } else {
+                  return UpcomingAppointmentCard(
+                    doctorName: "No upcoming appointments",
+                    imagePath: MyImages.doc2,
+                    date: "",
+                    time: "",
+                    type: "No appointments",
+                  );
+                }
+              },
             ),
+            // UpcomingAppointmentCard(
+            //   doctorName: "Dr. Jane Cooper",
+            //   imagePath: MyImages.doc2,
+            //   date: "Monday, 26 July",
+            //   time: "09:00 - 10:00",
+            //   type: "Dentist Consultation",
+            // ),
             SizedBox(height: height * 0.035),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,8 +185,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             SizedBox(height: height * 0.015),
-
-            /// الأطباء
             BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state.docStatus == Status.loading) {
@@ -160,17 +197,18 @@ class _HomePageState extends State<HomePage> {
                   return Column(
                     children: top3.map((doc) {
                       final department = state.departmentList.firstWhere(
-                            (dep) => dep.name == doc.departmentName,
-                      ); // لن نستخدم orElse هنا لتجنب القيم الافتراضية
+                        (dep) => dep.name == doc.departmentName,
+                      );
 
                       return Padding(
-                        padding: EdgeInsets.only(bottom: context.screenHeight * 0.02),
+                        padding: EdgeInsets.only(
+                            bottom: context.screenHeight * 0.02),
                         child: DoctorCard(
                           name: "Dr. ${doc.firstName} ${doc.lastName}",
                           specialty: doc.departmentName,
                           image: MyImages.doc2,
                           doctorId: doc.id,
-                          price: department.price, // السعر مضمون لأنه من الخادم
+                          price: department.price,
                         ),
                       );
                     }).toList(),

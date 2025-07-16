@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import '../../../medical_history/presentation/manager/medical_history_bloc.dart';
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 
 class AddAppointmentConfirmationPage extends StatefulWidget {
   final String doctorId, doctorName, specialty, imagePath;
@@ -36,7 +36,6 @@ class AddAppointmentConfirmationPage extends StatefulWidget {
 class _AddAppointmentConfirmationPageState
     extends State<AddAppointmentConfirmationPage> {
   final walletDataSource = RemoteDataSourceWallet();
-  final ScrollController _timeScrollController = ScrollController();
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
 
@@ -48,19 +47,23 @@ class _AddAppointmentConfirmationPageState
         .add(GetAvailableDatesEvent(widget.doctorId));
   }
 
-  @override
-  void dispose() {
-    _timeScrollController.dispose();
-    super.dispose();
-  }
-
   Future<void> _selectDate(BuildContext context) async {
     final state = context.read<AvailableBookingBloc>().state;
+
+    if (state.slotsList.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No available dates found')),
+      );
+      return;
+    }
+
     final availableDates = state.slotsList.map((slot) => slot.dateOnly).toSet();
+    final firstAvailableDate = availableDates.first;
 
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: firstAvailableDate,
+
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 30)),
       selectableDayPredicate: (DateTime date) {
@@ -86,7 +89,40 @@ class _AddAppointmentConfirmationPageState
         foregroundColor: MyColours.black,
         elevation: 0,
       ),
-      body: BlocBuilder<AvailableBookingBloc, AvailableBookingState>(
+      body: BlocConsumer<AvailableBookingBloc, AvailableBookingState>(
+        listener: (context, state) {
+          if (state.availableStatus == Status.success &&
+              state.selectedSlot != null) {
+            final response = state.selectedSlot!;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('✅ Appointment Confirmed',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    Text('Doctor: ${widget.doctorName}'),
+                    Text('Specialty: ${widget.specialty}'),
+                    Text(
+                        'Date: ${DateFormat('yyyy-MM-dd').format(response.date)}'),
+                    Text('Time: ${response.formattedTime}'),
+                    if (response.fees != null) Text('Fee: ${response.fees}'),
+                  ],
+                ),
+                duration: const Duration(seconds: 7),
+              ),
+            );
+            Navigator.pop(context);
+          } else if (state.availableStatus == Status.failed) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('❌ Booking Failed'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           final availableSlots = _selectedDate != null
               ? state.slotsList
@@ -107,7 +143,10 @@ class _AddAppointmentConfirmationPageState
                 const Divider(),
                 DatePickerTile(
                   selectedDate: _selectedDate,
-                  onTap: () => _selectDate(context),
+                  onTap: () {
+                    print('Date picker tile tapped');
+                    _selectDate(context);
+                  },
                 ),
                 if (_selectedDate != null) ...[
                   const TimeSlotsHeader(),
@@ -154,18 +193,9 @@ class _AddAppointmentConfirmationPageState
                             ConfirmBookingEvent(
                               doctorId: widget.doctorId,
                               slot: selectedSlot,
+                              price: widget.price,
                             ),
                           );
-
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Appointment confirmed for ${DateFormat('MMM d, yyyy').format(_selectedDate!)} at ${_selectedTime!.hour}:${_selectedTime!.minute.toString().padLeft(2, '0')}',
-                          ),
-                        ),
-                      );
-                      Navigator.pop(context);
                     } catch (e) {
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
