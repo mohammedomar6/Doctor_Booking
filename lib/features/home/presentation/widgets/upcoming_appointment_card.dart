@@ -126,7 +126,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                     child: TextButton(
                       onPressed: onCancel,
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.red[400],
+                        backgroundColor: MyColours.white,
                         padding: EdgeInsets.symmetric(
                           horizontal: context.screenWidth * 0.04,
                           vertical: context.screenHeight * 0.005,
@@ -140,7 +140,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                       child: Text(
                         'Cancel Appointment',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: MyColours.blue,
                           fontSize: context.screenWidth * 0.035,
                         ),
                       ),

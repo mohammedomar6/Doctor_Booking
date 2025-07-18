@@ -52,29 +52,32 @@ class MyBooking extends StatelessWidget {
                       builder: (context) => AlertDialog(
                         title: Text(
                           'Cancel Appointment',
-                          style: TextStyle(fontSize: context.screenWidth * 0.045),
+                          style:
+                              TextStyle(fontSize: context.screenWidth * 0.045),
                         ),
                         content: Text(
                           'Are you sure you want to cancel this appointment?',
-                          style: TextStyle(fontSize: context.screenWidth * 0.04),
+                          style:
+                              TextStyle(fontSize: context.screenWidth * 0.04),
                         ),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
                             child: Text(
                               'No',
-                              style: TextStyle(fontSize: context.screenWidth * 0.04),
+                              style: TextStyle(
+                                  fontSize: context.screenWidth * 0.04),
                             ),
                           ),
                           TextButton(
                             onPressed: () {
-                              // استدعاء API لإلغاء الموعد هنا
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
                                     'Appointment cancelled successfully',
-                                    style: TextStyle(fontSize: context.screenWidth * 0.04),
+                                    style: TextStyle(
+                                        fontSize: context.screenWidth * 0.04),
                                   ),
                                 ),
                               );
