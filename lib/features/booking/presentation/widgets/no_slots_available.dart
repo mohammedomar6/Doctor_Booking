@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 
 class NoSlotsAvailable extends StatelessWidget {
   const NoSlotsAvailable({super.key});
@@ -10,7 +11,7 @@ class NoSlotsAvailable extends StatelessWidget {
         'No available slots for this date',
         style: TextStyle(
           color: Colors.grey,
-          fontSize: 16,
+          fontSize: context.screenWidth * 0.04,
         ),
       ),
     );

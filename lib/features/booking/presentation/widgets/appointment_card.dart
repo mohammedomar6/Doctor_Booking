@@ -1,47 +1,117 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/data/models/user_appointment_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentCard extends StatelessWidget {
   final UserAppointmentModel appointment;
+  final VoidCallback? onCancel;
 
-  const AppointmentCard({super.key, required this.appointment});
+  const AppointmentCard({
+    super.key,
+    required this.appointment,
+    this.onCancel,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: MyColours.blue,
-      margin: EdgeInsets.all(12.sp),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: AssetImage(MyImages.doc2),
-        ),
-        title: Text(
-          "Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}",
-          style: TextStyle(color: MyColours.white),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      margin: EdgeInsets.all(context.screenWidth * 0.03),
+      child: Padding(
+        padding: EdgeInsets.all(context.screenWidth * 0.02),
+        child: Column(
           children: [
-            Text(DateFormat('EEEE, d MMMM').format(appointment.date),
-                style: TextStyle(color: MyColours.white)),
-            Text(
-                '${appointment.hour}:${appointment.minute.toString().padLeft(2, '0')}',
-                style: TextStyle(color: MyColours.white)),
-          ],
-        ),
-        trailing: Column(
-          children: [
-            Text(appointment.doctor.department,
-                style: TextStyle(color: MyColours.white, fontSize: 14.sp)),
-            SizedBox(
-              height: 10.h,
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: context.screenWidth * 0.02,
+                vertical: context.screenHeight * 0.01,
+              ),
+              leading: CircleAvatar(
+                radius: context.screenWidth * 0.06,
+                backgroundImage: AssetImage(MyImages.doc2),
+              ),
+              title: Text(
+                "Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}",
+                style: TextStyle(
+                  color: MyColours.white,
+                  fontSize: context.screenWidth * 0.04,
+                ),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat('EEEE, d MMMM').format(appointment.date),
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontSize: context.screenWidth * 0.035,
+                    ),
+                  ),
+                  Text(
+                    '${appointment.hour}:${appointment.minute.toString().padLeft(2, '0')}',
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontSize: context.screenWidth * 0.035,
+                    ),
+                  ),
+                ],
+              ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    appointment.doctor.department,
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontSize: context.screenWidth * 0.035,
+                    ),
+                  ),
+                  SizedBox(height: context.screenHeight * 0.01),
+                  Text(
+                    '\$${appointment.fees}',
+                    style: TextStyle(
+                      color: MyColours.white,
+                      fontSize: context.screenWidth * 0.035,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Text('\$${appointment.fees}',
-                style: TextStyle(color: MyColours.white, fontSize: 14.sp)),
+            if (onCancel != null)
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: context.screenHeight * 0.01,
+                  right: context.screenWidth * 0.03,
+                ),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: onCancel,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red[400],
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.screenWidth * 0.04,
+                        vertical: context.screenHeight * 0.005,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          context.screenWidth * 0.02,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Cancel Appointment',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: context.screenWidth * 0.035,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

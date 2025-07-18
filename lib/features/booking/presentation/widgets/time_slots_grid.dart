@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 
 class TimeSlotsGrid extends StatelessWidget {
   final List<dynamic> availableSlots;
@@ -16,11 +17,11 @@ class TimeSlotsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.all(8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      padding: EdgeInsets.all(context.screenWidth * 0.02),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
+        crossAxisSpacing: context.screenWidth * 0.02,
+        mainAxisSpacing: context.screenWidth * 0.02,
         childAspectRatio: 2,
       ),
       itemCount: availableSlots.length,
@@ -34,9 +35,9 @@ class TimeSlotsGrid extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: isSelected ? MyColours.blue : Colors.grey[200],
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(context.screenWidth * 0.02),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: EdgeInsets.symmetric(vertical: context.screenHeight * 0.01),
           ),
           onPressed: () {
             onTimeSelected(TimeOfDay(hour: slot.hour, minute: slot.minute));
@@ -46,6 +47,7 @@ class TimeSlotsGrid extends StatelessWidget {
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.black,
               fontWeight: FontWeight.bold,
+              fontSize: context.screenWidth * 0.035,
             ),
           ),
         );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/core/responsive.dart';
 
 class ConfirmBookingButton extends StatelessWidget {
   final bool isEnabled;
@@ -21,24 +22,27 @@ class ConfirmBookingButton extends StatelessWidget {
         onPressed: isEnabled ? onPressed : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: isEnabled ? MyColours.blue : Colors.grey,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.symmetric(vertical: context.screenHeight * 0.02),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(context.screenWidth * 0.03),
           ),
         ),
         child: isProcessing
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                  strokeWidth: 2,
-                ),
-              )
-            : const Text(
-                'Confirm Booking',
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
+            ? SizedBox(
+          width: context.screenWidth * 0.06,
+          height: context.screenWidth * 0.06,
+          child: CircularProgressIndicator(
+            color: Colors.white,
+            strokeWidth: context.screenWidth * 0.005,
+          ),
+        )
+            : Text(
+          'Confirm Booking',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: context.screenWidth * 0.04,
+          ),
+        ),
       ),
     );
   }
