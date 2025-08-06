@@ -5,17 +5,24 @@ class WalletState {
   final Status statusWithdrawFromWallet;
   final String? message;
   final WalletResponse? walletResponse;
+  Status? statusDispoitFromWallet;
+  final WalletAddMoneyModelResponse? walletAddMoneyModelResponse ;
 
   WalletState(
       {this.message,
       this.statusGetWallet = Status.initial,
+
+        this.walletAddMoneyModelResponse ,
+        this.statusDispoitFromWallet =Status.initial ,
       this.statusWithdrawFromWallet = Status.initial,
       this.walletResponse});
 
   WalletState copyWith({
     Status? statusGetWallet,
+    WalletAddMoneyModelResponse? walletAddMoneyModelResponse ,
     String? message,
     Status? statusWithdrawFromWallet,
+    Status? statusDispoitFromWallet,
     WalletResponse? walletResponse,
   }) {
     return WalletState(
@@ -24,6 +31,8 @@ class WalletState {
       statusWithdrawFromWallet:
           statusWithdrawFromWallet ?? this.statusWithdrawFromWallet,
       walletResponse: walletResponse ?? this.walletResponse,
+      statusDispoitFromWallet: statusDispoitFromWallet?? this.statusDispoitFromWallet,
+      walletAddMoneyModelResponse: walletAddMoneyModelResponse ?? this.walletAddMoneyModelResponse
     );
   }
 }

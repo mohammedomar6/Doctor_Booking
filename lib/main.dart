@@ -7,6 +7,9 @@ import 'package:doctor_booking1/features/auth/presentation/screens/login_page.da
 import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
+import 'package:doctor_booking1/features/company/data/data_sources/remote_data_source_company.dart';
+import 'package:doctor_booking1/features/company/data/repositories/company_repo.dart';
+import 'package:doctor_booking1/features/company/presentation/manager/company_bloc.dart';
 import 'package:doctor_booking1/features/medical_history/data/data_sources/medical_history_data_source.dart';
 import 'package:doctor_booking1/features/medical_history/data/repositories/medical_history_repo.dart';
 import 'package:doctor_booking1/features/medical_history/presentation/manager/medical_history_bloc.dart';
@@ -66,6 +69,9 @@ class MyApp extends StatelessWidget {
             create: (context) => WalletBloc(
                 walletRepo: WalletRepo(
                     remoteDataSourceWallet: RemoteDataSourceWallet())),
+          ),
+          BlocProvider(
+            create: (context) => CompanyBloc(CompanyRepo(remoteDataSourceCompany: RemoteDataSourceCompany())),
           ),
           BlocProvider(
             create: (context) => AvailableBookingBloc(),

@@ -8,6 +8,8 @@ import 'package:doctor_booking1/features/home/presentation/screens/profile_page.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../booking/presentation/screens/doctor_tabels.dart';
+
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
@@ -32,7 +34,8 @@ class _FirstPageState extends State<FirstPage> {
                 create: (context) =>  DepartmentsBloc()..add(GetAllDepartmentsBooking()),
                 child: BookingPage(),
               ),
-              ProfilePage(),
+              DoctorScheduleTablePage()
+             // ProfilePage(),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

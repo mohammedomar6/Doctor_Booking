@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:doctor_booking1/features/wallet/data/models/wallet_add_money_model_response.dart';
+import 'package:doctor_booking1/features/wallet/data/models/wallet_request.dart';
 import 'package:doctor_booking1/features/wallet/data/models/wallet_response.dart';
 import 'package:doctor_booking1/features/wallet/data/repositories/wallet_repo.dart';
 
@@ -47,6 +49,25 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
                 statusWithdrawFromWallet: Status.success,
                 message: r.status,
                 walletResponse: r));
+          },
+        );
+      },
+    );
+    on<DispoitFromWalletEvent>(
+          (event, emit) async {
+        emit(state.copyWith(statusDispoitFromWallet: Status.loading));
+        final res = await walletRepo.dispoitFromWalletRepo(WalletRequest(balance: event.amount));
+        res.fold(
+              (l) {
+            emit(
+              state.copyWith(statusDispoitFromWallet: Status.failed, message: l),
+            );
+          },
+              (r) {
+            emit(state.copyWith(
+                statusDispoitFromWallet: Status.success,
+                message: r.status,
+                walletAddMoneyModelResponse: r));
           },
         );
       },

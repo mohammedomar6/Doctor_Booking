@@ -18,7 +18,7 @@ class AllDoctorsPage extends StatelessWidget {
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if (state.docStatus == Status.loading) {
+          if (state.docStatus == Status.loading || state.doctorModelList == null) {
             return const Center(child: CircularProgressIndicator());
           } else if (state.docStatus == Status.failed) {
             return const Center(child: Text("Failed to fetch doctors"));

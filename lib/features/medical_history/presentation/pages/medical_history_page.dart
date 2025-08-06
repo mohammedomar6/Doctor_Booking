@@ -29,7 +29,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
       body: BlocBuilder<MedicalHistoryBloc, MedicalHistoryState>(
         builder: (context, state) {
 
-          if (state.status == Status.loading) {
+          if (state.status == Status.loading || state.medicalHistoryResponse==null) {
             return const Center(child: CircularProgressIndicator());
           }
 

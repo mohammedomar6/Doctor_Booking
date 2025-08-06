@@ -1,10 +1,13 @@
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:doctor_booking1/features/company/data/models/company_model.dart';
 import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart'; // تأكد من الاستيراد بالأعلى
+import 'package:intl/intl.dart';
+
+import '../../../company/presentation/manager/company_bloc.dart'  ; // تأكد من الاستيراد بالأعلى
 
 class CreatePatientScreen extends StatefulWidget {
   const CreatePatientScreen({Key? key}) : super(key: key);
@@ -19,14 +22,15 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   final TextEditingController infoController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  final TextEditingController birthDayController = TextEditingController();
 
+  final TextEditingController birthDayController = TextEditingController();
+String? selectedInsurance;
   String? selectedSex;
   String? selectedBlood;
   String? imagePath;
   DateTime? selectedDate;
-
-  final ImagePicker picker = ImagePicker();
+  String? imagePathInsurance;
+  ImagePicker picker = ImagePicker();
 
   final List<String> sexOptions = ['mail', 'Femail'];
   final List<String> bloodOptions = [
@@ -62,7 +66,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
     }
   }
 
-  Future pickImage() async {
+  Future<void> pickImage() async {
     final picked = await picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       setState(() {
@@ -71,16 +75,25 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
     }
   }
 
+  Future<void> pickImageIns() async {
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) {
+      setState(() {
+        imagePathInsurance = picked.path;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PatiantBloc, PatiantState>(
       listener: (context, state) {
-        if (state.status == Status.success) {
+        if (state.status==Status.success) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Succssefully')));
           Navigator.pushReplacementNamed(context, '/home');
         }
-        if (state.status == Status.failed) {
+        if (state.status==Status.failed) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Faild')));
         }
@@ -134,6 +147,28 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                   icon: Icons.location_on,
                   hint: 'Enter Address',
                 ),
+                BlocBuilder<CompanyBloc, CompanyState>(
+                  builder: (context, state) {
+                    if(state.status==Status.failed){
+                      return Center(child: Text('no'),);
+                    }
+                    if(state.status==Status.success && state.companyModel==null) {
+                      return  Text('no data');
+                    }
+                    return  DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(labelText: "insurance"),
+                      items:state.companyModel==null ?[]: state.companyModel!.doc?.map((e) {
+                        return DropdownMenuItem(value: e.name, child: Text(e.name));
+                      }).toList(),
+                      value: selectedInsurance,
+                      onChanged: (val) {
+                        setState(() {
+                          selectedInsurance = val;
+                        });
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(height: 15),
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(labelText: "Sex"),
@@ -170,7 +205,7 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                 Row(
                   children: [
                     ElevatedButton.icon(
-                      onPressed: pickImage,
+                      onPressed: () => pickImage(),
                       icon: const Icon(Icons.image),
                       label: const Text("Pick Image"),
                     ),
@@ -184,6 +219,23 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                   ],
                 ),
                 const SizedBox(height: 30),
+                /*   Row(
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed:  ()=> pickImageIns(),
+                      icon: const Icon(Icons.image),
+                      label: const Text("Pick Image"),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        imagePathInsurance ?? "No Image Selected",
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
+                ),*/
+                const SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () {
                     BlocProvider.of<PatiantBloc>(context).add(
@@ -195,6 +247,9 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
                             address: addressController.text,
                             sex: selectedSex!,
                             blood: selectedBlood!,
+                            insurance: selectedInsurance,
+
+
                             birthDay: selectedDate.toString(),
                             photoPath: imagePath!));
                   },

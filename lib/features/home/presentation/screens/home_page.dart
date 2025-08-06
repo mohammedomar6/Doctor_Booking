@@ -241,7 +241,10 @@ class _HomePageState extends State<HomePage> {
                   return Column(
                     children: top3.map((doc) {
                       final department = state.departmentList.firstWhere(
-                        (dep) => dep.name == doc.departmentName,
+                          (dep) {
+                            print(dep.name == doc.departmentName);
+                            return true;
+                          },
                       );
 
                       return Padding(

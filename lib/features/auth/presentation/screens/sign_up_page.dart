@@ -6,6 +6,7 @@ import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/core/token_manger.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:doctor_booking1/features/company/presentation/manager/company_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -41,12 +42,14 @@ class _SignUpPageState extends State<SignUpPage> {
           );
         }
         if (state.status == Status.success)  {
-           await TokenManager1.saveToken(state.token!);
+          await TokenManager1.saveToken(state.token!);
+
           Navigator.pushNamedAndRemoveUntil(
             context,
             '/create_pataint', // اسم الصفحة التي تريد الذهاب إليها
                 (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
           );
+          context.read<CompanyBloc>().add(GetAllCompanyEvent());
         }
       },
       builder: (context, state) {
@@ -104,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         Text(
                           MyStrings.agreeTerms,
                           style:
-                              TextStyle(fontSize: context.screenWidth * 0.033),
+                              TextStyle(fontSize: context.screenWidth * 0.033,),
                         ),
                       ],
                     ),

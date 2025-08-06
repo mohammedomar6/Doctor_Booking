@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:doctor_booking1/constant/my_strings.dart';
+import 'package:doctor_booking1/features/wallet/data/models/wallet_request.dart';
 
 import '../../../../core/token_manger.dart';
+import '../models/wallet_add_money_model_response.dart';
 import '../models/wallet_response.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,6 +42,24 @@ class RemoteDataSourceWallet {
       return doc;
     } else {
       throw Exception('Wallet withdrawal failed');
+    }
+  }
+  Future<WalletAddMoneyModelResponse> dispoitFromWallet(WalletRequest req) async {
+    final uri = Uri.parse('${MyStrings.baseUrl}wallets/deposit');
+    final response = await http.patch(
+      uri,
+      headers: {
+        'Authorization': 'Bearer ${await TokenManager1.getToken()}',
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode(req.toJson()));
+
+    if (response.statusCode == 200) {
+      final jsonBody = jsonDecode(response.body);
+      final doc = WalletAddMoneyModelResponse.fromJson(jsonBody);
+      return doc;
+    } else {
+      throw Exception('Wallet dispoit failed');
     }
   }
 

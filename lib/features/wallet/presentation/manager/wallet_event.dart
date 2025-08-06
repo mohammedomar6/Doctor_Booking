@@ -9,3 +9,8 @@ class WithdrawFromWalletEvent extends WalletEvent {
 
   WithdrawFromWalletEvent(this.amount);
 }
+class  DispoitFromWalletEvent extends WalletEvent {
+  final int amount ;
+
+  DispoitFromWalletEvent({required this.amount});
+}

@@ -1,4 +1,6 @@
+import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 
@@ -52,8 +54,11 @@ Future<bool?> showConfirmDialog(
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
-          child: Text(
+          onPressed: () {
+            context.read<AvailableBookingBloc>().add(LoadUserAppointments());
+            Navigator.of(context).pop(true);
+  
+  } ,         child: Text(
             'Yes',
             style: TextStyle(fontSize: context.screenWidth * 0.04),
           ),

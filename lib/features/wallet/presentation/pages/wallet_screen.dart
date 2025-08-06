@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../medical_history/presentation/manager/medical_history_bloc.dart';
+import 'add_money_screen.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
@@ -10,10 +11,17 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (
+
+          ){
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return  AddBankAccountPage();
+        },));
+      }),
       appBar: AppBar(title: const Text('الرصيد')),
       body: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
-          if (state == Status.loading) {
+          if (state == Status.loading || state.walletResponse==null ) {
             return const Center(child: CircularProgressIndicator());
           } else if (state == Status.failed) {
             return Center(child: Text('خطأ: ${state.message}'));

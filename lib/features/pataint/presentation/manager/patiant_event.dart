@@ -13,8 +13,11 @@ class CreatePatientEvent extends PatiantEvent {
   final String blood;
   final String birthDay;
   final String photoPath;
+  final String? insurance;
+  final String? insurancePhoto;
 
-  CreatePatientEvent({
+  CreatePatientEvent(  {
+     this.insurance,  this.insurancePhoto,
     required this.firstName,
     required this.lastName,
     required this.information,

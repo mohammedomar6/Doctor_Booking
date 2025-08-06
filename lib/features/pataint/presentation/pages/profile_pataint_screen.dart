@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,28 +15,28 @@ class PatientProfileScreen extends StatefulWidget {
 class _PatientProfileScreenState extends State<PatientProfileScreen> {
   @override
   void initState() {
-   context.read<PatiantBloc>().add(GetProfilePataintEvent());
+    context.read<PatiantBloc>().add(GetProfilePataintEvent());
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal.shade50,
+
       appBar: AppBar(
-        title: const Text('ملف المريض'),
-        backgroundColor: Colors.teal,
+        title: const Text('Patiant File '),
+        backgroundColor: MyColours.white,
         centerTitle: true,
         elevation: 0,
       ),
       body: BlocBuilder<PatiantBloc, PatiantState>(
         builder: (context, state) {
-          if (state ==Status.loading) {
+          if (state ==Status.loading || state.profileResponse==null) {
             return const Center(child: CircularProgressIndicator());
-          }  else if (state ==Status.failed) {
+          }  else if (state ==Status.failed ) {
             return Center(child: Text('حدث خطأ: ${state.massage}'));
           }  else{
             final  patient= state.profileResponse!.doc[0];
 
-            return Padding(
+            return patient==null ? Text('no profile Founde'): Padding(
               padding: const EdgeInsets.all(16.0),
               child: Card(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -58,19 +59,19 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Colors.teal),
+                              ),
                         ),
                         const SizedBox(height: 10),
-                        _buildInfoRow('الجنس', patient.sex),
-                        _buildInfoRow('تاريخ الميلاد', patient.birthDay.toLocal().toString().split(' ')[0]),
-                        _buildInfoRow('فصيلة الدم', patient.blood),
-                        _buildInfoRow('رقم الهاتف', patient.phone),
-                        _buildInfoRow('العنوان', patient.adderss),
-                    //    _buildInfoRow('التأمين الصحي', patient.insurance!),
+                      _buildInfoRow('Sex', patient.sex),
+                        _buildInfoRow('Birth Day', patient.birthDay.toLocal().toString().split(' ')[0]),
+                        _buildInfoRow('Blood', patient.blood),
+                        _buildInfoRow('Phone', patient.phone),
+                        _buildInfoRow('Adderss', patient.adderss),
+                        _buildInfoRow('Insurance',patient.insurance==null? 'no  insurance ': patient.insurance!),
                         const Divider(height: 30, thickness: 1),
                         const Align(
                           alignment: Alignment.centerRight,
-                          child: Text('معلومات إضافية:',
+                          child: Text('More Informetion:',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         const SizedBox(height: 10),

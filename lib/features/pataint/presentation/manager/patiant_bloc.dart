@@ -26,6 +26,8 @@ class PatiantBloc extends Bloc<PatiantEvent, PatiantState> {
             phone: event.phone,
             adderss: event.address,
             sex: event.sex,
+            insurance: event.insurance,
+            imageInsurance: event.insurancePhoto,
             blood: event.blood,
             birthDay: event.birthDay,
             photo: event.photoPath));
