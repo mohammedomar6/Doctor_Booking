@@ -22,11 +22,12 @@ class AllDoctorsPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (state.docStatus == Status.failed) {
             return const Center(child: Text("Failed to fetch doctors"));
-          } else if (state.docStatus == Status.success) {
+          } else if (state.docStatus == Status.success ) {
             return ListView.builder(
               padding: EdgeInsets.all(16),
               itemCount: state.doctorModelList.length,
               itemBuilder: (context, index) {
+                print(state.doctorModelList.length);
                 final doc = state.doctorModelList[index];
                 final department = state.departmentList.firstWhere(
                       (dep) => dep.name == doc.departmentName,

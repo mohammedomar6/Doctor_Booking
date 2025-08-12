@@ -1,8 +1,7 @@
 part of 'patiant_bloc.dart';
 
 
-@immutable
-enum Status { success, failed, loading, initial }
+
 
 
 class PatiantState {

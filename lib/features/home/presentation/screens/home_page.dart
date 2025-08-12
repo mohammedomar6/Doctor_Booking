@@ -229,17 +229,18 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             SizedBox(height: height * 0.015),
-            BlocBuilder<HomeBloc, HomeState>(
+            BlocBuilder<HomeBloc, HomeState>  (
               builder: (context, state) {
-                if (state.docStatus == Status.loading) {
+                if (state.docStatus == Status.loading   )  {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state.docStatus == Status.failed) {
                   return const Center(child: Text("Failed to load doctors"));
-                } else if (state.docStatus == Status.success) {
+                } else if (state.docStatus == Status.success  &&  state.depStatus==Status.success) {
                   final list = state.doctorModelList;
+
                   final top3 = list.length > 3 ? list.sublist(0, 3) : list;
                   return Column(
-                    children: top3.map((doc) {
+                    children: top3.map((doc)  {
                       final department = state.departmentList.firstWhere(
                           (dep) {
                             print(dep.name == doc.departmentName);

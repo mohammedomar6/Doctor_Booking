@@ -30,7 +30,7 @@ class PataintResponse {
 
 class Doc {
   String firstName;
-  String information;
+  Object information;
   String lastName;
   String phone;
   String adderss;

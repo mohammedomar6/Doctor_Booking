@@ -16,7 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthEvent>((event, emit) {});
     on<LoginEvent>((event, emit) async {
       print('load load lo');
-      emit(state.copyWith(status: Status.loading));
+      emit(state.copyWith(statusLogin: Status.loading));
       try {
         final response = await authRepositories.loginUser(
           LoginRequest(email: event.email, password: event.password),
@@ -26,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             print('fffff');
             emit(
               state.copyWith(
-                status: Status.failed,
+                statusLogin: Status.failed,
               message: error,
             ),
             );
@@ -35,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             print('ssssssssss');
             emit(
               state.copyWith(
-                status: Status.success,
+                statusLogin: Status.success,
               message: "Login successful",
               email: success.user.email,
               token: success.token,
@@ -46,14 +46,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(
           state.copyWith(
-            status: Status.failed,
+            statusLogin: Status.failed,
             message: e.toString(),
           ),
         );
       }
     });
     on<SignUpEvent>((event, emit) async {
-      emit(state.copyWith(status: Status.loading));
+      emit(state.copyWith(statusSignUp: Status.loading));
       try {
         final response = await authRepositories.signUpUser(
           SignUpRequest(
@@ -65,13 +65,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         response.fold(
           (error) => emit(
             state.copyWith(
-              status: Status.failed,
+              statusSignUp: Status.failed,
               message: error,
             ),
           ),
           (success) => emit(
             state.copyWith(
-                status: Status.success,
+                statusSignUp: Status.success,
                 message: "Sign up successful",
                 email: success.user.email,
                 token: success.token),
@@ -80,7 +80,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(
           state.copyWith(
-            status: Status.failed,
+            statusSignUp: Status.failed,
             message: e.toString(),
           ),
         );
@@ -88,7 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<ForgotPasswordEvent>(
       (event, emit) async {
-        emit(state.copyWith(status: Status.loading));
+        emit(state.copyWith(statusSendEmail: Status.loading));
         try {
           final response = await authRepositories
               .forgotPassword(ForgotPasswordRequest(email: event.email));
@@ -96,12 +96,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             (error) {
 
               emit(state.copyWith(
-                  status: Status.failed,
+                  statusSendEmail: Status.failed,
                   message: error.toString()));
             },
             (success) {
               emit(state.copyWith(
-                  status: Status.success,
+                  statusSendEmail: Status.success,
                   url: success.url,
                   message: success.message));
             },
@@ -109,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } on Exception catch (e) {
           emit(
             state.copyWith(
-              status: Status.failed,
+              statusSendEmail: Status.failed,
               message: e.toString(),
             ),
           );
@@ -119,18 +119,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ResetPasswordEvent>(
       (event, emit) async {
         try {
-          emit(state.copyWith(status: Status.loading));
+          emit(state.copyWith(statusResetPass: Status.loading));
           final response = await authRepositories
               .resetPassword(ResetPasswordRequest(password: event.password));
           response.fold(
             (error) {
               emit(state.copyWith(
-                  status: Status.failed,
+                  statusResetPass: Status.failed,
                   message: error.toString()));
             },
             (success) {
               emit(state.copyWith(
-                status: Status.success,
+                statusResetPass: Status.success,
                 token: success.token,
               ));
             },
@@ -138,7 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } on Exception catch (e) {
           emit(
             state.copyWith(
-              status: Status.failed,
+              statusResetPass: Status.failed,
               message: e.toString(),
             ),
           );

@@ -3,6 +3,7 @@ import 'package:doctor_booking1/features/company/data/models/company_model.dart'
 import 'package:doctor_booking1/features/company/data/repositories/company_repo.dart';
 import 'package:meta/meta.dart';
 
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../pataint/presentation/manager/patiant_bloc.dart';
 
 part 'company_event.dart';

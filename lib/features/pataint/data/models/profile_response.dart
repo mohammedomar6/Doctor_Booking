@@ -35,7 +35,7 @@ class ProfileResponse {
 class Doc {
   String id;
   String firstName;
-  String information;
+  Object information;
   String lastName;
   String phone;
   String adderss;

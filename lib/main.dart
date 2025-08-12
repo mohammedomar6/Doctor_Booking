@@ -6,6 +6,8 @@ import 'package:doctor_booking1/features/auth/presentation/screens/forget_passwo
 import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/send_email_Page.dart';
 import 'package:doctor_booking1/features/auth/presentation/screens/sign_up_page.dart';
+import 'package:doctor_booking1/features/booking/data/datasource/remote_data_source_doctor_tabel.dart';
+import 'package:doctor_booking1/features/booking/data/repository/doctor_tabel_repo.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:doctor_booking1/features/company/data/data_sources/remote_data_source_company.dart';
 import 'package:doctor_booking1/features/company/data/repositories/company_repo.dart';
@@ -27,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'features/booking/presentation/blocs/doctor_tabel/doctor_table_bloc.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/presentation/screens/first_page.dart' show FirstPage;
 import 'features/pataint/presentation/pages/create_pataint_screen.dart';
@@ -75,7 +78,8 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AvailableBookingBloc(),
-          )
+          ),
+          BlocProvider(create: (context) => DoctorTableBloc(DoctorTabelRepo(remoteDataSourceDoctorTabel: RemoteDataSourceDoctorTabel())),)
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

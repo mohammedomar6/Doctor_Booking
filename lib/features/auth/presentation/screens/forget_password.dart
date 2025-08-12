@@ -1,9 +1,14 @@
+import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/constant/my_strings.dart';
 import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:doctor_booking1/features/auth/presentation/screens/login_page.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show BlocConsumer, ReadContext;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../constant/my_images.dart';
 
@@ -19,81 +24,104 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.statusResetPass == Status.success) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Reset Password Sussecfully',),backgroundColor: Colors.green,));
+                context.pushAndRemoveUntilTransition(
+                    predicate:     (Route<dynamic> route) => false,
+        type: PageTransitionType.topToBottom,
+        child: LoginPage(),
+        duration: Duration(seconds: 2
+        ),
+                );
+        }
+        if (state.statusResetPass == Status.failed) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(' Reset Password Faild'),
+                backgroundColor: MyColours.red,
+              ),
+            );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: true,
+            elevation: 0,
           ),
           body: Form(
             key: formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 32,
+                horizontal: 12,
+                vertical: 10,
               ),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(MyImages.resetPassword),
+                    Image.asset(MyImages.resetPassword,height: context.screenHeight*0.36,),
                     Text(
-                      'New Password',
+                      MyStrings.newPassword,
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: context.screenHeight*0.042,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
+                     SizedBox(
+                      height: context.screenHeight*0.002,
                     ),
                     Column(
                       children: [
                         Text(
-                          "your new password must be different",
+                         MyStrings.underNewPassword1,
                           style: TextStyle(
-                            fontFamily: '',
-                            color: Colors.grey,
+
+                            color: MyColours.grey,
                           ),
                         ),
                         Text(
-                          "from previously used password",
+                         MyStrings.underNewPassword2,
                           style: TextStyle(
-                            fontFamily: '',
-                            color: Colors.grey,
+
+                            color: MyColours.grey,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 48,
+                     SizedBox(
+                       height: context.screenHeight*0.02,
                     ),
                     CustomTextField(
+
                       validator: (value) => AppValidator.password(value),
                       icon: Icons.lock,
                       focusNode: pass1Node,
                       onSubmitted: (val) {
                         FocusScope.of(context).requestFocus(pass2Node);
                       },
-                      hint: '************',
-                      label: 'password',
+                      hint: MyStrings.hintPassword,
+                      label: MyStrings.labelPassword,
                       isPasswordField: true,
                       controller: passwordEditor,
                     ),
-                    const SizedBox(
-                      height: 24,
+                    SizedBox(
+                      height: context.screenHeight*0.02,
                     ),
                     CustomTextField(
                       focusNode: pass2Node,
                       validator: (value) => AppValidator.password(value),
                       icon: Icons.lock,
-                      hint: '************',
-                      label: 'confirm password',
+                      hint: MyStrings.hintPassword,
+                      label: MyStrings.confirmPassword,
                       isPasswordField: true,
                       controller: newPasswordEditor,
                     ),
-                    const SizedBox(
-                      height: 24,
+                    SizedBox(
+                      height: context.screenHeight*0.04,
                     ),
                     SizedBox(
                       width: context.screenWidth * 0.80,
@@ -109,30 +137,13 @@ class ForgetPassword extends StatelessWidget {
                               context.read<AuthBloc>().add(ResetPasswordEvent(
                                   password: passwordEditor.text));
                             }
-                            if (state.status == Status.success) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('sucssesful reset password'),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pushNamed(
-                                                context, '/login');
-                                          },
-                                          child: Text('yes')),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
+
                           }
                         },
-                        child: Text(
-                          'Create New Password',
+                        child:state.statusResetPass==Status.loading?SpinKitDoubleBounce(color: MyColours.white,size: 12,) :Text(
+                         MyStrings.createNewPassword,
                           style: TextStyle(
-                            color: Colors.white,
+                            color: MyColours.white,
                             fontSize: 18,
                           ),
                         ),

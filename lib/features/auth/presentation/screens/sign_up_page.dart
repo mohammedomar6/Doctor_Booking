@@ -19,10 +19,10 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final nameController = TextEditingController();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final  nameNode =FocusNode();
+
   final  emailNode =FocusNode();
   final  passNode =FocusNode();
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state)  async{
-        if (state.status == Status.failed) {
+        if (state.statusSignUp == Status.failed) {
           ScaffoldMessenger.of(context) ..hideCurrentSnackBar()..showSnackBar(
 
             SnackBar(
@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
         }
-        if (state.status == Status.success)  {
+        if (state.statusSignUp == Status.success)  {
           await TokenManager1.saveToken(state.token!);
 
           Navigator.pushNamedAndRemoveUntil(
@@ -68,15 +68,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
                     ),
 
-                    SizedBox(height: context.screenHeight * 0.03),
-                    CustomTextField(
-                      icon: Icons.person,
-                      onSubmitted: (val) => FocusScope.of(context).requestFocus(emailNode),
-                      label: MyStrings.labelName,
-                      hint: MyStrings.hintName,
-                      controller: nameController,
-                      validator: (value) => AppValidator.required(value),
-                    ),
                     SizedBox(height: context.screenHeight * 0.03),
                     CustomTextField(
                       icon: Icons.email,
@@ -116,7 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       width: context.screenWidth*0.7,
                       child: ElevatedButton(
 
-                        onPressed: state.status == Status.loading
+                        onPressed: state.statusSignUp == Status.loading
                             ? null
                             : () {
                                 if (_formKey.currentState!.validate()) {
@@ -132,7 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   }
                                   context.read<AuthBloc>().add(
                                         SignUpEvent(
-                                          name: nameController.text.trim(),
+                                          name: '',
                                           email: emailController.text.trim(),
                                           password:
                                               passwordController.text.trim(),
@@ -142,7 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                                 }
                               },
-                        child: state.status == Status.loading
+                        child: state.statusSignUp == Status.loading
                             ? const SpinKitThreeBounce(
                                 color: Colors.white,
                                 size: 20,

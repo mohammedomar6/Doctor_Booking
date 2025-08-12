@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../company/presentation/manager/company_bloc.dart'  ; // تأكد من الاستيراد بالأعلى
 
 class CreatePatientScreen extends StatefulWidget {

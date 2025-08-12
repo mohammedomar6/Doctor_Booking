@@ -4,6 +4,7 @@ import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../manager/patiant_bloc.dart';
 class PatientProfileScreen extends StatefulWidget {
   const PatientProfileScreen({super.key});
@@ -76,7 +77,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          patient.information,
+                          '${patient.information}',
                           textAlign: TextAlign.justify,
                           style: const TextStyle(fontSize: 16),
                         ),

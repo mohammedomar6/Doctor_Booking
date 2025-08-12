@@ -6,10 +6,14 @@ import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/core/token_manger.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:doctor_booking1/features/home/presentation/screens/home_page.dart';
+import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:page_transition/page_transition.dart';
 
+import '../../../home/presentation/screens/first_page.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -23,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-
+   bool  isLogin  = false ;
   final emailNode = FocusNode();
 
   final passNode = FocusNode();
@@ -31,23 +35,38 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state.status == Status.failed) {
+      listener: (context, state)async {
+        if (state.statusLogin == Status.failed) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
-                content: Text('email or password incorrect'),
+                content: Text('email or password incorrect '),
                 backgroundColor: Colors.red,
+
               ),
             );
         }
-        if (state.status == Status.success) {
-          TokenManager1.saveToken(state.token!);
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/home', // اسم الصفحة التي تريد الذهاب إليها
-            (Route<dynamic> route) => false, // هذا يحذف كل الصفحات السابقة
+        if (state.statusLogin == Status.success  && isLogin) {
+        await  TokenManager1.saveToken(state.token!);
+        context.read<PatiantBloc>().add(GetProfilePataintEvent());
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text('You have been logged in successfully'),
+                backgroundColor: Colors.green,
+
+              ),
+            );
+
+          context.pushAndRemoveUntilTransition(
+            predicate:     (Route<dynamic> route) => false,
+            type: PageTransitionType.topToBottom,
+            child: FirstPage(),
+            duration: Duration(seconds: 2
+            ),
+
           );
         }
       },
@@ -110,10 +129,11 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgotpassword');
+                          isLogin ==false;
+                          context.pushNamedTransition(routeName:'/forgotpassword',type: PageTransitionType.sharedAxisHorizontal,duration: Duration(seconds: 2));
                         },
                         child: Text(
-                          'Forgot password?',
+                          '${MyStrings.forgotPassword}?',
                           style: TextStyle(
                             color: MyColours.blue,
                             decoration: TextDecoration.underline,
@@ -125,13 +145,15 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: state.status == Status.loading
+                        onPressed: state.statusLogin == Status.loading
                             ? null
                             : () {
                                 setState(() {
                                   if (_formKey.currentState!.validate()) {
                                     debugPrint(emailController.text);
-                                    debugPrint(passwordController.text);
+                                    debugPrint(passwordController.text)
+                                    ;
+                                    isLogin=true;
                                     context.read<AuthBloc>().add(
                                           LoginEvent(
                                             email: emailController.text,
@@ -141,31 +163,19 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                                 });
                               },
-                        child: state.status == Status.loading
+                        child: state.statusLogin == Status.loading
                             ? SpinKitThreeBounce(
                                 color: Colors.white,
                                 size: 20,
                               )
                             : Text(
-                                'Sign In',
+                                MyStrings.signIn,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
                       ),
-                      // child: ElevatedButton(
-                      //   onPressed: () {
-                      //     Navigator.pushNamedAndRemoveUntil(
-                      //       context,
-                      //       '/home',
-                      //       (Route<dynamic> route) => false,
-                      //     );
-                      //   },
-                      //   child: Text(
-                      //     'data',
-                      //   ),
-                      // ),
                     ),
                     SizedBox(height: context.screenHeight * 0.02),
 
@@ -173,10 +183,10 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account? "),
+                        Text(MyStrings.dontHaveAccount),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/signup');
+                            context.pushNamedTransition(routeName:  '/signup',type: PageTransitionType.topToBottom,duration: Duration(seconds: 2));
                           },
                           child: Text(
                             MyStrings.signUp,

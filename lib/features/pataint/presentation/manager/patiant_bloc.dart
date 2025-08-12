@@ -5,6 +5,8 @@ import 'package:doctor_booking1/features/pataint/data/models/profile_response.da
 import 'package:doctor_booking1/features/pataint/data/repositories/pataint_repo.dart';
 import 'package:meta/meta.dart';
 
+import '../../../auth/presentation/bloc/auth_bloc.dart';
+
 part 'patiant_event.dart';
 
 part 'patiant_state.dart';

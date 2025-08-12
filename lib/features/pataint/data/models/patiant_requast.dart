@@ -11,7 +11,7 @@ String pataintRequastToJson(PataintRequast data) => json.encode(data.toJson());
 class PataintRequast {
   String firstName;
   String lastName;
-  String information;
+  Object information;
   String phone;
   String adderss;
   String sex;
