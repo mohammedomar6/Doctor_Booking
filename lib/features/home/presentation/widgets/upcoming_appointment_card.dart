@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class UpcomingAppointmentCard extends StatelessWidget {
   final String doctorName;
-  final String imagePath;
+  final String? imagePath;
   final String date;
   final String time;
   final String type;
@@ -13,7 +13,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
   const UpcomingAppointmentCard({
     super.key,
     required this.doctorName,
-    required this.imagePath,
+    this.imagePath,
     required this.date,
     required this.time,
     required this.type,
@@ -38,10 +38,10 @@ class UpcomingAppointmentCard extends StatelessWidget {
                   height: context.screenWidth * 0.15,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage(imagePath),
-                      fit: BoxFit.cover,
-                    ),
+                    color: MyColours.white,
+                  ),
+                  child: ClipOval(
+                    child: _buildDoctorImage(),
                   ),
                 ),
                 SizedBox(width: context.screenWidth * 0.03),
@@ -152,5 +152,27 @@ class UpcomingAppointmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildDoctorImage() {
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      if (imagePath!.startsWith("http")) {
+        return Image.network(
+          imagePath!,
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.asset(
+          imagePath!,
+          fit: BoxFit.cover,
+        );
+      }
+    } else {
+      return Icon(
+        Icons.person,
+        color: MyColours.blue,
+        size: 40,
+      );
+    }
   }
 }

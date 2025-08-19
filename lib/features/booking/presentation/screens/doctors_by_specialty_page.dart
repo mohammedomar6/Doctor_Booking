@@ -37,13 +37,11 @@ class DoctorsBySpecialtyPage extends StatelessWidget {
               final doctors = state.doctorModelList
                   .where((doc) => doc.departmentName == specialty)
                   .toList();
-
               if (doctors.isEmpty) {
                 return const Center(
                   child: Text("No doctors found for this specialty."),
                 );
               }
-
               return ListView.builder(
                 itemCount: doctors.length,
                 itemBuilder: (context, index) {
@@ -51,7 +49,6 @@ class DoctorsBySpecialtyPage extends StatelessWidget {
                   final department = state.departmentList.firstWhere(
                     (dep) => dep.name == doc.departmentName,
                   );
-
                   return Padding(
                     padding: EdgeInsets.only(
                       bottom: context.screenHeight * 0.02,

@@ -1,5 +1,4 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
-import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/data/models/user_appointment_model.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,9 @@ class AppointmentCard extends StatelessWidget {
               ),
               leading: CircleAvatar(
                 radius: context.screenWidth * 0.06,
-                backgroundImage: AssetImage(MyImages.doc2),
+                child: ClipOval(
+                  child: _buildDoctorImage(),
+                ),
               ),
               title: Text(
                 "Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}",
@@ -116,5 +117,33 @@ class AppointmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildDoctorImage() {
+    final image = appointment.doctor.image;
+
+    if (image != null && image.isNotEmpty) {
+      if (image.startsWith("http")) {
+        return Image.network(
+          image,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              Icon(Icons.person, color: MyColours.blue, size: 40),
+        );
+      } else {
+        return Image.asset(
+          image,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              Icon(Icons.person, color: MyColours.blue, size: 40),
+        );
+      }
+    } else {
+      return Icon(
+        Icons.person,
+        color: MyColours.white,
+        size: 40,
+      );
+    }
   }
 }

@@ -7,7 +7,8 @@ IconData getIconForDepartment(String name) {
       return FontAwesomeIcons.tooth;
     case 'cardiologist':
       return FontAwesomeIcons.heartPulse;
-    case 'orthopedic':
+    case 'orthopedics':
+    case 'Orthopedics':
       return FontAwesomeIcons.bone;
     case 'neurologist':
       return FontAwesomeIcons.brain;

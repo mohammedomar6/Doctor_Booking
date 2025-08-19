@@ -1,19 +1,11 @@
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
-
 import 'package:doctor_booking1/features/booking/presentation/blocs/departments/departments_bloc.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/booking_page.dart';
 import 'package:doctor_booking1/features/home/presentation/screens/home_page.dart';
 import 'package:doctor_booking1/features/home/presentation/screens/profile_page.dart';
-import 'package:doctor_booking1/features/pataint/data/data_sources/pataint_remote_data_source.dart';
-import 'package:doctor_booking1/features/pataint/data/repositories/pataint_repo.dart';
-import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../booking/presentation/blocs/doctor_tabel/doctor_table_bloc.dart';
-import '../../../booking/presentation/screens/doctor_tabels.dart';
-import '../../../pataint/presentation/pages/profile_pataint_screen.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -24,7 +16,6 @@ class FirstPage extends StatefulWidget {
 
 class _FirstPageState extends State<FirstPage> {
   ValueNotifier<int> selectedIndex = ValueNotifier(0);
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +29,12 @@ class _FirstPageState extends State<FirstPage> {
               HomePage(),
               BlocProvider(
                 create: (context) =>
-                DepartmentsBloc()
-                  ..add(GetAllDepartmentsBooking()),
+                    DepartmentsBloc()..add(GetAllDepartmentsBooking()),
                 child: BookingPage(),
               ),
-              //  DoctorScheduleTablePage()
-             ProfilePage(),
-            //  PatientProfileScreen()
+              // DoctorScheduleTablePage(),
+              ProfilePage(),
+              //  PatientProfileScreen()
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(

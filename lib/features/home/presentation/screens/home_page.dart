@@ -3,7 +3,11 @@ import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
+import 'package:doctor_booking1/features/booking/presentation/blocs/departments/departments_bloc.dart'; // NEW
+import 'package:doctor_booking1/features/booking/presentation/screens/booking_page.dart'; // NEW
+import 'package:doctor_booking1/features/booking/presentation/screens/doctors_by_specialty_page.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/my_booking.dart';
+import 'package:doctor_booking1/features/home/data/models/department_model.dart';
 import 'package:doctor_booking1/features/home/presentation/bloc/home_bloc.dart';
 import 'package:doctor_booking1/features/home/presentation/screens/all_doc_page.dart';
 import 'package:doctor_booking1/features/home/presentation/widgets/custom_text_field.dart';
@@ -103,18 +107,21 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => AlertDialog(
                           title: Text(
                             'Cancel Appointment',
-                            style: TextStyle(fontSize: context.screenWidth * 0.045),
+                            style: TextStyle(
+                                fontSize: context.screenWidth * 0.045),
                           ),
                           content: Text(
                             'Are you sure you want to cancel this appointment?',
-                            style: TextStyle(fontSize: context.screenWidth * 0.04),
+                            style:
+                                TextStyle(fontSize: context.screenWidth * 0.04),
                           ),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
                               child: Text(
                                 'No',
-                                style: TextStyle(fontSize: context.screenWidth * 0.04),
+                                style: TextStyle(
+                                    fontSize: context.screenWidth * 0.04),
                               ),
                             ),
                             TextButton(
@@ -124,7 +131,8 @@ class _HomePageState extends State<HomePage> {
                                   SnackBar(
                                     content: Text(
                                       'Appointment cancelled successfully',
-                                      style: TextStyle(fontSize: context.screenWidth * 0.04),
+                                      style: TextStyle(
+                                          fontSize: context.screenWidth * 0.04),
                                     ),
                                   ),
                                 );
@@ -143,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     doctorName:
                         "Dr. ${lastAppointment.doctor.firstName} ${lastAppointment.doctor.lastName}",
-                    imagePath: MyImages.doc2,
+                    imagePath: lastAppointment.doctor.image,
                     date:
                         DateFormat('EEEE, d MMMM').format(lastAppointment.date),
                     time:
@@ -153,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                 } else {
                   return UpcomingAppointmentCard(
                     doctorName: "No upcoming appointments",
-                    imagePath: MyImages.doc2,
+                    imagePath: null,
                     date: "",
                     time: "",
                     type: "No appointments",
@@ -161,58 +169,70 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
-            // UpcomingAppointmentCard(
-            //   doctorName: "Dr. Jane Cooper",
-            //   imagePath: MyImages.doc2,
-            //   date: "Monday, 26 July",
-            //   time: "09:00 - 10:00",
-            //   type: "Dentist Consultation",
-            // ),
             SizedBox(height: height * 0.035),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Specialties',
-                  style: TextStyle(
-                    color: MyColours.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: context.screenWidth * 0.040,
+            SectionHeader(
+              title: "Specialties",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (ctx) =>
+                          DepartmentsBloc()..add(GetAllDepartmentsBooking()),
+                      child: const BookingPage(),
+                    ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
             SizedBox(height: height * 0.015),
             BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
                 if (state.depStatus == Status.loading) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (state.depStatus == Status.failed) {
-                  return const Center(
-                      child: Text("Failed to load departments"));
                 } else if (state.depStatus == Status.success) {
+                  // remove duplicates while preserving order
+                  final seen = <String>{};
+                  final uniqueDeps = <DepartmentModel>[];
+                  for (final dep in state.departmentList) {
+                    if (!seen.contains(dep.name)) {
+                      seen.add(dep.name);
+                      uniqueDeps.add(dep);
+                    }
+                  }
                   return SizedBox(
                     height: height * 0.12,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.departmentList.length,
+                      itemCount: uniqueDeps.length,
                       separatorBuilder: (_, __) =>
                           SizedBox(width: width * 0.04),
                       itemBuilder: (_, index) {
-                        final dep = state.departmentList[index];
-                        return SpecialtyItem(
-                          icon: getIconForDepartment(dep.name),
-                          label: dep.name,
+                        final dep = uniqueDeps[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DoctorsBySpecialtyPage(specialty: dep.name),
+                              ),
+                            );
+                          },
+                          child: SpecialtyItem(
+                            icon: getIconForDepartment(dep.name),
+                            label: dep.name,
+                          ),
                         );
                       },
                     ),
                   );
-                } else {
+                }
+                else {
                   return const SizedBox();
                 }
               },
             ),
-
             SizedBox(height: height * 0.035),
             SectionHeader(
               title: "Top Doctors",
@@ -229,25 +249,25 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             SizedBox(height: height * 0.015),
-            BlocBuilder<HomeBloc, HomeState>  (
+            BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
-                if (state.docStatus == Status.loading   )  {
+                if (state.docStatus == Status.loading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state.docStatus == Status.failed) {
                   return const Center(child: Text("Failed to load doctors"));
-                } else if (state.docStatus == Status.success  &&  state.depStatus==Status.success) {
+                } else if (state.docStatus == Status.success &&
+                    state.depStatus == Status.success) {
                   final list = state.doctorModelList;
 
                   final top3 = list.length > 3 ? list.sublist(0, 3) : list;
                   return Column(
-                    children: top3.map((doc)  {
+                    children: top3.map((doc) {
                       final department = state.departmentList.firstWhere(
-                          (dep) {
-                            print(dep.name == doc.departmentName);
-                            return true;
-                          },
+                        (dep) {
+                          print(dep.name == doc.departmentName);
+                          return true;
+                        },
                       );
-
                       return Padding(
                         padding: EdgeInsets.only(
                             bottom: context.screenHeight * 0.02),

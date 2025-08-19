@@ -3,6 +3,7 @@ import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../booking/presentation/screens/add_appointment_confirmation_page.dart'
     show AddAppointmentConfirmationPage;
@@ -10,20 +11,24 @@ import '../../../booking/presentation/screens/add_appointment_confirmation_page.
 class DoctorCard extends StatelessWidget {
   final String name;
   final String doctorId;
-final int price;
+  final int price;
   final String specialty;
-  final String image;
+  final String? image;
 
   const DoctorCard({
     super.key,
     required this.name,
     required this.specialty,
-    required this.image,
-    required this.doctorId, required this.price,
+    this.image,
+    required this.doctorId,
+    required this.price,
   });
 
   @override
   Widget build(BuildContext context) {
+    final priceFormatted =
+        '${NumberFormat.decimalPattern('en_US').format(price)} SYP';
+
     return Card(
       elevation: 2,
       margin: EdgeInsets.symmetric(
@@ -45,52 +50,57 @@ final int price;
               borderRadius: BorderRadius.circular(
                 context.screenWidth * 0.025,
               ),
-              child: Image.asset(
-                image,
-                width: context.screenWidth * 0.18,
-                height: context.screenWidth * 0.18,
-                fit: BoxFit.cover,
-              ),
+              child: _buildDoctorImage(context),
             ),
             SizedBox(width: context.screenWidth * 0.04),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: context.screenWidth * 0.042,
-                    ),
-                  ),
-                  SizedBox(
-                    height: context.screenHeight * 0.005,
-                  ),
-                  Text(
-                    specialty,
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: context.screenWidth * 0.034,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        name,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: context.screenWidth * 0.042,
+                        ),
+                      ),
+                      SizedBox(height: context.screenWidth * 0.05),
+                      Text(
+                        specialty,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: context.screenWidth * 0.034,
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: context.screenHeight * 0.006),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Icon(
-                        Icons.star,
-                        color: MyColours.star,
-                        size: context.screenWidth * 0.045,
+                      Text(
+                        'Price: $priceFormatted',
+                        style: TextStyle(
+                          color: MyColours.blue,
+                          fontWeight: FontWeight.w700,
+                          fontSize: context.screenWidth * 0.035,
+                        ),
                       ),
-                      SizedBox(
-                        width: context.screenWidth * 0.01,
-                      ),
+                      SizedBox(width: context.screenWidth * 0.01),
                       Text(
                         "4.8",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: context.screenWidth * 0.034,
                         ),
+                      ),
+                      Icon(
+                        Icons.star,
+                        color: MyColours.star,
+                        size: context.screenWidth * 0.045,
                       ),
                       Text(
                         " (49 Reviews)",
@@ -101,9 +111,7 @@ final int price;
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: context.screenHeight * 0.015,
-                  ),
+                  SizedBox(height: context.screenHeight * 0.015),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -132,7 +140,7 @@ final int price;
                                   price: price,
                                   doctorName: name,
                                   specialty: specialty,
-                                  imagePath: image,
+                                  imagePath: image ?? "",
                                 ),
                               ),
                             ),
@@ -153,6 +161,44 @@ final int price;
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDoctorImage(BuildContext context) {
+    if (image != null && image!.isNotEmpty) {
+      return Image.network(
+        image!,
+        width: context.screenWidth * 0.18,
+        height: context.screenWidth * 0.18,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, progress) {
+          if (progress == null) return child;
+          return SizedBox(
+            width: context.screenWidth * 0.18,
+            height: context.screenWidth * 0.18,
+            child: const Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) =>
+            _buildPlaceholder(context),
+      );
+    } else {
+      return _buildPlaceholder(context);
+    }
+  }
+
+  Widget _buildPlaceholder(BuildContext context) {
+    return Container(
+      width: context.screenWidth * 0.18,
+      height: context.screenWidth * 0.18,
+      color: Colors.grey[200],
+      child: Icon(
+        Icons.person,
+        size: context.screenWidth * 0.1,
+        color: Colors.grey[500],
       ),
     );
   }

@@ -63,7 +63,6 @@ class _AddAppointmentConfirmationPageState
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: firstAvailableDate,
-
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 30)),
       selectableDayPredicate: (DateTime date) {
@@ -136,6 +135,7 @@ class _AddAppointmentConfirmationPageState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 DoctorHeader(
+                  price: widget.price,
                   doctorName: widget.doctorName,
                   specialty: widget.specialty,
                   imagePath: widget.imagePath,
@@ -168,7 +168,6 @@ class _AddAppointmentConfirmationPageState
                   isProcessing: state.availableStatus == Status.loading,
                   onPressed: () async {
                     if (_selectedDate == null || _selectedTime == null) return;
-
                     final confirmed = await showConfirmDialog(
                       context,
                       amount: widget.price,

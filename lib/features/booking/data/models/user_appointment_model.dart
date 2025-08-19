@@ -40,11 +40,13 @@ class DoctorInfo {
   final String firstName;
   final String lastName;
   final String department;
+  final String? image;
 
   DoctorInfo({
     required this.firstName,
     required this.lastName,
     required this.department,
+    this.image,
   });
 
   factory DoctorInfo.fromJson(Map<String, dynamic> json) {
@@ -52,6 +54,7 @@ class DoctorInfo {
       firstName: json['first_name'],
       lastName: json['last_name'],
       department: json['department'],
+      image: json['image'],
     );
   }
 }
