@@ -33,17 +33,8 @@ String? selectedInsurance;
   String? imagePathInsurance;
   ImagePicker picker = ImagePicker();
 
-  final List<String> sexOptions = ['mail', 'Femail'];
-  final List<String> bloodOptions = [
-    'A+',
-    'A-',
-    'B+',
-    'B-',
-    'AB+',
-    'AB-',
-    'O+',
-    'O-'
-  ];
+  final List<String> sexOptions = ['mail', 'femail'];
+  final List<String> bloodOptions =['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
 
   String getFormattedDate() {
     if (selectedDate == null) return "Select Birth Date";

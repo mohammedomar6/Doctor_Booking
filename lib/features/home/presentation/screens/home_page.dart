@@ -2,9 +2,11 @@ import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:doctor_booking1/features/auth/presentation/widgets/custom_elevatedbutton.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/departments/departments_bloc.dart'; // NEW
 import 'package:doctor_booking1/features/booking/presentation/screens/booking_page.dart'; // NEW
+import 'package:doctor_booking1/features/booking/presentation/screens/doctor_tabels.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/doctors_by_specialty_page.dart';
 import 'package:doctor_booking1/features/booking/presentation/screens/my_booking.dart';
 import 'package:doctor_booking1/features/home/data/models/department_model.dart';
@@ -71,17 +73,11 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Material(
-              elevation: 2,
-              borderRadius: BorderRadius.circular(15),
-              child: CustomTextFieldH(
-                controller: searchController,
-                hint: 'Search doctor, speciality...',
-                iconPre: Icons.search,
-                iconSuff: Icons.tune,
-                fillColor: Colors.white,
-                borderRadius: 15,
-              ),
-            ),
+
+
+              child: CustomElevatedButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorScheduleTablePage(),));
+              }, text: 'Show Table Doctors', width: context.screenWidth*0.8),            ),
             SizedBox(height: height * 0.02),
             SectionHeader(
                 title: "Upcoming Appointments",

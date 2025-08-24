@@ -9,11 +9,9 @@ import 'package:doctor_booking1/features/home/presentation/widgets/costum_list_t
 import 'package:doctor_booking1/features/wallet/presentation/manager/wallet_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../generated/assets.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../pataint/presentation/manager/patiant_bloc.dart';
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -22,7 +20,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+@override
+  void initState() {
+  context.read<PatiantBloc>().add(GetProfilePataintEvent());
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
           if(state.status==Status.loading){
             return CircularProgressIndicator();
           }
-          else if (state.status == Status.success){
+          else if (state.status == Status.success  && state.profileResponse!.doc[0]!=null){
 
           return Column(
             children: [
@@ -54,11 +56,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ]),
                       child: CircleAvatar(
                         radius: 80,
-                        foregroundImage: FileImage(
+
+                        foregroundImage:  FileImage(
                          File(state.profileResponse!.doc[0].photo,
 
                         ),
-                      ),
+                      )
                       ),),
                     Positioned(
                         bottom: 0,

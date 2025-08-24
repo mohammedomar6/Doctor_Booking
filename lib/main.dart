@@ -19,6 +19,9 @@ import 'package:doctor_booking1/features/medical_history/presentation/pages/medi
 import 'package:doctor_booking1/features/pataint/data/data_sources/pataint_remote_data_source.dart';
 import 'package:doctor_booking1/features/pataint/data/repositories/pataint_repo.dart';
 import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
+import 'package:doctor_booking1/features/review/data/data_sources/remote_data_source_review.dart';
+import 'package:doctor_booking1/features/review/data/repositories/review_repo.dart';
+import 'package:doctor_booking1/features/review/presentation/manager/review_bloc.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/intro_page.dart';
 import 'package:doctor_booking1/features/splash_intro/screen/splash_page.dart';
 import 'package:doctor_booking1/features/wallet/data/data_sources/remote_data_source_wallet.dart';
@@ -74,12 +77,17 @@ class MyApp extends StatelessWidget {
                     remoteDataSourceWallet: RemoteDataSourceWallet())),
           ),
           BlocProvider(
-            create: (context) => CompanyBloc(CompanyRepo(remoteDataSourceCompany: RemoteDataSourceCompany())),
+            create: (context) => CompanyBloc(CompanyRepo(
+                remoteDataSourceCompany: RemoteDataSourceCompany())),
           ),
           BlocProvider(
             create: (context) => AvailableBookingBloc(),
           ),
-          BlocProvider(create: (context) => DoctorTableBloc(DoctorTabelRepo(remoteDataSourceDoctorTabel: RemoteDataSourceDoctorTabel())),)
+          BlocProvider(
+            create: (context) => DoctorTableBloc(DoctorTabelRepo(
+                remoteDataSourceDoctorTabel: RemoteDataSourceDoctorTabel())),
+          ),
+          BlocProvider(create: (context) => ReviewBloc(reviewRepo: ReviewRepo(remoteDataSourceReview: RemoteDataSourceReview())),)
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

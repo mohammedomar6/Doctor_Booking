@@ -52,7 +52,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("إضافة حساب بنكي"),
+            title: Text("Add Money to wallet"),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -60,13 +60,12 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
+                  CustomTextField(
                     controller: _cardController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "رقم البطاقة",
-                      border: OutlineInputBorder(),
-                    ),
+                    keybordtype: TextInputType.number,
+icon: Icons.numbers,
+                      label: "Number Card",
+
                     validator: (value) {
                       if (value == null || value.length < 12) {
                         return "يرجى إدخال رقم بطاقة صحيح (12 رقم على الأقل)";
@@ -75,17 +74,21 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
                     },
                   ),
                   const SizedBox(height: 16),
-                  CustomTextField(controller: _amountController,label: 'Balance',hint:'Enter Balance',icon: Icons.money_off,validator:(value) =>  AppValidator.required(value),),
+                  CustomTextField(
+                      keybordtype: TextInputType.number,
+                    controller: _amountController,label: 'Balance',hint:'Enter Balance',icon: Icons.money_off,validator:(value) =>  AppValidator.required(value),),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<WalletBloc>().add(
-                          DispoitFromWalletEvent(amount: int.parse(
-                              _amountController.text)));
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('add money succssesful ') ,));
-                      context.read<WalletBloc>().add(
-                         GetWalletEvent());
-                      Navigator.pop(context);
+                      if(_formKey.currentState!.validate()){
+                        context.read<WalletBloc>().add(
+                            DispoitFromWalletEvent(amount: int.parse(
+                                _amountController.text)));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('add money succssesful ') ,));
+                        context.read<WalletBloc>().add(
+                            GetWalletEvent());
+                        Navigator.pop(context);
+                      }
                     },
                     child: Text("Add Balance"),
                   ),

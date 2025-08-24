@@ -5,9 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../medical_history/presentation/manager/medical_history_bloc.dart';
 import 'add_money_screen.dart';
 
-class WalletScreen extends StatelessWidget {
+class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
 
+  @override
+  State<WalletScreen> createState() => _WalletScreenState();
+}
+
+class _WalletScreenState extends State<WalletScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    context.read<WalletBloc>().add(GetWalletEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +28,7 @@ class WalletScreen extends StatelessWidget {
         return  AddBankAccountPage();
         },));
       }),
-      appBar: AppBar(title: const Text('الرصيد')),
+      appBar: AppBar(title: const Text('Wallet')),
       body: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
           if (state == Status.loading || state.walletResponse==null ) {
@@ -40,7 +50,7 @@ class WalletScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Text(
-                        'تفاصيل الرصيد',
+                        'Wallet Details',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
@@ -48,8 +58,8 @@ class WalletScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('الرصيد:', style: TextStyle(fontSize: 18)),
-                          Text('${data.balance} ل.س',
+                          const Text('Wallet:', style: TextStyle(fontSize: 18)),
+                          Text('${data.balance}sy',
                               style: const TextStyle(fontSize: 18)),
                         ],
                       ),
@@ -57,7 +67,7 @@ class WalletScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('تاريخ الإنشاء:',
+                          const Text('create At:',
                               style: TextStyle(fontSize: 16)),
                           Text(data.createdAt.toString(),
                               style: const TextStyle(fontSize: 16)),
@@ -67,7 +77,7 @@ class WalletScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('آخر تعديل:',
+                          const Text('Update At:',
                               style: TextStyle(fontSize: 16)),
                           Text(data.updatedAt.toString(),
                               style: const TextStyle(fontSize: 16)),

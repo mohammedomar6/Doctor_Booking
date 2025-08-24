@@ -59,6 +59,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           '${patient.firstName} ${patient.lastName}',
                           style: const TextStyle(
                               fontSize: 24,
+
                               fontWeight: FontWeight.bold,
                               ),
                         ),

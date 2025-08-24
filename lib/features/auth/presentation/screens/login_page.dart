@@ -72,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       builder: (context, state) {
         return Scaffold(
+
           body: Padding(
             padding: EdgeInsets.all(context.screenHeight * 0.03),
             child: Form(
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
+
                       MyImages.signUpImage,
                       width: context.screenWidth * 0.7,
                     ),
@@ -119,8 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                         focusNode: passNode,
                         icon: Icons.lock,
                         isPasswordField: true,
-                        label: 'Password',
-                        hint: '••••••••',
+                        label: MyStrings.labelPassword,
+                        hint: MyStrings.hintPassword,
                       controller: passwordController,
                       // validator: (value) => AppValidator.password(value)),
                     ),
