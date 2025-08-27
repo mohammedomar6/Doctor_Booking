@@ -14,9 +14,9 @@ class CustomTextField extends StatefulWidget {
     this.isPasswordField = false,
     this.isEmailField = false,
     this.icon,
-    this.keybordtype
+    this.keybordtype, this.onTap,this.readOnly
   });
-
+  final onTap;
   final bool isEmailField;
   final bool isPasswordField;
   final TextEditingController controller;
@@ -29,7 +29,7 @@ class CustomTextField extends StatefulWidget {
   final IconData? icon;
   final FocusNode? focusNode;
   final  TextInputType? keybordtype ;
-
+   final readOnly ;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -54,6 +54,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 blurStyle: BlurStyle.inner),
           ]),
       child: TextFormField(
+        onTap: widget.onTap,
+        readOnly: widget.readOnly==null ? false:widget.readOnly,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         focusNode: widget.focusNode,
         controller: widget.controller,

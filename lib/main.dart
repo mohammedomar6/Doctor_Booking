@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
                       medicalHistoryData: MedicalHistoryData()))),
           BlocProvider(
             create: (context) => PatiantBloc(
+
                 pataintRepo: PataintRepo(
                     pataintRemoteDataSource: PataintRemoteDataSource())),
           ),

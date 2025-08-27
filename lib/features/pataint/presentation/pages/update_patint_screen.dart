@@ -2,6 +2,8 @@ import 'package:doctor_booking1/core/app_validator.dart';
 import 'package:doctor_booking1/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:doctor_booking1/features/company/data/models/company_model.dart';
 import 'package:doctor_booking1/features/pataint/data/models/pataint_response.dart';
+import 'package:doctor_booking1/features/pataint/data/models/patiant_requast.dart';
+import 'package:doctor_booking1/features/pataint/data/models/profile_response.dart';
 import 'package:doctor_booking1/features/pataint/presentation/manager/patiant_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,16 +11,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../auth/presentation/bloc/auth_bloc.dart';
-import '../../../company/presentation/manager/company_bloc.dart'  ; // تأكد من الاستيراد بالأعلى
+import '../../../company/presentation/manager/company_bloc.dart'; // تأكد من الاستيراد بالأعلى
 
-class CreatePatientScreen extends StatefulWidget {
-  const CreatePatientScreen({Key? key}) : super(key: key);
+class UpadatePatientScreen extends StatefulWidget {
+  const UpadatePatientScreen({Key? key, required this.patiant})
+      : super(key: key);
+  final ProfileResponse patiant;
 
   @override
-  State<CreatePatientScreen> createState() => _CreatePatientScreenState();
+  State<UpadatePatientScreen> createState() => _UpadatePatientScreenState();
 }
 
-class _CreatePatientScreenState extends State<CreatePatientScreen> {
+class _UpadatePatientScreenState extends State<UpadatePatientScreen> {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController infoController = TextEditingController();
@@ -26,17 +30,27 @@ class _CreatePatientScreenState extends State<CreatePatientScreen> {
   final TextEditingController addressController = TextEditingController();
 
   final TextEditingController birthDayController = TextEditingController();
-String? selectedInsurance;
+  String? selectedInsurance;
   String? selectedSex;
   String? selectedBlood;
   String? imagePath;
   DateTime? selectedDate;
   String? imagePathInsurance;
-  Information? information ;
+  Information? information;
+
   ImagePicker picker = ImagePicker();
 
   final List<String> sexOptions = ['mail', 'femail'];
-  final List<String> bloodOptions =['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
+  final List<String> bloodOptions = [
+    'O+',
+    'O-',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-'
+  ];
 
   String getFormattedDate() {
     if (selectedDate == null) return "Select Birth Date";
@@ -77,23 +91,41 @@ String? selectedInsurance;
       });
     }
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+context.read<CompanyBloc>().add(GetAllCompanyEvent());
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PatiantBloc, PatiantState>(
       listener: (context, state) {
-        if (state.status==Status.success) {
+        if (state.status == Status.success) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Succssefully')));
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/patient_profile_screen');
         }
-        if (state.status==Status.failed) {
+        if (state.status == Status.failed) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Faild')));
         }
       },
       builder: (context, state) {
+        firstNameController.text = widget.patiant.doc[0].firstName;
+        lastNameController.text = widget.patiant.doc[0].lastName;
+        birthDayController.text =
+            widget.patiant.doc[0].birthDay.toLocal().toString();
+        addressController.text = widget.patiant.doc[0].adderss;
+        phoneController.text = widget.patiant.doc[0].phone;
+        selectedBlood = widget.patiant.doc[0].blood;
+        information = widget.patiant.doc[0].information;
+        selectedInsurance = widget.patiant.doc[0].insurance;
+    selectedDate =widget.patiant.doc[0].birthDay;
+        imagePath = widget.patiant.doc[0].photo;
+    selectedInsurance =widget.patiant.doc[0].insurance;
+    selectedSex =widget.patiant.doc[0].sex;
         return Scaffold(
+
           appBar: AppBar(title: const Text("Complete Your Info")),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -118,9 +150,9 @@ String? selectedInsurance;
                 const SizedBox(height: 20),
                 CustomTextField(
                   controller: infoController,
-                    onTap: () {
-                       showInformationDialog(context);
-                    } ,
+                  onTap: () {
+                    showInformationDialog(context);
+                  },
                   label: "Medical Information",
                   hint: 'Enter  Medical Information',
                   icon: Icons.info,
@@ -147,16 +179,19 @@ String? selectedInsurance;
                 ),
                 BlocBuilder<CompanyBloc, CompanyState>(
                   builder: (context, state) {
-                    if(state.status==Status.failed){
+                    if (state.status == Status.failed) {
                       return Center(child: Text('no'),);
                     }
-                    if(state.status==Status.success && state.companyModel==null) {
-                      return  Text('no data');
+                    if (state.status == Status.success &&
+                        state.companyModel == null) {
+                      return Text('no data');
                     }
-                    return  DropdownButtonFormField<String>(
+                    return DropdownButtonFormField<String>(
                       decoration: const InputDecoration(labelText: "insurance"),
-                      items:state.companyModel==null ?[]: state.companyModel!.doc?.map((e) {
-                        return DropdownMenuItem(value: e.name, child: Text(e.name));
+                      items: state.companyModel == null ? [] : state
+                          .companyModel!.doc?.map((e) {
+                        return DropdownMenuItem(
+                            value: e.name, child: Text(e.name));
                       }).toList(),
                       value: selectedInsurance,
                       onChanged: (val) {
@@ -237,18 +272,20 @@ String? selectedInsurance;
                 ElevatedButton(
                   onPressed: () {
                     print(information!.allergyHistory);
+                    PataintRequast p = PataintRequast(   firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        information: information!,
+                        phone: phoneController.text,
+                        adderss: addressController.text,
+                        sex: selectedSex!,
+                        blood: selectedBlood!,
+                        insurance: selectedInsurance,
+                        birthDay: selectedDate.toString(),
+                        photo: imagePath!);
                     BlocProvider.of<PatiantBloc>(context).add(
-                        CreatePatientEvent(
-                            firstName: firstNameController.text,
-                            lastName: lastNameController.text,
-                            information: information!,
-                            phone: phoneController.text,
-                            address: addressController.text,
-                            sex: selectedSex!,
-                            blood: selectedBlood!,
-                            insurance: selectedInsurance,
-                            birthDay: selectedDate.toString(),
-                            photoPath: imagePath!));
+                        UpdatePatientEvent(
+                          pataintRequast:p,
+                        ));
                   },
                   child: const Text("Submit"),
                 )
@@ -259,17 +296,19 @@ String? selectedInsurance;
       },
     );
   }
- showInformationDialog(BuildContext context ) async {
+
+  showInformationDialog(BuildContext context) async {
     // Controllers لكل TextField
-    final medicalController = TextEditingController();
-    final surgicalController = TextEditingController();
-    final allergyController = TextEditingController();
+    final medicalController = TextEditingController(text:  widget.patiant.doc[0].information.medicalHistory);
+    final surgicalController = TextEditingController(text: widget.patiant.doc[0].information.surgicalHistory);
+    final allergyController = TextEditingController(text: widget.patiant.doc[0].information.allergyHistory);
 
     await showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16)),
           title: Text("Enter Medical Information"),
           content: SingleChildScrollView(
             child: Column(
@@ -314,9 +353,9 @@ String? selectedInsurance;
                   surgicalHistory: surgicalController.text,
                   allergyHistory: allergyController.text,
                 );
-                information=info; // رجع المعلومات للفانكشن المستدعي
-                if(information!=null)
-Navigator.pop(context);
+                information = info; // رجع المعلومات للفانكشن المستدعي
+                if (information != null)
+                  Navigator.pop(context);
               },
               child: Text("Save"),
             ),

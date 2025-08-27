@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:doctor_booking1/constant/my_colours.dart';
+import 'package:doctor_booking1/features/pataint/presentation/pages/update_patint_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -78,10 +79,21 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          '${patient.information}',
+                          'AllergyHistory: ${patient.information.allergyHistory}',
                           textAlign: TextAlign.justify,
                           style: const TextStyle(fontSize: 16),
                         ),
+                        Text(
+                          'Medical History: ${patient.information.medicalHistory}',
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          'Surgical History: ${patient.information.surgicalHistory}',
+                          textAlign: TextAlign.justify,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+
                       ],
                     ),
                   ),
@@ -89,6 +101,19 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
               ),
             );
           }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: MyColours.blue, // لون حسب ما تحب
+        child: const Icon(Icons.edit),
+        onPressed: () {
+          // هنا ممكن تفتح صفحة تعديل أو Dialog
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => UpadatePatientScreen(patiant: context.read<PatiantBloc>().state.profileResponse!),
+            ),
+          );
         },
       ),
     );

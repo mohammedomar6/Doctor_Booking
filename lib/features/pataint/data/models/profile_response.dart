@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:doctor_booking1/features/pataint/data/models/pataint_response.dart';
+
 ProfileResponse profileResponseFromJson(String str) => ProfileResponse.fromJson(json.decode(str));
 
 String profileResponseToJson(ProfileResponse data) => json.encode(data.toJson());
@@ -35,7 +37,7 @@ class ProfileResponse {
 class Doc {
   String id;
   String firstName;
-  Object information;
+  Information information;
   String lastName;
   String phone;
   String adderss;
@@ -66,7 +68,7 @@ class Doc {
   factory Doc.fromJson(Map<String, dynamic> json) => Doc(
     id: json["_id"],
     firstName: json["first_name"],
-    information: json["information"],
+    information: Information.fromJson(json["information"]),
     lastName: json["last_name"],
     phone: json["phone"],
     adderss: json["adderss"],
@@ -82,7 +84,7 @@ class Doc {
   Map<String, dynamic> toJson() => {
     "_id": id,
     "first_name": firstName,
-    "information": information,
+    "information": information.toJson(),
     "last_name": lastName,
     "phone": phone,
     "adderss": adderss,

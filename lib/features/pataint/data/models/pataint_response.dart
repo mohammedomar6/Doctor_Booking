@@ -30,7 +30,7 @@ class PataintResponse {
 
 class Doc {
   String firstName;
-  Object information;
+ Information?  information;
   String lastName;
   String phone;
   String adderss;
@@ -63,7 +63,7 @@ class Doc {
 
   factory Doc.fromJson(Map<String, dynamic> json) => Doc(
     firstName: json["first_name"],
-    information: json["information"],
+    information: Information.fromJson(json["information"]),
     lastName: json["last_name"],
     phone: json["phone"],
     adderss: json["adderss"],
@@ -80,7 +80,7 @@ class Doc {
 
   Map<String, dynamic> toJson() => {
     "first_name": firstName,
-    "information": information,
+    "information": information!.toJson(),
     "last_name": lastName,
     "phone": phone,
     "adderss": adderss,
@@ -93,5 +93,28 @@ class Doc {
     "_id": id,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
+  };
+}
+class Information {
+  String medicalHistory;
+  String surgicalHistory;
+  String allergyHistory;
+
+  Information({
+    required this.medicalHistory,
+    required this.surgicalHistory,
+    required this.allergyHistory,
+  });
+
+  factory Information.fromJson(Map<String, dynamic> json) => Information(
+    medicalHistory: json["medicalHistory"],
+    surgicalHistory: json["surgicalHistory"],
+    allergyHistory: json["allergyHistory"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "medicalHistory": medicalHistory,
+    "surgicalHistory": surgicalHistory,
+    "allergyHistory": allergyHistory,
   };
 }

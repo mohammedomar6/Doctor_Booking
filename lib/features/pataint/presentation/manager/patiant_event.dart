@@ -6,7 +6,7 @@ sealed class PatiantEvent {}
 class CreatePatientEvent extends PatiantEvent {
   final String firstName;
   final String lastName;
-  final String information;
+  final Information? information;
   final String phone;
   final String address;
   final String sex;
@@ -29,5 +29,11 @@ class CreatePatientEvent extends PatiantEvent {
     required this.photoPath,
   });
 }
+class UpdatePatientEvent extends PatiantEvent {
+ final  PataintRequast pataintRequast ;
+
+  UpdatePatientEvent({required this.pataintRequast});
+}
 class GetProfilePataintEvent extends  PatiantEvent {}
+
 

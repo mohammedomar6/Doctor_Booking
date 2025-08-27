@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/constant/my_images.dart';
 import 'package:doctor_booking1/constant/my_strings.dart';
@@ -34,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: BlocBuilder<PatiantBloc, PatiantState>(
         builder: (context, state) {
-          if(state.status==Status.loading){
+          if(state.status==Status.loading ){
             return CircularProgressIndicator();
           }
           else if (state.status == Status.success  && state.profileResponse!.doc[0]!=null){
@@ -56,7 +55,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           ]),
                       child: CircleAvatar(
                         radius: 80,
-
                         foregroundImage:  FileImage(
                          File(state.profileResponse!.doc[0].photo,
 

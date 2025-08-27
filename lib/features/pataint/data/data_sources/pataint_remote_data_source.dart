@@ -26,8 +26,9 @@ class PataintRemoteDataSource {
    }
     Future<PataintResponse> UpdatePataint(PataintRequast request) async {
       Uri url=  Uri.parse('${MyStrings.baseUrl}pataints/updateMe');
-      final res= await  http.patch(url,body: request,  headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
+      final res= await  http.patch(url,body: jsonEncode(request.toJson()),  headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
       'Content-Type': 'application/json'},);
+      print(res.body);print(res.statusCode);
       if(res.statusCode==200){
         final data =jsonDecode(res.body);
         PataintResponse pataintResponse= PataintResponse.fromJson(data);
