@@ -7,9 +7,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 
-class MyBooking extends StatelessWidget {
+class MyBooking extends StatefulWidget {
   const MyBooking({super.key});
 
+  @override
+  State<MyBooking> createState() => _MyBookingState();
+}
+
+class _MyBookingState extends State<MyBooking> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    context.read<AvailableBookingBloc>().add(LoadUserAppointments());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

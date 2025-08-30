@@ -35,10 +35,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    context.read<AvailableBookingBloc>().add(LoadUserAppointments());
     final bloc = context.read<HomeBloc>();
     bloc.add(GetAllDocEvent());
     bloc.add(GetAllDepartmentsEvent());
-    context.read<AvailableBookingBloc>().add(LoadUserAppointments());
+
   }
 
   @override

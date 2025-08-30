@@ -21,7 +21,7 @@ class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (
+      floatingActionButton: FloatingActionButton(child: Icon(Icons.add),onPressed: (
 
           ){
         Navigator.push(context, MaterialPageRoute(builder: (context) {
