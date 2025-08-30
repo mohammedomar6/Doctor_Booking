@@ -179,7 +179,7 @@ class _AddAppointmentConfirmationPageState
                     if (confirmed != true) return;
 
                     try {
-                      await walletDataSource.withdrawFromWallet(widget.price);
+                 //     await walletDataSource.withdrawFromWallet(widget.price);
 
                       final selectedSlot = state.slotsList.firstWhere(
                         (slot) =>
