@@ -108,7 +108,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
         child: const Icon(Icons.edit),
         onPressed: () {
           // هنا ممكن تفتح صفحة تعديل أو Dialog
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (_) => UpadatePatientScreen(patiant: context.read<PatiantBloc>().state.profileResponse!),
