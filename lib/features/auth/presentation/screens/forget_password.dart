@@ -97,7 +97,7 @@ class ForgetPassword extends StatelessWidget {
                     ),
                     CustomTextField(
 
-                      validator: (value) => AppValidator.password(value),
+                      validator: (value) => AppValidator.required(value),
                       icon: Icons.lock,
                       focusNode: pass1Node,
                       onSubmitted: (val) {
@@ -113,7 +113,7 @@ class ForgetPassword extends StatelessWidget {
                     ),
                     CustomTextField(
                       focusNode: pass2Node,
-                      validator: (value) => AppValidator.password(value),
+                      validator: (value) => AppValidator.required(value),
                       icon: Icons.lock,
                       hint: MyStrings.hintPassword,
                       label: MyStrings.confirmPassword,

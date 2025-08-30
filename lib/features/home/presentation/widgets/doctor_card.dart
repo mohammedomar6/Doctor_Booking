@@ -78,18 +78,18 @@ class DoctorCard extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: context.screenHeight * 0.006),
+                  Text(
+                    'Price: $priceFormatted',
+                    style: TextStyle(
+                      color: MyColours.blue,
+                      fontWeight: FontWeight.w700,
+                      fontSize: context.screenWidth * 0.035,
+                    ),
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        'Price: $priceFormatted',
-                        style: TextStyle(
-                          color: MyColours.blue,
-                          fontWeight: FontWeight.w700,
-                          fontSize: context.screenWidth * 0.035,
-                        ),
-                      ),
-                      SizedBox(width: context.screenWidth * 0.01),
+
                       Text(
                         "4.8",
                         style: TextStyle(

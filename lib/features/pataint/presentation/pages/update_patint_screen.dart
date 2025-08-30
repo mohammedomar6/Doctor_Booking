@@ -61,14 +61,14 @@ class _UpadatePatientScreenState extends State<UpadatePatientScreen> {
     final now = DateTime.now();
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: now.subtract(const Duration(days: 365 * 20)),
-      // افتراض عمر 20 سنة
+      initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: now,
     );
 
     if (picked != null) {
       setState(() {
+        selectedDate =widget.patiant.doc[0].birthDay;
         selectedDate = picked;
       });
     }
@@ -78,6 +78,7 @@ class _UpadatePatientScreenState extends State<UpadatePatientScreen> {
     final picked = await picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       setState(() {
+        imagePath = widget.patiant.doc[0].photo;
         imagePath = picked.path;
       });
     }
@@ -117,13 +118,13 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
             widget.patiant.doc[0].birthDay.toLocal().toString();
         addressController.text = widget.patiant.doc[0].adderss;
         phoneController.text = widget.patiant.doc[0].phone;
-        selectedBlood = widget.patiant.doc[0].blood;
+     //  selectedBlood = widget.patiant.doc[0].blood;
         information = widget.patiant.doc[0].information;
-        selectedInsurance = widget.patiant.doc[0].insurance;
-    selectedDate =widget.patiant.doc[0].birthDay;
-        imagePath = widget.patiant.doc[0].photo;
-    selectedInsurance =widget.patiant.doc[0].insurance;
-    selectedSex =widget.patiant.doc[0].sex;
+    //  selectedInsurance = widget.patiant.doc[0].insurance;
+   //   selectedDate =widget.patiant.doc[0].birthDay;
+  //    imagePath = widget.patiant.doc[0].photo;
+
+   selectedSex =widget.patiant.doc[0].sex;
         return Scaffold(
 
           appBar: AppBar(title: const Text("Complete Your Info")),
@@ -196,6 +197,7 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                       value: selectedInsurance,
                       onChanged: (val) {
                         setState(() {
+                          selectedInsurance = widget.patiant.doc[0].insurance;
                           selectedInsurance = val;
                         });
                       },
@@ -211,6 +213,7 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                   value: selectedSex,
                   onChanged: (val) {
                     setState(() {
+                      selectedSex =widget.patiant.doc[0].sex;
                       selectedSex = val;
                     });
                   },
@@ -224,6 +227,7 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                   value: selectedBlood,
                   onChanged: (val) {
                     setState(() {
+                      selectedBlood=widget.patiant.doc[0].blood;
                       selectedBlood = val;
                     });
                   },

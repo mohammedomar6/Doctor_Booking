@@ -85,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       label: MyStrings.labelPassword,
                       hint: MyStrings.hintPassword,
                       controller: passwordController,
-                      validator: (value) => AppValidator.password(value)
+                      validator: (value) => AppValidator.required(value)
                     ),
                     SizedBox(height: context.screenHeight * 0.01),
                     Row(

@@ -37,6 +37,9 @@ class _DoctorScheduleTablePageState extends State<DoctorScheduleTablePage> {
                   margin: EdgeInsets.only(bottom: 12),
                   elevation: 2,
                   child: ExpansionTile(
+                    collapsedIconColor: MyColours.black,
+                    collapsedTextColor: MyColours.black,
+
                     title: Text(
                       department,
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
