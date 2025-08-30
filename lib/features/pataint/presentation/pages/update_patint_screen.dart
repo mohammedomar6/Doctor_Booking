@@ -68,7 +68,7 @@ class _UpadatePatientScreenState extends State<UpadatePatientScreen> {
 
     if (picked != null) {
       setState(() {
-        selectedDate =widget.patiant.doc[0].birthDay;
+          widget.patiant.doc[0].birthDay=picked!;
         selectedDate = picked;
       });
     }
@@ -78,7 +78,7 @@ class _UpadatePatientScreenState extends State<UpadatePatientScreen> {
     final picked = await picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       setState(() {
-        imagePath = widget.patiant.doc[0].photo;
+          widget.patiant.doc[0].photo=picked.path;
         imagePath = picked.path;
       });
     }
@@ -118,11 +118,11 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
             widget.patiant.doc[0].birthDay.toLocal().toString();
         addressController.text = widget.patiant.doc[0].adderss;
         phoneController.text = widget.patiant.doc[0].phone;
-     //  selectedBlood = widget.patiant.doc[0].blood;
+      selectedBlood = widget.patiant.doc[0].blood;
         information = widget.patiant.doc[0].information;
-    //  selectedInsurance = widget.patiant.doc[0].insurance;
-   //   selectedDate =widget.patiant.doc[0].birthDay;
-  //    imagePath = widget.patiant.doc[0].photo;
+      selectedInsurance = widget.patiant.doc[0].insurance;
+      selectedDate =widget.patiant.doc[0].birthDay;
+   imagePath = widget.patiant.doc[0].photo;
 
    selectedSex =widget.patiant.doc[0].sex;
         return Scaffold(
@@ -197,7 +197,7 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                       value: selectedInsurance,
                       onChanged: (val) {
                         setState(() {
-                          selectedInsurance = widget.patiant.doc[0].insurance;
+                           widget.patiant.doc[0].insurance=val!;
                           selectedInsurance = val;
                         });
                       },
@@ -213,7 +213,7 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                   value: selectedSex,
                   onChanged: (val) {
                     setState(() {
-                      selectedSex =widget.patiant.doc[0].sex;
+                      widget.patiant.doc[0].sex=val! ;
                       selectedSex = val;
                     });
                   },
@@ -227,8 +227,9 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                   value: selectedBlood,
                   onChanged: (val) {
                     setState(() {
-                      selectedBlood=widget.patiant.doc[0].blood;
-                      selectedBlood = val;
+                   //   selectedBlood=widget.patiant.doc[0].blood;
+                      widget.patiant.doc[0].blood  = val!;
+                      selectedBlood=val;
                     });
                   },
                 ),
@@ -276,20 +277,22 @@ context.read<CompanyBloc>().add(GetAllCompanyEvent());
                 ElevatedButton(
                   onPressed: () {
                     print(information!.allergyHistory);
+                  setState(() {
                     PataintRequast p = PataintRequast(   firstName: firstNameController.text,
                         lastName: lastNameController.text,
                         information: information!,
                         phone: phoneController.text,
                         adderss: addressController.text,
-                        sex: selectedSex!,
-                        blood: selectedBlood!,
-                        insurance: selectedInsurance,
-                        birthDay: selectedDate.toString(),
-                        photo: imagePath!);
+                        sex: widget.patiant.doc[0].sex!,
+                        blood: widget.patiant.doc[0].blood!,
+                        insurance: widget.patiant.doc[0].insurance!,
+                        birthDay: widget.patiant.doc[0].birthDay.toString()!,
+                        photo: widget.patiant.doc[0].photo!);
                     BlocProvider.of<PatiantBloc>(context).add(
                         UpdatePatientEvent(
                           pataintRequast:p,
                         ));
+                  });
                   },
                   child: const Text("Submit"),
                 )
