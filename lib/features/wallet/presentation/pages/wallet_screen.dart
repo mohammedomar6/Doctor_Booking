@@ -40,52 +40,57 @@ class _WalletScreenState extends State<WalletScreen> {
 
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        'Wallet Details',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                children: [
+                  Image.asset('assets/images/img.png',fit: BoxFit.cover,),
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('Wallet:', style: TextStyle(fontSize: 18)),
-                          Text('${data.balance}sy',
-                              style: const TextStyle(fontSize: 18)),
+                          const Text(
+                            'Wallet Details',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Wallet:', style: TextStyle(fontSize: 18)),
+                              Text('${data.balance}sy',
+                                  style: const TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('create At:',
+                                  style: TextStyle(fontSize: 16)),
+                              Text(data.createdAt.toString(),
+                                  style: const TextStyle(fontSize: 16)),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Update At:',
+                                  style: TextStyle(fontSize: 16)),
+                              Text(data.updatedAt.toString(),
+                                  style: const TextStyle(fontSize: 16)),
+                            ],
+                          ),
                         ],
                       ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('create At:',
-                              style: TextStyle(fontSize: 16)),
-                          Text(data.createdAt.toString(),
-                              style: const TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Update At:',
-                              style: TextStyle(fontSize: 16)),
-                          Text(data.updatedAt.toString(),
-                              style: const TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             );
           }

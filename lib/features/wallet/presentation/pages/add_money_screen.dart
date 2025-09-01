@@ -60,6 +60,7 @@ class _AddBankAccountPageState extends State<AddBankAccountPage> {
               key: _formKey,
               child: Column(
                 children: [
+                  Image.asset('assets/images/img.png',fit: BoxFit.cover,),
                   CustomTextField(
                     controller: _cardController,
                     keybordtype: TextInputType.number,

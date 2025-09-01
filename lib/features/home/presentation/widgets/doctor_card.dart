@@ -67,15 +67,15 @@ class DoctorCard extends StatelessWidget {
                           fontSize: context.screenWidth * 0.042,
                         ),
                       ),
-                      SizedBox(height: context.screenWidth * 0.05),
-                      Text(
-                        specialty,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: context.screenWidth * 0.034,
-                        ),
-                      ),
+
                     ],
+                  ),
+                  Text(
+                    specialty,
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: context.screenWidth * 0.034,
+                    ),
                   ),
                   SizedBox(height: context.screenHeight * 0.006),
                   Text(

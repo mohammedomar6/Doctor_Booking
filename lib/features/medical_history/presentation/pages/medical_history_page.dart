@@ -45,45 +45,50 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
               return const Center(child: Text("No medical history found"));
             }
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: docs.length,
-              itemBuilder: (context, index) {
-                final item = docs[index];
-                return Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Doctor: ${item.doctor.firstName ?? ""} ${item.doctor.lastName ?? ""}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        const SizedBox(height: 8),
-                        Text("Department: ${item.department ?? ""}"),
-                        Text("Date: ${formatDate(item.dateId.date.toString()?? "")}"),
-                        const Divider(height: 20),
-                        Text("Symptoms: ${item.symptoms}", style: const TextStyle(fontWeight: FontWeight.w500)),
-                        Text("Diagnosis: ${item.diagnosis}", style: const TextStyle(fontWeight: FontWeight.w500)),
-                        const SizedBox(height: 10),
-                        if (item.recipe != null && item.recipe.isNotEmpty)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text("Prescriptions:", style: TextStyle(fontWeight: FontWeight.bold)),
-                              const SizedBox(height: 6),
-                              ...item.recipe.map((e) => Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Text("- ${e.name} (${e.count} pcs) - ${e.details}"),
-                              )),
-                            ],
-                          ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+            return Column(
+              children: [
+                Image.asset('assets/images/img_1.png',fit: BoxFit.cover,),
+                                ListView.builder(
+                  padding: const EdgeInsets.all(12),
+                  itemCount: docs.length,
+                  itemBuilder: (context, index) {
+                    final item = docs[index];
+                    return Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Doctor: ${item.doctor.firstName ?? ""} ${item.doctor.lastName ?? ""}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            const SizedBox(height: 8),
+                            Text("Department: ${item.department ?? ""}"),
+                            Text("Date: ${formatDate(item.dateId.date.toString()?? "")}"),
+                            const Divider(height: 20),
+                            Text("Symptoms: ${item.symptoms}", style: const TextStyle(fontWeight: FontWeight.w500)),
+                            Text("Diagnosis: ${item.diagnosis}", style: const TextStyle(fontWeight: FontWeight.w500)),
+                            const SizedBox(height: 10),
+                            if (item.recipe != null && item.recipe.isNotEmpty)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text("Prescriptions:", style: TextStyle(fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 6),
+                                  ...item.recipe.map((e) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 4),
+                                    child: Text("- ${e.name} (${e.count} pcs) - ${e.details}"),
+                                  )),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             );
           }
 
