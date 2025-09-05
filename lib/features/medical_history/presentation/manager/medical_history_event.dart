@@ -12,7 +12,9 @@ class GetAllIdionallForUserEvent extends MedicalHistoryEvent {
 }
 class UploadFileEvent extends MedicalHistoryEvent {
   final UploadAdditionallFIleModel  additionallFIleModel ;
+  final String recordId ;
+  final String additionalId ;
 
-  UploadFileEvent({required this.additionallFIleModel});
+  UploadFileEvent( {required this.recordId, required this.additionalId,required this.additionallFIleModel});
 
 }

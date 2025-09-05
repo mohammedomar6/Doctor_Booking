@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:doctor_booking1/features/medical_history/data/models/additional_response_model.dart';
 import 'package:doctor_booking1/features/medical_history/data/models/upload_additionl_file_model.dart';
 import 'package:meta/meta.dart';
 
@@ -28,5 +29,34 @@ class MedicalHistoryBloc extends Bloc<MedicalHistoryEvent, MedicalHistoryState> 
       ));
       },);
     },);
+    on<GetAllIdionallForUserEvent>((event, emit)  async{
+      emit(state.copyWith(statusAddionll: Status.loading));
+      final res= await medicalHistoryRepo.getAllAdditionallRecord(event.recordId);
+      res.fold((l) {
+          emit( state.copyWith(massage: 'error for data base',statusAddionll: Status.failed));
+
+      }, (r) {
+      emit(  state.copyWith(
+        additionallResponseModel: r,
+        statusAddionll: Status.success,
+
+      ));
+      },);
+    },);
+    on<UploadFileEvent>((event, emit)  async{
+      emit(state.copyWith(uploadFile: Status.loading));
+      final res= await medicalHistoryRepo.uploadFile(event.recordId, event.additionalId, event.additionallFIleModel);
+      res.fold((l) {
+          emit( state.copyWith(massage: 'error for data base',uploadFile: Status.failed));
+
+      }, (r) {
+      emit(  state.copyWith(
+        massage: r,
+        uploadFile: Status.success,
+
+      ));
+      },);
+    },);
+
   }
 }

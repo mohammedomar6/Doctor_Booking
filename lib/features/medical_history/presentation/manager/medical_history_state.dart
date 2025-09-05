@@ -8,14 +8,16 @@ class MedicalHistoryState {
   final Status? status;
   final Status? statusAddionll;
   final Status? uploadFile;
-
+ final AdditionallResponseModel? additionallResponseModel ;
   final MedicalHistoryResponse? medicalHistoryResponse;
   final String? massage ;
 
 
   const MedicalHistoryState( {
    this.status,
-    this.statusAddionll, this.uploadFile,
+    this.additionallResponseModel ,
+    this.statusAddionll,
+    this.uploadFile,
     this.medicalHistoryResponse,
     this.massage
   });
@@ -24,6 +26,7 @@ class MedicalHistoryState {
     Status? status,
     Status? statusAddionll,
     Status? uploadFile,
+    AdditionallResponseModel? additionallResponseModel,
     MedicalHistoryResponse? medicalHistoryResponse,
     String? massage,
   }) {
@@ -31,6 +34,8 @@ class MedicalHistoryState {
       status: status ?? this.status,
       statusAddionll: statusAddionll ?? this.statusAddionll,
       uploadFile: uploadFile ?? this.uploadFile,
+      additionallResponseModel:
+          additionallResponseModel ?? this.additionallResponseModel,
       medicalHistoryResponse:
           medicalHistoryResponse ?? this.medicalHistoryResponse,
       massage: massage ?? this.massage,

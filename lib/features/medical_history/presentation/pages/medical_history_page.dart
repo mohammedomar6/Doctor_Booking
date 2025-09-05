@@ -87,7 +87,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                               ),
                             CustomElevatedButton(onPressed: (){
                               context.read<MedicalHistoryBloc>().add(GetAllIdionallForUserEvent(recordId:item.id ));
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdditionallScreen(),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdditionalScreen(recordId: item.id,),));
                             }, width: 0.32,text: 'Additional',),
 
                           ],

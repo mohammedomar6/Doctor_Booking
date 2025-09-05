@@ -37,7 +37,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
             return Center(child: Text('حدث خطأ: ${state.massage}'));
           }  else{
             final  patient= state.profileResponse!.doc[0];
+            String fullPath = patient.photo;
 
+            // استخراج اسم الملف مع المجلد الأخير
+            String fileName = fullPath.split("cache/").last;
             return patient==null ? Text('no profile Founde'): Padding(
               padding: const EdgeInsets.all(16.0),
               child: Card(
