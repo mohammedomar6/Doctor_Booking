@@ -1,4 +1,6 @@
 
+import 'package:doctor_booking1/features/auth/presentation/widgets/custom_elevatedbutton.dart';
+import 'package:doctor_booking1/features/medical_history/presentation/pages/additionall_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,6 +68,7 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                             const SizedBox(height: 8),
                             Text("Department: ${item.department ?? ""}"),
                             Text("Date: ${formatDate(item.dateId.date.toString()?? "")}"),
+                            Text('Next Date: ${formatDate(item.dateId.nextDate.toString()?? "")}'),
                             const Divider(height: 20),
                             Text("Symptoms: ${item.symptoms}", style: const TextStyle(fontWeight: FontWeight.w500)),
                             Text("Diagnosis: ${item.diagnosis}", style: const TextStyle(fontWeight: FontWeight.w500)),
@@ -82,6 +85,11 @@ class _MedicalHistoryScreenState extends State<MedicalHistoryScreen> {
                                   )),
                                 ],
                               ),
+                            CustomElevatedButton(onPressed: (){
+                              context.read<MedicalHistoryBloc>().add(GetAllIdionallForUserEvent(recordId:item.id ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdditionallScreen(),));
+                            }, width: 0.32,text: 'Additional',),
+
                           ],
                         ),
                       ),

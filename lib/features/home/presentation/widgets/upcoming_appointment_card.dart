@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:flutter/material.dart';
@@ -162,8 +164,8 @@ class UpcomingAppointmentCard extends StatelessWidget {
           fit: BoxFit.cover,
         );
       } else {
-        return Image.asset(
-          imagePath!,
+        return Image.file(
+          File(imagePath!),
           fit: BoxFit.cover,
         );
       }

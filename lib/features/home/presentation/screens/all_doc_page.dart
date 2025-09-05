@@ -38,7 +38,7 @@ class AllDoctorsPage extends StatelessWidget {
                   child: DoctorCard(
                     name: "Dr. ${doc.firstName} ${doc.lastName}",
                     specialty: doc.departmentName,
-                    image: MyImages.doc3,
+                    image:   doc.photo,
                     doctorId: doc.id,
                     price: department.price,
                   ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/data/models/user_appointment_model.dart';
@@ -131,8 +133,8 @@ class AppointmentCard extends StatelessWidget {
               Icon(Icons.person, color: MyColours.blue, size: 40),
         );
       } else {
-        return Image.asset(
-          image,
+        return Image.file(
+          File(image),
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) =>
               Icon(Icons.person, color: MyColours.blue, size: 40),

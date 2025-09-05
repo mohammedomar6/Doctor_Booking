@@ -28,7 +28,8 @@ class PataintRemoteDataSource {
       Uri url=  Uri.parse('${MyStrings.baseUrl}pataints/updateMe');
       final res= await  http.patch(url,body: jsonEncode(request.toJson()),  headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
       'Content-Type': 'application/json'},);
-      print(res.body);print(res.statusCode);
+
+      print(request.photo);
       if(res.statusCode==200){
         final data =jsonDecode(res.body);
         PataintResponse pataintResponse= PataintResponse.fromJson(data);
@@ -43,8 +44,7 @@ class PataintRemoteDataSource {
         Uri url=  Uri.parse('${MyStrings.baseUrl}pataints/me');
         final res= await  http.get(url,  headers: { 'Authorization': 'Bearer ${await TokenManager1.getToken()}',
         'Content-Type': 'application/json'},);
-        print(res.body);
-        print(res.statusCode);
+
         if(res.statusCode==200){
           final data =jsonDecode(res.body);
           ProfileResponse  profileResponse = ProfileResponse.fromJson(data);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doctor_booking1/constant/my_colours.dart';
 import 'package:doctor_booking1/core/responsive.dart';
 import 'package:doctor_booking1/features/booking/presentation/blocs/available_booking/available_booking_bloc.dart';
@@ -167,21 +169,12 @@ class DoctorCard extends StatelessWidget {
 
   Widget _buildDoctorImage(BuildContext context) {
     if (image != null && image!.isNotEmpty) {
-      return Image.network(
-        image!,
+      return Image.file(
+        File(image!)!,
         width: context.screenWidth * 0.18,
         height: context.screenWidth * 0.18,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          if (progress == null) return child;
-          return SizedBox(
-            width: context.screenWidth * 0.18,
-            height: context.screenWidth * 0.18,
-            child: const Center(
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-          );
-        },
+
         errorBuilder: (context, error, stackTrace) =>
             _buildPlaceholder(context),
       );
